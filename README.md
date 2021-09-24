@@ -7,14 +7,16 @@ Service for managing files on the application.
 3. Allowing multiple files upload at once.
 4. Allowing multiple storage `provider` such as: `Built in` or `AWS S3`
 5. Support multiple `language` interface, currently supported: `id`, `en`
-6. Allowing file authorization in the future (next release)
 
-## 📋 Documentation Index
+## 📋 Documentation
 - [**API Documentation**](doc/API.md)
 - [**Business Documentation**](doc/BUSINESS.md)
 - [**Database Documentation**](doc/DATABASE.md)
 - [**Testing Documentation**](doc/TESTING.md)
 - [**Relevant Document**](doc/DOCUMENT.md)
+
+## 👷🏻 Architecture
+![System Architecture][architecture-image]
 
 ## 🖖 Dependencies
 ### Inbound Dependencies
@@ -58,8 +60,11 @@ No issues right now
 Nothing todo right now
 
 ## 🤩 Nice to Have
-
-Nothing to have right now
+1. Allowing file authorization in the future.
+2. Custom file slug configuration.
+3. Caching layer
+4. Custom file validation rules
+5. Storage dashboard monitoring
 
 ## 💖 Contributions
 
@@ -70,3 +75,4 @@ Do run the `unit test` after changing code or before push/updating the code.
 > *Leave better than you found it*
 
 [coverage-image]: asset/image/test-coverage.png?raw=true
+[architecture-image]: asset/image/service-storage-architecture.jpg?raw=true
