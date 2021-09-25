@@ -28,7 +28,9 @@ Database used by this application is `mongodb`
   "name": {
     "type": "String",
     "required": true,
-    "example": "samplevideo-1280x720-1mb.mp4"
+    "example": "samplevideo-1280x720-1mb.mp4",
+    "min": 3,
+    "max": 2048
   },
   "size": {
     "type": "Uint32",
@@ -46,22 +48,30 @@ Database used by this application is `mongodb`
   "extension": {
     "type": "String",
     "required": true,
-    "example": "mp4"
+    "example": "mp4",
+    "min": 1,
+    "max": 64
   },
   "mimetype": {
     "type": "String",
     "required": true,
-    "example": "video/mp4"
+    "example": "video/mp4",
+    "min": 1,
+    "max": 128
   },
   "url": {
     "type": "String",
     "required": true,
-    "example": "http://storage.idaman.local/file/651fd093-03cb-4ff4-a23c-7959ce07def5.mp4"
+    "example": "http://storage.idaman.local/file/651fd093-03cb-4ff4-a23c-7959ce07def5.mp4",
+    "min": 3,
+    "max": 2048
   },
   "path": {
     "type": "String",
     "required": true,
-    "example": "file/custom/directory/2021/03/31/samplevideo-1280x720-1mb-606437e13acba.mp4"
+    "example": "file/custom/directory/2021/03/31/samplevideo-1280x720-1mb-606437e13acba.mp4",
+    "min": 3,
+    "max": 2048
   },
   "provider_id": {
     "type": "ObjectId",
@@ -104,24 +114,32 @@ Database used by this application is `mongodb`
   "priority": {
     "type": "Uint8",
     "required": true,
-    "description": "high value is the higher priority",
-    "example": 1
+    "description": "higher value is higher priority",
+    "example": 1,
+    "min": 1,
+    "max": 32
   },
   "code": {
     "type": "String",
     "required": true,
     "unique": true,
-    "example": "suzaku-1"
+    "example": "suzaku-1",
+    "min": 3,
+    "max": 100
   },
   "name": {
     "type": "String",
     "required": true,
-    "example": "Suzaku 1"
+    "example": "Suzaku 1",
+    "min": 3,
+    "max": 100
   },
   "host": {
     "type": "String",
     "required": true,
-    "example": "http://file-service.idaman.local"
+    "example": "http://file-service.idaman.local",
+    "min": 3,
+    "max": 2048
   },
   "status": {
     "type": "String",
@@ -150,18 +168,22 @@ Database used by this application is `mongodb`
   "name": {
     "type": "String",
     "required": true,
-    "example": "Gateway Android"
+    "example": "Gateway Android",
+    "min": 3,
+    "max": 100
   },
   "key": {
     "type": "String",
     "required": true,
     "unique": true,
-    "example": "jhkXcgVyszUGzE6uTKFX5ivwjxB83LQ8v+9U7NRz6f56lkxzD9CHSp"
+    "example": "jhkXcgVyszUGzE6uTKFX5ivwjxB83LQ8v+9U7NRz6f56lkxzD9CHSp",
+    "max": 1024
   },
   "secret": {
     "type": "String",
     "required": true,
-    "example": "uxTsn9xqmtRF27euKzKcfH/EvXHU9sVvXd+2suplySX"
+    "example": "uxTsn9xqmtRF27euKzKcfH/EvXHU9sVvXd+2suplySX",
+    "max": 4096
   },
   "status": {
     "type": "String",

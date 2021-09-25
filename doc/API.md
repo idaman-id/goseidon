@@ -14,7 +14,7 @@
 | Testcase |   ⚠️  | Testcase unavailable |
 
 ## General Response
-All API available below may be returning general response according to the specific situation occured.
+All available API below may be returning general response according to the specific situation occured.
 
 **Failed Response**
 - HttpCode: 500
@@ -39,7 +39,7 @@ All API available below may be returning general response according to the speci
 - Response Body: 
 ```json
 {
-	"message": "Akses tidak diotentikasi"
+	"message": "Akses tidak valid"
 }
 ```
 
@@ -55,13 +55,21 @@ All API available below may be returning general response according to the speci
 - Endpoint: **/v1/file**
 - Status: ❌⚠️
 
+**Request Headers**
+```json
+{
+	"Content-Type": "multipart/form-data"
+}
+```
+
 **Request Body**
 ```json
 {
-	"files": [ // multipart/form-data
+	"files": [ // required, min: 1, max: 5
+		// FileObject{}
 		// FileObject{}
 	],
-	"provider": "provider_id" // optional registered provider_id
+	"provider": "provider_id" // optional, must be an active provider_id
 }
 ```
 
@@ -74,14 +82,19 @@ All API available below may be returning general response according to the speci
 	"message": "Berhasil mengunggah file",
 	"data": [
 		{
-			"uuid": "651fd093-03cb-4ff4-a23c-7959ce07def5",
-			"name": "samplevideo-1280x720-1mb.mp4",
-			"size": 1055736,
-			"type": "video",
-			"extension": "mp4",
-			"mimetype": "video/mp4",
-			"url": "http://storage.idaman.local/file/651fd093-03cb-4ff4-a23c-7959ce07def5.mp4",
-			"path": "file/custom/directory/2021/03/31/samplevideo-1280x720-1mb-606437e13acba.mp4",
+			"status": "success",
+			"file": {
+				"uuid": "651fd093-03cb-4ff4-a23c-7959ce07def5",
+				"name": "samplevideo-1280x720-1mb.mp4",
+				"size": 1055736,
+				"type": "video",
+				"extension": "mp4",
+				"mimetype": "video/mp4",
+				"url": "http://storage.idaman.local/file/651fd093-03cb-4ff4-a23c-7959ce07def5.mp4"
+			}
+		},
+		{
+			"status": "failed"
 		}
 	]
 }
@@ -92,7 +105,7 @@ All API available below may be returning general response according to the speci
 - Response Body: 
 ```json
 {
-	"message": "Gagal mengunggah file"
+	"message": "Terjadi kesalahan saat mengunggah file"
 }
 ```
 
@@ -131,8 +144,7 @@ All API available below may be returning general response according to the speci
 		"type": "video",
 		"extension": "mp4",
 		"mimetype": "video/mp4",
-		"url": "http://storage.idaman.local/file/651fd093-03cb-4ff4-a23c-7959ce07def5.mp4",
-		"path": "file/custom/directory/2021/03/31/samplevideo-1280x720-1mb-606437e13acba.mp4",
+		"url": "http://storage.idaman.local/file/651fd093-03cb-4ff4-a23c-7959ce07def5.mp4"
 	}
 }
 ```

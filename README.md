@@ -65,6 +65,7 @@ Nothing todo right now
 3. Caching layer
 4. Custom file validation rules
 5. Storage dashboard monitoring
+6. Multiple provider for each file support (for backup purpose)
 
 ## 💖 Contributions
 
