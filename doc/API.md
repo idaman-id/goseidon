@@ -94,7 +94,8 @@ All available API below may be returning general response according to the speci
 			}
 		},
 		{
-			"status": "failed"
+			"status": "failed",
+			"message": "Failed to upload file to provider"
 		}
 	]
 }

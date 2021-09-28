@@ -27,8 +27,8 @@
 1. System may partially failing the file upload process (some files uploaded in the batch may be success/fail).
 2. System may reject all uploaded files when there is one or invalid file.
 3. Valid file is considered as:
-- File type of: `audio`, `video`, `document`, `image`
+- File type of: `audio`, `video`, `document`, `image`, `archieve`
 - Maximum size of: 16MB for `image` type
 - Maximum size of: 32MB for `audio` and `document` type
-- Maximum size of: 128MB for `video` type
+- Maximum size of: 128MB for `video` and `archieve` type
 4. 
