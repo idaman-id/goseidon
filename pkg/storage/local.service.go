@@ -21,9 +21,9 @@ func (storage *StorageLocal) SaveFile(fileHeader FileDto) (result *SaveFileResul
 	}
 
 	fileData := file.FileEntity{
-		UUID: uuid,
-		Url:  "http://storage.domain.tld/" + path,
-		Path: path,
+		UniqueId: uuid,
+		Url:      "http://storage.domain.tld/" + path,
+		Path:     path,
 	}
 	fileData.FetchMetaData(fileHeader)
 

@@ -8,7 +8,7 @@ import (
 )
 
 type FileEntity struct {
-	UUID          string    `json:"uuid"`
+	UniqueId      string    `json:"unique_id"`
 	Type          string    `json:"type"`
 	Name          string    `json:"name"`
 	Extension     string    `json:"extension"`

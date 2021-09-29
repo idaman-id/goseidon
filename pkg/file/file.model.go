@@ -3,7 +3,7 @@ package file
 import "time"
 
 type FileModel struct {
-	UUID          string
+	UniqueId      string
 	Type          string
 	Name          string
 	Extension     string
