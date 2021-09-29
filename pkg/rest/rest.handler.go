@@ -4,6 +4,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"idaman.id/storage/pkg/storage"
 	"idaman.id/storage/pkg/uploading"
+	"idaman.id/storage/pkg/validation"
 )
 
 func createHomeHandler() Handler {
@@ -29,11 +30,26 @@ func createGetResourceHandler() Handler {
 
 func createUploadFileHandler() Handler {
 	return func(ctx Context) Result {
-		/**
-		@todo
-		1. validation
-		*/
+
 		form, err := ctx.MultipartForm()
+
+		type UploadFileParam struct {
+			Example string `json:"example" validate:"required,email,min=3"`
+		}
+		rule := &UploadFileParam{
+			Example: "1",
+		}
+		locale := ctx.Get("Accept-Language", "id")
+
+		validationError := validation.ValidateRule(locale, rule)
+
+		if validationError != nil {
+			response := createFailedResponse(ResponseDto{
+				Message: validationError.Error(),
+				Error:   validationError.Items,
+			})
+			return ctx.Status(fiber.StatusUnprocessableEntity).JSON(response)
+		}
 
 		if err != nil {
 			response := createFailedResponse(ResponseDto{
