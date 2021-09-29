@@ -1,5 +1,5 @@
 # go-Seidon
-Considered as one of the king of the storage. With help of the others king around the ocean, He is manage file for your application which spread around the internet.
+Considered as one of the king of the storage. With help of the others king around the ocean, He is manage your application files spread around the internet.
 
 ![go-Seidon logo][goseidon-logo]
 
@@ -7,7 +7,7 @@ Considered as one of the king of the storage. With help of the others king aroun
 1. Provide single point of entry to upload file.
 2. Provide single point of entry to accessing the uploaded file.
 3. Allowing multiple files upload at once.
-4. Allowing multiple storage `provider` such as: `Built in` or `AWS S3`
+4. Allowing multiple storage `provider`, current support is: `Built in` or `AWS S3`
 5. Support multiple `language` interface, currently supported: `id`, `en`
 
 ## 📋 Documentation
@@ -24,10 +24,12 @@ Considered as one of the king of the storage. With help of the others king aroun
 ### Inbound Dependencies
 1. Client with a given `application` configuration (app_key, app_secret)
 2. Public resource through `/file/:id` endpoint
+3. Database (MongoDB)
 
 ### Outbound Dependencies
 1. Built in file service
 2. AWS S3
+3. Database (MongoDB)
 
 ## ✔️ Running the App
 
