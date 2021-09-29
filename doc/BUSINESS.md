@@ -17,7 +17,7 @@
 2. Client can upload maximum of `MAX_UPLOADED_FILE`.
 3. Client can optionally specify the storage `provider` when uploading the files.
 4. If `provider` is specified, all files should be uploaded to the specified provider.
-5. If `provider` is not specified, all files should be uploaded through the `active` provider in the system according to the provider `priority` (high value higher priority)
+5. If `provider` is not specified, all files should be uploaded through the `active` provider in the system according to the provider `priority` (higher value higher priority)
 6. Client can't upload the file to the `inactive` provider.
 7. Client should specifying the `app_key` and `app_secret` when uploading the files or checking the file detail.
 8. Client can't upload the file using the `inactive` application.

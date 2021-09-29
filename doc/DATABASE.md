@@ -19,7 +19,7 @@ Database used by this application is `mongodb`
       "$oid": "606437e1ea400000f70055ce"
     }
   },
-  "uuid": {
+  "unique_id": {
     "type": "String",
     "required": true,
     "unique": true,
