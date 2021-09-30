@@ -1,9 +1,13 @@
 package rest
 
+import (
+	"idaman.id/storage/pkg/app"
+)
+
 func createSuccessResponse(dto ResponseDto) ResponseEntity {
 
 	response := ResponseEntity{
-		Message: "ok",
+		Message: app.STATUS_OK,
 	}
 
 	if dto.Data != nil {
@@ -14,13 +18,16 @@ func createSuccessResponse(dto ResponseDto) ResponseEntity {
 		response.Message = dto.Message
 	}
 
+	translation := dto.translator(response.Message)
+	response.Message = translation
+
 	return response
 }
 
 func createFailedResponse(dto ResponseDto) ResponseEntity {
 
 	response := ResponseEntity{
-		Message: "error occured",
+		Message: app.STATUS_ERROR,
 	}
 
 	if dto.Error != nil {
@@ -30,6 +37,9 @@ func createFailedResponse(dto ResponseDto) ResponseEntity {
 	if dto.Message != "" {
 		response.Message = dto.Message
 	}
+
+	translation := dto.translator(response.Message)
+	response.Message = translation
 
 	return response
 }

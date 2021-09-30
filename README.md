@@ -67,7 +67,9 @@ No issues right now
 5. Database model + repository implementation
 6. GetDetail API
 7. GetResource API
-8. Testcase
+8. Translation
+9. Uni Test
+10. End to end Test
 
 ## 🤩 Nice to Have
 1. Depedency injection

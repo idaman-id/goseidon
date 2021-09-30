@@ -18,7 +18,7 @@ func ValidateRule(locale string, data interface{}) *app.ValidationError {
 	validate := createValidator(translator, locale)
 
 	errors := app.ValidationError{
-		Message: "Invalid data",
+		Message: app.STATUS_INVALID_DATA,
 	}
 
 	err := validate.Struct(data)
