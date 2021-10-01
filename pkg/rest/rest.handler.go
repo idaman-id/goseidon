@@ -8,23 +8,35 @@ import (
 	"idaman.id/storage/pkg/validation"
 )
 
-func createHomeHandler() Handler {
+func createHomeHandler(dependency *Dependency) Handler {
 	return func(ctx Context) Result {
-		response := createSuccessResponse(ResponseDto{})
+		localizer := dependency.localizer(ctx)
+		translator := translation.CreateSimpleTranslator(localizer)
+		response := createSuccessResponse(ResponseDto{
+			Translator: translator,
+		})
 		return ctx.JSON(response)
 	}
 }
 
-func createGetDetailHandler() Handler {
+func createGetDetailHandler(dependency *Dependency) Handler {
 	return func(ctx Context) Result {
-		response := createSuccessResponse(ResponseDto{})
+		localizer := dependency.localizer(ctx)
+		translator := translation.CreateSimpleTranslator(localizer)
+		response := createSuccessResponse(ResponseDto{
+			Translator: translator,
+		})
 		return ctx.JSON(response)
 	}
 }
 
-func createGetResourceHandler() Handler {
+func createGetResourceHandler(dependency *Dependency) Handler {
 	return func(ctx Context) Result {
-		response := createSuccessResponse(ResponseDto{})
+		localizer := dependency.localizer(ctx)
+		translator := translation.CreateSimpleTranslator(localizer)
+		response := createSuccessResponse(ResponseDto{
+			Translator: translator,
+		})
 		return ctx.JSON(response)
 	}
 }
@@ -51,7 +63,7 @@ func createUploadFileHandler(dependency *Dependency) Handler {
 			response := createFailedResponse(ResponseDto{
 				Message:    validationError.Error(),
 				Error:      validationError.Items,
-				translator: translator,
+				Translator: translator,
 			})
 			return ctx.Status(fiber.StatusUnprocessableEntity).JSON(response)
 		}
@@ -59,7 +71,7 @@ func createUploadFileHandler(dependency *Dependency) Handler {
 		if err != nil {
 			response := createFailedResponse(ResponseDto{
 				Message:    err.Error(),
-				translator: translator,
+				Translator: translator,
 			})
 			return ctx.Status(fiber.StatusBadRequest).JSON(response)
 		}
@@ -77,7 +89,7 @@ func createUploadFileHandler(dependency *Dependency) Handler {
 
 		response := createSuccessResponse(ResponseDto{
 			Data:       result.Items,
-			translator: translator,
+			Translator: translator,
 		})
 		return ctx.JSON(response)
 	}

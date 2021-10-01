@@ -8,5 +8,5 @@ type ResponseDto struct {
 	Message    string
 	Data       interface{}
 	Error      interface{}
-	translator translation.Translator
+	Translator translation.Translator
 }

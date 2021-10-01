@@ -1,5 +1,6 @@
 {
   "OK": "ok",
   "ERROR": "Terjadi kesalahan",
-  "INVALID_DATA": "Terdapat data yang tidak valid"
+  "INVALID_DATA": "Terdapat data yang tidak valid",
+  "TOO_MANY_REQUEST": "Terlalu banyak mengirimkan permintaan, silahkan coba beberapa saat lagi"
 }

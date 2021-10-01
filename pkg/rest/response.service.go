@@ -18,8 +18,10 @@ func createSuccessResponse(dto ResponseDto) ResponseEntity {
 		response.Message = dto.Message
 	}
 
-	translation := dto.translator(response.Message)
-	response.Message = translation
+	if dto.Translator != nil {
+		translation := dto.Translator(response.Message)
+		response.Message = translation
+	}
 
 	return response
 }
@@ -38,8 +40,10 @@ func createFailedResponse(dto ResponseDto) ResponseEntity {
 		response.Message = dto.Message
 	}
 
-	translation := dto.translator(response.Message)
-	response.Message = translation
+	if dto.Translator != nil {
+		translation := dto.Translator(response.Message)
+		response.Message = translation
+	}
 
 	return response
 }

@@ -1,5 +1,6 @@
 {
   "OK": "ok",
   "ERROR": "Error occured",
-  "INVALID_DATA": "There is invalid data"
+  "INVALID_DATA": "There is invalid data",
+  "TOO_MANY_REQUEST": "Too many request, please try again later"
 }
