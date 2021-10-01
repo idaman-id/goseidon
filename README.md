@@ -38,8 +38,13 @@ Considered as one of the king of the storage. With help of the others king aroun
 - Setup `.env` configuration
 
 ### Development
-```
-$ go run cmd\web-service\main.go
+```bash
+# run using hot reloading #
+$ air 
+$ air -c .air.toml # custom configuration
+
+# run manually #
+$ go run \\cmd\\web-service\\main.go 
 ```
 
 ### Deployment
@@ -47,8 +52,10 @@ $ go run cmd\web-service\main.go
 Adjust deployment according to production pipeline, e.g: using `docker`, etc.
 But in general we can simply run with the following command:
 
-```
-$ go run cmd\web-service\main.go
+```bash
+# build manually #
+$ go build -o ./build/web-service/ ./cmd/web-service/main.go
+
 ```
 
 ## ❓ QnA
