@@ -13,7 +13,11 @@ type ErrorHandler = func(ctx Context, err error) Result
 type LocaleParser = func(ctx Context) string
 type Localizer = func(ctx Context) *i18n.Localizer
 
+type App interface {
+	Listen(address string) Result
+}
+
 type Dependency struct {
-	localizer    Localizer
-	localeParser LocaleParser
+	getLocalizer Localizer
+	getLocale    LocaleParser
 }

@@ -5,12 +5,11 @@ import (
 	"idaman.id/storage/pkg/storage"
 	"idaman.id/storage/pkg/translation"
 	"idaman.id/storage/pkg/uploading"
-	"idaman.id/storage/pkg/validation"
 )
 
 func createHomeHandler(dependency *Dependency) Handler {
 	return func(ctx Context) Result {
-		localizer := dependency.localizer(ctx)
+		localizer := dependency.getLocalizer(ctx)
 		translator := translation.CreateSimpleTranslator(localizer)
 		response := createSuccessResponse(ResponseDto{
 			Translator: translator,
@@ -21,7 +20,7 @@ func createHomeHandler(dependency *Dependency) Handler {
 
 func createGetDetailHandler(dependency *Dependency) Handler {
 	return func(ctx Context) Result {
-		localizer := dependency.localizer(ctx)
+		localizer := dependency.getLocalizer(ctx)
 		translator := translation.CreateSimpleTranslator(localizer)
 		response := createSuccessResponse(ResponseDto{
 			Translator: translator,
@@ -32,7 +31,7 @@ func createGetDetailHandler(dependency *Dependency) Handler {
 
 func createGetResourceHandler(dependency *Dependency) Handler {
 	return func(ctx Context) Result {
-		localizer := dependency.localizer(ctx)
+		localizer := dependency.getLocalizer(ctx)
 		translator := translation.CreateSimpleTranslator(localizer)
 		response := createSuccessResponse(ResponseDto{
 			Translator: translator,
@@ -43,30 +42,11 @@ func createGetResourceHandler(dependency *Dependency) Handler {
 
 func createUploadFileHandler(dependency *Dependency) Handler {
 	return func(ctx Context) Result {
-
-		form, err := ctx.MultipartForm()
-
-		type UploadFileParam struct {
-			Example string `json:"example" validate:"required,email,min=3"`
-		}
-		rule := &UploadFileParam{
-			Example: "1",
-		}
-
-		locale := dependency.localeParser(ctx)
-		localizer := dependency.localizer(ctx)
+		// locale := dependency.getLocale(ctx)
+		localizer := dependency.getLocalizer(ctx)
 		translator := translation.CreateSimpleTranslator(localizer)
 
-		validationError := validation.ValidateRule(locale, rule)
-
-		if validationError != nil {
-			response := createFailedResponse(ResponseDto{
-				Message:    validationError.Error(),
-				Error:      validationError.Items,
-				Translator: translator,
-			})
-			return ctx.Status(fiber.StatusUnprocessableEntity).JSON(response)
-		}
+		form, err := ctx.MultipartForm()
 
 		if err != nil {
 			response := createFailedResponse(ResponseDto{
@@ -75,6 +55,24 @@ func createUploadFileHandler(dependency *Dependency) Handler {
 			})
 			return ctx.Status(fiber.StatusBadRequest).JSON(response)
 		}
+
+		// type UploadFileRule struct {
+		// 	Provider string `json:"provider" validate:"required"`
+		// }
+		// rule := &UploadFileRule{
+		// 	Example: "1",
+		// }
+
+		// validationError := validation.ValidateRule(locale, rule)
+
+		// if validationError != nil {
+		// 	response := createFailedResponse(ResponseDto{
+		// 		Message:    validationError.Error(),
+		// 		Error:      validationError.Items,
+		// 		Translator: translator,
+		// 	})
+		// 	return ctx.Status(fiber.StatusUnprocessableEntity).JSON(response)
+		// }
 
 		// Provider: ctx.FormValue("provider"),
 		storageProvider := &storage.StorageLocal{

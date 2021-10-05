@@ -25,7 +25,7 @@ func localeParser(ctx Context) string {
 	return locale
 }
 
-func createLocalizerFactory(i18nBundle *i18n.Bundle) func(ctx Context) *i18n.Localizer {
+func createLocalizer(i18nBundle *i18n.Bundle) func(ctx Context) *i18n.Localizer {
 	return func(ctx Context) *i18n.Localizer {
 		locale := localeParser(ctx)
 		localizer := i18n.NewLocalizer(i18nBundle, locale)
@@ -42,7 +42,7 @@ func createLimiterConfig(dependency *Dependency) func() limiter.Config {
 				return ctx.Get("x-forwarded-for")
 			},
 			LimitReached: func(ctx *fiber.Ctx) error {
-				localizer := dependency.localizer(ctx)
+				localizer := dependency.getLocalizer(ctx)
 				translator := translation.CreateSimpleTranslator(localizer)
 				response := createFailedResponse(ResponseDto{
 					Message:    application.STATUS_TOO_MANY_REQUEST,
@@ -55,18 +55,18 @@ func createLimiterConfig(dependency *Dependency) func() limiter.Config {
 	}
 }
 
-func CreateApp() application.App {
+func CreateApp() App {
 	i18nBundle := i18n.NewBundle(language.English)
 
 	i18nBundle.RegisterUnmarshalFunc("json", json.Unmarshal)
 	i18nBundle.MustLoadMessageFile("pkg/translation/status.en.json")
 	i18nBundle.MustLoadMessageFile("pkg/translation/status.id.json")
 
-	localizer := createLocalizerFactory(i18nBundle)
+	localizer := createLocalizer(i18nBundle)
 
 	dependency := &Dependency{
-		localizer:    localizer,
-		localeParser: localeParser,
+		getLocalizer: localizer,
+		getLocale:    localeParser,
 	}
 
 	app := fiber.New(fiber.Config{
