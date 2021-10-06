@@ -1,5 +1,6 @@
 # go-Seidon
-Considered as one of the king of the storage. With help of the others king around the ocean, He is manage your application files spread around the internet.
+With help of the other `kings` around the `ocean`, He is considered as one of the king of storage managers. 
+He can manage your application files which spread over the internet.
 
 ![go-Seidon logo][goseidon-logo]
 
@@ -7,7 +8,7 @@ Considered as one of the king of the storage. With help of the others king aroun
 1. Provide single point of entry to upload file.
 2. Provide single point of entry to accessing the uploaded file.
 3. Allowing multiple files upload at once.
-4. Allowing multiple storage `provider`, current support is: `Built in` or `AWS S3`
+4. Allowing multiple storage `provider`, current support is: `local`
 5. Support multiple `language` interface, currently supported: `id`, `en`
 
 ## 📋 Documentation
@@ -49,7 +50,7 @@ $ go run \\cmd\\web-service\\main.go
 
 ### Deployment
 
-Adjust deployment according to production pipeline, e.g: using `docker`, etc.
+Adjust deployment according to production pipeline, e.g: using `docker`.
 But in general we can simply run with the following command:
 
 ```bash
@@ -67,16 +68,18 @@ No QnA right now
 No issues right now
 
 ## 💪 Todo
-1. Validation
-2. Local GetDetail implementation
-3. AWSS3 SaveFile & GetDetail implementation
-4. BuiltIn SaveFile & GetDetail implementation
-5. Database model + repository implementation
-6. GetDetail API
-7. GetResource API
-8. Translation
-9. Uni Test
-10. End to end Test
+1. Don't need to store the `file.type` (enough with extension and mimetype)
+2. Refactor file entity used amoung package (it's better to have little copying rather than little dependency)
+3. Refactor file size rule to be adjusted according to file extension/mimetype
+4. Local GetDetail implementation
+5. AWSS3 SaveFile & GetDetail implementation
+6. BuiltIn SaveFile & GetDetail implementation
+7. Database model + repository implementation
+8. GetDetail API
+9. GetResource API
+10. Translation
+11. Unit Test
+12. End to end Test
 
 ## 🤩 Nice to Have
 1. Depedency injection

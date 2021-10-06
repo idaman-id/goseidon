@@ -7,6 +7,8 @@
 | Function |   ❌  | Function unavailable |
 | Testcase |   ☑️  | Testcase available   |
 | Testcase |   ⚠️  | Testcase unavailable |
+| Manual Test |   👌   | Tested            |
+| Manual Test |   👀  | Untested          |
 
 ## General Flow
 All available API below may be returning general response according to the specific situation occured.
@@ -55,14 +57,14 @@ All available API below may be returning general response according to the speci
 ---
 
 ## Index
-- [**Upload File ❌⚠️** ](#upload-file)
-- [**File Detail ❌⚠️** ](#file-detail)
-- [**File Resource ❌⚠️** ](#file-resource)
+- [**Upload File ❌⚠️👀** ](#upload-file)
+- [**File Detail ❌⚠️👀** ](#file-detail)
+- [**File Resource ❌⚠️👀** ](#file-resource)
 
 ### Upload File
 - Method: **POST**
 - Endpoint: **/v1/file**
-- Status: ❌⚠️
+- Status: ❌⚠️👀
 
 **Request Headers**
 ```json
@@ -78,7 +80,7 @@ All available API below may be returning general response according to the speci
 		// FileObject{}
 		// FileObject{}
 	],
-	"provider": "provider_id" // optional, must be an active provider_id
+	"provider": "provider_id" // optional, must be an active `provider_id` or `local`
 }
 ```
 
@@ -139,7 +141,7 @@ All available API below may be returning general response according to the speci
 ### File Detail
 - Method: **GET**
 - Endpoint: **/v1/file/:id**
-- Status: ❌⚠️
+- Status: ❌⚠️👀
 - Example: **http://storage.idaman.local/v1/file/651fd093-03cb-4ff4-a23c-7959ce07def5**
 
 **Success Response**
@@ -173,7 +175,7 @@ All available API below may be returning general response according to the speci
 ### File Resource
 - Method: **GET**
 - Endpoint: **/file/{:id}.{extension}**
-- Status: ❌⚠️
+- Status: ❌⚠️👀
 - Example: **http://storage.idaman.local/file/651fd093-03cb-4ff4-a23c-7959ce07def5.mp4**
 
 **Success Response**
