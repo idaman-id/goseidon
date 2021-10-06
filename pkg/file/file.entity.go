@@ -22,7 +22,11 @@ type FileEntity struct {
 	UpdatedAt     time.Time `json:"updated_at"`
 }
 
-func (file *FileEntity) FetchMetaData(fileHeader *multipart.FileHeader) {
+func (file *FileEntity) New(fileHeader *multipart.FileHeader) {
+	file.detectMetaData(fileHeader)
+}
+
+func (file *FileEntity) detectMetaData(fileHeader *multipart.FileHeader) {
 	file.detectName(fileHeader)
 	file.detectSize(fileHeader)
 	file.detectMimeType(fileHeader)
@@ -62,43 +66,3 @@ func (file *FileEntity) detectType() {
 		file.Type = strings.ToLower(fileType)
 	}
 }
-
-const (
-	EXTENSION_DOCUMENT = "document"
-	EXTENSION_IMAGE    = "image"
-	EXTENSION_AUDIO    = "audio"
-	EXTENSION_VIDEO    = "video"
-	EXTENSION_ARCHIEVE = "archieve"
-)
-
-var (
-	SUPPORTED_EXTENSIONS = map[string]string{
-		"xls":  EXTENSION_DOCUMENT,
-		"xlsx": EXTENSION_DOCUMENT,
-		"doc":  EXTENSION_DOCUMENT,
-		"docx": EXTENSION_DOCUMENT,
-		"pdf":  EXTENSION_DOCUMENT,
-		"ppt":  EXTENSION_DOCUMENT,
-		"pptx": EXTENSION_DOCUMENT,
-		"txt":  EXTENSION_DOCUMENT,
-
-		"jpg":  EXTENSION_IMAGE,
-		"jpeg": EXTENSION_IMAGE,
-		"png":  EXTENSION_IMAGE,
-		"gif":  EXTENSION_IMAGE,
-		"svg":  EXTENSION_IMAGE,
-
-		"mp3":  EXTENSION_AUDIO,
-		"mpeg": EXTENSION_AUDIO,
-		"aac":  EXTENSION_AUDIO,
-		"wav":  EXTENSION_AUDIO,
-		"ogg":  EXTENSION_AUDIO,
-
-		"mp4": EXTENSION_VIDEO,
-		"mkv": EXTENSION_VIDEO,
-		"3gp": EXTENSION_VIDEO,
-
-		"zip": EXTENSION_ARCHIEVE,
-		"rar": EXTENSION_ARCHIEVE,
-	}
-)

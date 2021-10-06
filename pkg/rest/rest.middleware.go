@@ -1,7 +1,12 @@
 package rest
 
 import (
+	"time"
+
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/limiter"
+	application "idaman.id/storage/pkg/app"
+	"idaman.id/storage/pkg/translation"
 )
 
 func createErrorHandler() ErrorHandler {
@@ -19,5 +24,27 @@ func createErrorHandler() ErrorHandler {
 		})
 
 		return ctx.Status(code).JSON(response)
+	}
+}
+
+func createLimiterConfig(dependency *Dependency) func() limiter.Config {
+	return func() limiter.Config {
+		config := limiter.Config{
+			Max:        20,
+			Expiration: 30 * time.Second,
+			KeyGenerator: func(ctx *fiber.Ctx) string {
+				return ctx.Get("x-forwarded-for")
+			},
+			LimitReached: func(ctx *fiber.Ctx) error {
+				localizer := dependency.getLocalizer(ctx)
+				translator := translation.CreateSimpleTranslator(localizer)
+				response := createFailedResponse(ResponseDto{
+					Message:    application.STATUS_TOO_MANY_REQUEST,
+					Translator: translator,
+				})
+				return ctx.Status(fiber.StatusTooManyRequests).JSON(response)
+			},
+		}
+		return config
 	}
 }

@@ -4,44 +4,44 @@ import (
 	"idaman.id/storage/pkg/app"
 )
 
-func createSuccessResponse(dto ResponseDto) ResponseEntity {
+func createSuccessResponse(param ResponseDto) ResponseEntity {
 
 	response := ResponseEntity{
 		Message: app.STATUS_OK,
 	}
 
-	if dto.Data != nil {
-		response.Data = dto.Data
+	if param.Data != nil {
+		response.Data = param.Data
 	}
 
-	if dto.Message != "" {
-		response.Message = dto.Message
+	if param.Message != "" {
+		response.Message = param.Message
 	}
 
-	if dto.Translator != nil {
-		translation := dto.Translator(response.Message)
+	if param.Translator != nil {
+		translation := param.Translator(response.Message)
 		response.Message = translation
 	}
 
 	return response
 }
 
-func createFailedResponse(dto ResponseDto) ResponseEntity {
+func createFailedResponse(param ResponseDto) ResponseEntity {
 
 	response := ResponseEntity{
 		Message: app.STATUS_ERROR,
 	}
 
-	if dto.Error != nil {
-		response.Error = dto.Error
+	if param.Error != nil {
+		response.Error = param.Error
 	}
 
-	if dto.Message != "" {
-		response.Message = dto.Message
+	if param.Message != "" {
+		response.Message = param.Message
 	}
 
-	if dto.Translator != nil {
-		translation := dto.Translator(response.Message)
+	if param.Translator != nil {
+		translation := param.Translator(response.Message)
 		response.Message = translation
 	}
 

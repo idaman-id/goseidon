@@ -10,6 +10,13 @@ type StorageLocal struct {
 	StorageDir string
 }
 
+func CreateStorageLocal() *StorageLocal {
+	storage := StorageLocal{
+		StorageDir: "storage/dir",
+	}
+	return &storage
+}
+
 func (storage *StorageLocal) SaveFile(fileHeader FileDto) (result *SaveFileResult, err error) {
 	uuid := uuid.New().String()
 	path := storage.StorageDir + "/" + uuid + "-" + fileHeader.Filename
@@ -25,7 +32,7 @@ func (storage *StorageLocal) SaveFile(fileHeader FileDto) (result *SaveFileResul
 		Url:      "http://storage.domain.tld/" + path,
 		Path:     path,
 	}
-	fileData.FetchMetaData(fileHeader)
+	fileData.New(fileHeader)
 
 	result = &SaveFileResult{
 		File: fileData,

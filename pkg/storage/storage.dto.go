@@ -11,6 +11,3 @@ type FileDto = *multipart.FileHeader
 type SaveFileResult struct {
 	File file.FileEntity
 }
-
-type GetFileResult struct {
-}

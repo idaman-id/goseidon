@@ -1,6 +1,6 @@
 package uploading
 
 const (
-	STATUS_SUCCESS = "success"
-	STATUS_FAILED  = "failed"
+	UPLOAD_SUCCESS = "success"
+	UPLOAD_FAILED  = "failed"
 )
