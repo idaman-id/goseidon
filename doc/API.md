@@ -127,7 +127,7 @@ All available API below may be returning general response according to the speci
 	"message": "Terdapat data yang tidak valid",
 	"error": [
 		{
-			"field": "files.0",
+			"field": "files.type",
 			"message": "Jenis file tidak didukung"
 		}
 	]
