@@ -5,16 +5,12 @@
 2. `Storage provider` or later is known as `provider` is application which storing the physical files uploaded by the client.
 
 ## Environments
-1. `MIN_UPLOADED_FILE` = 1
-2. `MAX_UPLOADED_FILE` = 5
-
-## Constants
-1. `UPLOAD_STATUS_SUCCESS` = "success"
-2. `UPLOAD_STATUS_FAILED` = "failed"
+1. `APP_URL` = http://storage.domain.tld
+2. `APP_DEFAULT_LOCALE` = id
 
 ## Rules
-1. Client can upload minimum of `MIN_UPLOADED_FILE`.
-2. Client can upload maximum of `MAX_UPLOADED_FILE`.
+1. Client can upload minimum of `1`.
+2. Client can upload maximum of `5`.
 3. Client can optionally specify the storage `provider` when uploading the files.
 4. If `provider` is specified, all files should be uploaded to the specified provider.
 5. If `provider` is not specified, all files should be uploaded through the `active` provider in the system according to the provider `priority` (higher value higher priority)

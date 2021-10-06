@@ -1,11 +1,6 @@
 # API Documentation
 
 ## Symbol
-- ✅ Function available
-- ❌ Function unavailable
-- ☑️ Testcase available
-- ⚠️ Testcase unavailable
-
 | Feature  | Symbol | Description         |
 | ---      | ------ | ------              |
 | Function |   ✔️  | Function available   |
@@ -13,8 +8,22 @@
 | Testcase |   ☑️  | Testcase available   |
 | Testcase |   ⚠️  | Testcase unavailable |
 
-## General Response
+## General Flow
 All available API below may be returning general response according to the specific situation occured.
+
+**Request Headers**
+```json
+{
+	"Accept-Language": "en"
+}
+```
+
+**Request Query**
+```json
+{
+	"lang": "id"
+}
+```
 
 **Failed Response**
 - HttpCode: 500
@@ -84,7 +93,7 @@ All available API below may be returning general response according to the speci
 		{
 			"status": "success",
 			"file": {
-				"uuid": "651fd093-03cb-4ff4-a23c-7959ce07def5",
+				"unique_id": "651fd093-03cb-4ff4-a23c-7959ce07def5",
 				"name": "samplevideo-1280x720-1mb.mp4",
 				"size": 1055736,
 				"type": "video",
@@ -139,7 +148,7 @@ All available API below may be returning general response according to the speci
 ```json
 {
 	"data": {
-		"uuid": "651fd093-03cb-4ff4-a23c-7959ce07def5",
+		"unique_id": "651fd093-03cb-4ff4-a23c-7959ce07def5",
 		"name": "samplevideo-1280x720-1mb.mp4",
 		"size": 1055736,
 		"type": "video",
