@@ -2,9 +2,9 @@ package rest
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"idaman.id/storage/pkg/app"
 	"idaman.id/storage/pkg/translation"
 	"idaman.id/storage/pkg/uploading"
+	"idaman.id/storage/pkg/validation"
 )
 
 func createHomeHandler(dependency *Dependency) Handler {
@@ -77,9 +77,9 @@ func createUploadFileHandler(dependency *Dependency) Handler {
 		var status int
 
 		switch err.(type) {
-		case *app.ValidationError:
+		case *validation.ValidationError:
 			status = fiber.StatusUnprocessableEntity
-			validationError := err.(*app.ValidationError)
+			validationError := err.(*validation.ValidationError)
 			response = createFailedResponse(ResponseDto{
 				Message:    validationError.Error(),
 				Error:      validationError.Items,

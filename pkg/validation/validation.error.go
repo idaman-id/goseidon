@@ -1,4 +1,4 @@
-package app
+package validation
 
 type ValidationItem struct {
 	Field   string `json:"field"`

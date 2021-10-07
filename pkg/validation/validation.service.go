@@ -13,7 +13,7 @@ import (
 	"idaman.id/storage/pkg/file"
 )
 
-func ValidateStruct(param ValidationStructDto) *app.ValidationError {
+func ValidateStruct(param ValidationStructDto) *ValidationError {
 	translator := createTranslator(param.Locale)
 	validate, validatorErr := createValidator(translator, param.Locale)
 	if validatorErr != nil {
@@ -26,7 +26,7 @@ func ValidateStruct(param ValidationStructDto) *app.ValidationError {
 		return nil
 	}
 
-	validationError := app.ValidationError{
+	validationError := ValidationError{
 		Message: app.STATUS_INVALID_DATA,
 	}
 
@@ -34,7 +34,7 @@ func ValidateStruct(param ValidationStructDto) *app.ValidationError {
 	for _, error := range errors {
 		value := getValueAsString(error.Value())
 
-		element := app.ValidationItem{
+		element := ValidationItem{
 			Field:   error.Field(),
 			Message: error.Translate(translator),
 			Value:   value,
@@ -45,7 +45,7 @@ func ValidateStruct(param ValidationStructDto) *app.ValidationError {
 	return &validationError
 }
 
-func ValidateRule(param ValidationRuleDto) *app.ValidationError {
+func ValidateRule(param ValidationRuleDto) *ValidationError {
 	translator := createTranslator(param.Locale)
 	validate, validatorErr := createValidator(translator, param.Locale)
 	if validatorErr != nil {
@@ -59,7 +59,7 @@ func ValidateRule(param ValidationRuleDto) *app.ValidationError {
 		return nil
 	}
 
-	validationError := app.ValidationError{
+	validationError := ValidationError{
 		Message: app.STATUS_INVALID_DATA,
 	}
 
@@ -83,7 +83,7 @@ func ValidateRule(param ValidationRuleDto) *app.ValidationError {
 			message := strings.Trim(error.Translate(translator), " ")
 			value := getValueAsString(error.Value())
 
-			element := app.ValidationItem{
+			element := ValidationItem{
 				Field:   field, //error.Field()
 				Message: message,
 				Value:   value,
