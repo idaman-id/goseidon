@@ -17,24 +17,14 @@ func (config *ViperConfig) LoadConfiguration() error {
 func (config *ViperConfig) GetAsString(key string) string {
 	var value string
 	keyValue := viper.Get(key)
-
-	switch keyValue.(type) {
-	case string:
-		value = keyValue.(string)
-	}
-
+	value, _ = keyValue.(string)
 	return value
 }
 
 func (config *ViperConfig) GetAsUint(key string) uint {
 	var value uint
 	keyValue := viper.Get(key)
-
-	switch keyValue.(type) {
-	case uint:
-		value = keyValue.(uint)
-	}
-
+	value, _ = keyValue.(uint)
 	return value
 }
 
