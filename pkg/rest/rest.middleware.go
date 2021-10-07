@@ -9,7 +9,7 @@ import (
 	"idaman.id/storage/pkg/translation"
 )
 
-func createErrorHandler() ErrorHandler {
+func createErrorHandler(dependency *Dependency) ErrorHandler {
 	return func(ctx Context, err error) Result {
 		code := fiber.StatusInternalServerError
 
@@ -19,8 +19,12 @@ func createErrorHandler() ErrorHandler {
 
 		ctx.Set(fiber.HeaderContentType, fiber.MIMEApplicationJSON)
 
+		localizer := dependency.getLocalizer(ctx)
+		translator := translation.CreateSimpleTranslator(localizer)
+
 		response := createFailedResponse(ResponseDto{
-			Message: err.Error(),
+			Message:    err.Error(),
+			Translator: translator,
 		})
 
 		return ctx.Status(code).JSON(response)

@@ -12,12 +12,14 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/requestid"
 	"github.com/nicksnyder/go-i18n/v2/i18n"
 	"golang.org/x/text/language"
+	"idaman.id/storage/pkg/config"
 )
 
 func localeParser(ctx Context) string {
 	locale := ctx.Query("lang")
 	if locale == "" {
-		locale = ctx.Get("Accept-Language", "en")
+		defaultLocale := config.GetAsString("APP_DEFAULT_LOCALE")
+		locale = ctx.Get("Accept-Language", defaultLocale, "en")
 	}
 	return locale
 }
@@ -31,6 +33,13 @@ func createLocalizer(i18nBundle *i18n.Bundle) func(ctx Context) *i18n.Localizer 
 }
 
 func CreateApp() App {
+	config.InitConfig(config.PROVIDER_VIPER)
+	err := config.LoadConfiguration()
+	isLoadSuccess := err == nil
+	if !isLoadSuccess {
+		panic("Failed to load app configuration")
+	}
+
 	i18nBundle := i18n.NewBundle(language.English)
 	i18nBundle.RegisterUnmarshalFunc("json", json.Unmarshal)
 	i18nBundle.MustLoadMessageFile("pkg/translation/status.en.json")
@@ -43,7 +52,7 @@ func CreateApp() App {
 	}
 
 	app := fiber.New(fiber.Config{
-		ErrorHandler: createErrorHandler(),
+		ErrorHandler: createErrorHandler(dependency),
 	})
 
 	createConfig := createLimiterConfig(dependency)

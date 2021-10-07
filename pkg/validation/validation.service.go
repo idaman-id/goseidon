@@ -9,6 +9,7 @@ import (
 	ut "github.com/go-playground/universal-translator"
 	"github.com/go-playground/validator/v10"
 	"idaman.id/storage/pkg/app"
+	"idaman.id/storage/pkg/config"
 	"idaman.id/storage/pkg/file"
 )
 
@@ -183,22 +184,19 @@ func registerValidation(validate *validator.Validate) error {
 
 	err = validate.RegisterValidation("valid_file_amounts", func(fl validator.FieldLevel) bool {
 
-		var length uint8
-		t := fl.Field().Interface()
-		switch reflect.TypeOf(t).Kind() {
+		var length uint
+		value := fl.Field().Interface()
+		switch reflect.TypeOf(value).Kind() {
 		case reflect.Slice:
-			s := reflect.ValueOf(t)
-			length = uint8(s.Len())
+			s := reflect.ValueOf(value)
+			length = uint(s.Len())
 		}
 
-		/*
-			@todo
-			1. move to .env variable
-		*/
-		if length >= 1 && length <= 5 {
-			return true
-		}
-		return false
+		minLength := config.GetAsUint("MIN_UPLOADED_FILE")
+		maxLength := config.GetAsUint("MAX_UPLOADED_FILE")
+		isLengthValid := length >= minLength && length <= maxLength
+
+		return isLengthValid
 	})
 	if err != nil {
 		return err
