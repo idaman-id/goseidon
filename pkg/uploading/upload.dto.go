@@ -2,8 +2,6 @@ package uploading
 
 import (
 	"mime/multipart"
-
-	"idaman.id/storage/pkg/file"
 )
 
 type UploadFileDto struct {
@@ -13,9 +11,9 @@ type UploadFileDto struct {
 }
 
 type UploadResultItem struct {
-	Status  string           `json:"status"`
-	Message string           `json:"message,omitempty"`
-	File    *file.FileEntity `json:"file,omitempty"`
+	Status  string      `json:"status"`
+	Message string      `json:"message,omitempty"`
+	File    *FileEntity `json:"file,omitempty"`
 }
 
 type UploadResult struct {

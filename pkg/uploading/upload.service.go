@@ -20,21 +20,35 @@ func UploadFile(param UploadFileDto) (*UploadResult, error) {
 	}
 
 	storage, err := storage.CreateStorage(param.Provider)
-	isProviderUnsupported := err == nil
+	isProviderUnsupported := err != nil
+
 	if isProviderUnsupported {
 		return nil, err
 	}
 
 	uploadResult := UploadResult{}
-	for _, file := range param.Files {
+	for _, fileHeader := range param.Files {
 
-		saveResult, err := storage.SaveFile(file)
+		fileResult, err := storage.SaveFile(fileHeader)
 		isSaveSuccess := err == nil
 
 		if isSaveSuccess {
+			file := FileEntity{
+				UniqueId:      fileResult.UniqueId,
+				OriginalName:  fileResult.OriginalName,
+				Name:          fileResult.Name,
+				Extension:     fileResult.Extension,
+				Size:          fileResult.Size,
+				Mimetype:      fileResult.Mimetype,
+				Url:           fileResult.Url,
+				Path:          fileResult.Path,
+				CreatedAt:     fileResult.CreatedAt,
+				ProviderId:    "", //@todo: update this field
+				ApplicationId: "", //@todo: update this field
+			}
 			uploadResult.Items = append(uploadResult.Items, UploadResultItem{
 				Status: UPLOAD_SUCCESS,
-				File:   &saveResult.File,
+				File:   &file,
 			})
 		} else {
 			uploadResult.Items = append(uploadResult.Items, UploadResultItem{

@@ -14,6 +14,8 @@ require (
 	github.com/go-playground/validator/v10 v10.9.0 // indirect
 	github.com/gofiber/fiber/v2 v2.19.0 // indirect
 	github.com/google/uuid v1.3.0 // indirect
+	github.com/gosimple/slug v1.10.0 // indirect
+	github.com/gosimple/unidecode v1.0.0 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/imdario/mergo v0.3.12 // indirect
 	github.com/klauspost/compress v1.13.4 // indirect

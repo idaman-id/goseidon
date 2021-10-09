@@ -1,9 +1,12 @@
 package storage
 
 import (
-	"github.com/google/uuid"
+	"bufio"
+	"io/ioutil"
+	"os"
+
 	"github.com/valyala/fasthttp"
-	"idaman.id/storage/pkg/file"
+	"idaman.id/storage/pkg/config"
 )
 
 type StorageLocal struct {
@@ -12,14 +15,21 @@ type StorageLocal struct {
 
 func CreateStorageLocal() *StorageLocal {
 	storage := StorageLocal{
-		StorageDir: "storage/dir",
+		StorageDir: "storage/file",
 	}
 	return &storage
 }
 
-func (storage *StorageLocal) SaveFile(fileHeader FileDto) (result *SaveFileResult, err error) {
-	uuid := uuid.New().String()
-	path := storage.StorageDir + "/" + uuid + "-" + fileHeader.Filename
+func (storage *StorageLocal) SaveFile(fileHeader FileDto) (result *FileEntity, err error) {
+	var file FileEntity
+	file.New(fileHeader)
+
+	path := storage.StorageDir + "/" + file.UniqueId + "." + file.Extension
+
+	appUrl := config.GetString("APP_URL")
+	file.Path = path
+	file.Url = appUrl + "/" + path
+
 	err = fasthttp.SaveMultipartFile(fileHeader, path)
 
 	isSaveFailed := err != nil
@@ -27,15 +37,22 @@ func (storage *StorageLocal) SaveFile(fileHeader FileDto) (result *SaveFileResul
 		return nil, err
 	}
 
-	fileData := file.FileEntity{
-		UniqueId: uuid,
-		Url:      "http://storage.domain.tld/" + path,
-		Path:     path,
-	}
-	fileData.New(fileHeader)
+	return &file, nil
+}
 
-	result = &SaveFileResult{
-		File: fileData,
+func (storage *StorageLocal) RetrieveFile(file *FileEntity) (result BinaryFile, err error) {
+	path := "storage/file/" + file.UniqueId + "." + file.Extension
+	ioFile, err := os.Open(path)
+	if err != nil {
+		return nil, err
 	}
-	return result, nil
+	defer ioFile.Close()
+
+	reader := bufio.NewReader(ioFile)
+	bytes, err := ioutil.ReadAll(reader)
+	if err != nil {
+		return nil, err
+	}
+
+	return bytes, nil
 }
