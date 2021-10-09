@@ -2,8 +2,8 @@ package config
 
 type Config interface {
 	LoadConfiguration() error
-	GetAsString(key string) string
-	GetAsUint(key string) uint
+	GetString(key string) string
+	GetInt(key string) int
 	Get(key string) interface{}
 	Set(key string, value interface{})
 	SetDefault(key string, value interface{})

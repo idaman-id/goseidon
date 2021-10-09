@@ -27,12 +27,12 @@ func LoadConfiguration() error {
 	return nil
 }
 
-func GetAsString(key string) string {
-	return config.GetAsString(key)
+func GetString(key string) string {
+	return config.GetString(key)
 }
 
-func GetAsUint(key string) uint {
-	return config.GetAsUint(key)
+func GetInt(key string) int {
+	return config.GetInt(key)
 }
 
 func Get(key string) interface{} {

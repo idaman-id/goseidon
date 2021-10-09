@@ -184,16 +184,16 @@ func registerValidation(validate *validator.Validate) error {
 
 	err = validate.RegisterValidation("valid_file_amounts", func(fl validator.FieldLevel) bool {
 
-		var length uint
+		var length int
 		value := fl.Field().Interface()
 		switch reflect.TypeOf(value).Kind() {
 		case reflect.Slice:
 			s := reflect.ValueOf(value)
-			length = uint(s.Len())
+			length = s.Len()
 		}
 
-		minLength := config.GetAsUint("MIN_UPLOADED_FILE")
-		maxLength := config.GetAsUint("MAX_UPLOADED_FILE")
+		minLength := config.GetInt("MIN_UPLOADED_FILE")
+		maxLength := config.GetInt("MAX_UPLOADED_FILE")
 		isLengthValid := length >= minLength && length <= maxLength
 
 		return isLengthValid

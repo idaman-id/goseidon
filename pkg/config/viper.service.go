@@ -14,17 +14,16 @@ func (config *ViperConfig) LoadConfiguration() error {
 	return err
 }
 
-func (config *ViperConfig) GetAsString(key string) string {
+func (config *ViperConfig) GetString(key string) string {
 	var value string
 	keyValue := viper.Get(key)
 	value, _ = keyValue.(string)
 	return value
 }
 
-func (config *ViperConfig) GetAsUint(key string) uint {
-	var value uint
-	keyValue := viper.Get(key)
-	value, _ = keyValue.(uint)
+func (config *ViperConfig) GetInt(key string) int {
+	var value int
+	value = viper.GetInt(key)
 	return value
 }
 
