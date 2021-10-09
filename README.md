@@ -25,12 +25,12 @@ He can manage your application files which spread over the internet.
 ### Inbound Dependencies
 1. Client with a given `application` configuration (app_key, app_secret)
 2. Public resource through `/file/:id` endpoint
-3. Database (MongoDB)
+3. Database, current support: `mongodb`
 
 ### Outbound Dependencies
 1. Built in file service
 2. AWS S3
-3. Database (MongoDB)
+3. Database, current support: `mongodb`
 
 ## ✔️ Running the App
 
@@ -57,6 +57,8 @@ But in general we can simply run with the following command:
 # build manually #
 $ go build -o ./build/web-service/ ./cmd/web-service/main.go
 
+# run manually #
+$ go run \\cmd\\web-service\\main.go 
 ```
 
 ## ❓ QnA
@@ -68,18 +70,17 @@ No QnA right now
 No issues right now
 
 ## 💪 Todo
-1. Don't need to store the `file.type` (enough with extension and mimetype)
-2. Refactor file entity used amoung package (it's better to have little copying rather than little dependency)
-3. Refactor file size rule to be adjusted according to file extension/mimetype
-4. Local GetDetail implementation
-5. AWSS3 SaveFile & GetDetail implementation
-6. BuiltIn SaveFile & GetDetail implementation
-7. Database model + repository implementation
-8. GetDetail API
-9. GetResource API
-10. Translation
-11. Unit Test
-12. End to end Test
+1. Local GetDetail implementation
+2. Refactor file size rule to be adjusted according to file extension/mimetype
+3. Refactor file entity used amoung package (it's better to have little copying rather than little dependency)
+4. GetResource API
+5. Database Implementation `mongodb`
+6. GetDetail API
+7. AWSS3 SaveFile & GetDetail implementation
+8. BuiltIn SaveFile & GetDetail implementation
+9. Database model + repository implementation
+10. Unit Test
+11. End to end Test
 
 ## 🤩 Nice to Have
 1. Depedency injection

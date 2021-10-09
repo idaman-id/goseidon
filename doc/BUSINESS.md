@@ -19,14 +19,13 @@
 6. Client can't upload the file to the `inactive` provider.
 7. Client should specifying the `app_key` and `app_secret` when uploading the files or checking the file detail.
 8. Client can't upload the file using the `inactive` application.
-9. 
 
 ## Constraints
 1. System may partially failing the file upload process (some files uploaded in the batch may be success/fail).
 2. System may reject all uploaded files when there is one or invalid file.
-3. Valid file is considered as:
+<!-- 3. Valid file is considered as:
 - File type of: `audio`, `video`, `document`, `image`, `archieve`
 - Maximum size of: 16MB for `image` type
 - Maximum size of: 32MB for `audio` and `document` type
-- Maximum size of: 128MB for `video` and `archieve` type
+- Maximum size of: 128MB for `video` and `archieve` type -->
 4. 
