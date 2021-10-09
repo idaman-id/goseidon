@@ -18,7 +18,7 @@ import (
 func localeParser(ctx Context) string {
 	locale := ctx.Query("lang")
 	if locale == "" {
-		defaultLocale := config.GetAsString("APP_DEFAULT_LOCALE")
+		defaultLocale := config.GetString("APP_DEFAULT_LOCALE")
 		locale = ctx.Get("Accept-Language", defaultLocale, "en")
 	}
 	return locale
@@ -64,8 +64,8 @@ func CreateApp() App {
 	app.Use(logger.New())
 	app.Use(limiter.New(createConfig()))
 	app.Get("/", createHomeHandler(dependency))
-	app.Get("/file/:id", createGetResourceHandler(dependency))
-	app.Get("/v1/file/:id", createGetDetailHandler(dependency))
+	app.Get("/file/:identifier", createGetResourceHandler(dependency))
+	app.Get("/v1/file/:identifier", createGetDetailHandler(dependency))
 	app.Post("/v1/file", createUploadFileHandler(dependency))
 
 	return app
