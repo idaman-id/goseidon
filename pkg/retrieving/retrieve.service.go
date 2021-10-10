@@ -34,7 +34,7 @@ func GetFile(identifier string) (*FileEntity, error) {
 func RetrieveFile(identifier string) (*RetrieveFileResult, error) {
 
 	uniqueId := file.RemoveFileExtension(identifier)
-	file, err := file.FindByUniqueId(uniqueId)
+	fileRecord, err := file.FindByUniqueId(uniqueId)
 	isRecordAvailable := err == nil
 	if !isRecordAvailable {
 		return nil, err
@@ -54,16 +54,16 @@ func RetrieveFile(identifier string) (*RetrieveFileResult, error) {
 	}
 
 	storageFile := storage.FileEntity{
-		UniqueId:     file.UniqueId, //local only use this field
-		Extension:    "jpeg",        //local only use this field
-		OriginalName: file.OriginalName,
-		Name:         file.Name,
-		Size:         file.Size,
-		Mimetype:     file.Mimetype,
-		Url:          file.Url,
-		Path:         file.Path,
-		CreatedAt:    file.CreatedAt,
-		UpdatedAt:    file.UpdatedAt,
+		UniqueId:     fileRecord.UniqueId,  //local only use this field
+		Extension:    fileRecord.Extension, //local only use this field
+		OriginalName: fileRecord.OriginalName,
+		Name:         fileRecord.Name,
+		Size:         fileRecord.Size,
+		Mimetype:     fileRecord.Mimetype,
+		Url:          fileRecord.Url,
+		Path:         fileRecord.Path,
+		CreatedAt:    fileRecord.CreatedAt,
+		UpdatedAt:    fileRecord.UpdatedAt,
 	}
 
 	/*
@@ -77,18 +77,18 @@ func RetrieveFile(identifier string) (*RetrieveFileResult, error) {
 	}
 
 	fileResult := FileEntity{
-		UniqueId:      file.UniqueId,
-		OriginalName:  file.OriginalName,
-		Name:          file.Name,
-		Extension:     file.Extension,
-		Mimetype:      file.Mimetype,
-		Size:          file.Size,
-		Url:           file.Url,
-		Path:          file.Path,
-		ProviderId:    file.ProviderId,
-		ApplicationId: file.ApplicationId,
-		CreatedAt:     file.CreatedAt,
-		UpdatedAt:     file.UpdatedAt,
+		UniqueId:      fileRecord.UniqueId,
+		OriginalName:  fileRecord.OriginalName,
+		Name:          fileRecord.Name,
+		Extension:     fileRecord.Extension,
+		Mimetype:      fileRecord.Mimetype,
+		Size:          fileRecord.Size,
+		Url:           fileRecord.Url,
+		Path:          fileRecord.Path,
+		ProviderId:    fileRecord.ProviderId,
+		ApplicationId: fileRecord.ApplicationId,
+		CreatedAt:     fileRecord.CreatedAt,
+		UpdatedAt:     fileRecord.UpdatedAt,
 	}
 	result := &RetrieveFileResult{
 		FileData: fileData,

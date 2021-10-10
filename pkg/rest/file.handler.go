@@ -3,6 +3,7 @@ package rest
 import (
 	"github.com/gofiber/fiber/v2"
 	"idaman.id/storage/pkg/app"
+	"idaman.id/storage/pkg/deleting"
 	"idaman.id/storage/pkg/retrieving"
 	"idaman.id/storage/pkg/translation"
 	"idaman.id/storage/pkg/uploading"
@@ -19,6 +20,46 @@ func createGetDetailHandler(dependency *Dependency) Handler {
 			response := createSuccessResponse(ResponseDto{
 				Translator: translator,
 				Data:       fileEntity,
+			})
+			return ctx.JSON(response)
+		}
+
+		var statusCode int
+		var response ResponseEntity
+
+		switch err.(type) {
+		case *app.NotFoundError:
+			notFoundError := err.(*app.NotFoundError)
+			statusCode = fiber.StatusNotFound
+			response = createFailedResponse(ResponseDto{
+				Message:    notFoundError.Error(),
+				Translator: translator,
+				TranslationData: map[string]interface{}{
+					"context": notFoundError.Context,
+				},
+			})
+		default:
+			statusCode = fiber.StatusBadRequest
+			response = createFailedResponse(ResponseDto{
+				Message:    err.Error(),
+				Translator: translator,
+			})
+		}
+
+		return ctx.Status(statusCode).JSON(response)
+	}
+}
+
+func createDeleteFileHandler(dependency *Dependency) Handler {
+	return func(ctx Context) Result {
+		localizer := dependency.getLocalizer(ctx)
+		translator := translation.CreateSimpleTranslator(localizer)
+
+		err := deleting.DeleteFile(ctx.Params("identifier"))
+		isSuccessDelete := err == nil
+		if isSuccessDelete {
+			response := createSuccessResponse(ResponseDto{
+				Translator: translator,
 			})
 			return ctx.JSON(response)
 		}
