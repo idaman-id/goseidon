@@ -41,7 +41,7 @@ func (storage *StorageLocal) SaveFile(fileHeader FileDto) (result *FileEntity, e
 }
 
 func (storage *StorageLocal) RetrieveFile(file *FileEntity) (result BinaryFile, err error) {
-	path := storage.StorageDir + file.UniqueId + "." + file.Extension
+	path := storage.StorageDir + "/" + file.UniqueId + "." + file.Extension
 	ioFile, err := os.Open(path)
 	if err != nil {
 		return nil, err
