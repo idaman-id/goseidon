@@ -5,11 +5,12 @@ He can manage your application files which spread over the internet.
 ![go-Seidon logo][goseidon-logo]
 
 ## 🚀 Motivations
-1. Provide single point of entry to upload file.
+1. Provide single point of entry to upload files.
 2. Provide single point of entry to accessing the uploaded file.
 3. Allowing multiple files upload at once.
 4. Allowing multiple storage `provider`, current support is: `local`
-5. Support multiple `language` interface, currently supported: `id`, `en`
+5. Support multiple `language` interface, current supports are: `id`, `en`
+6. Avoid coupling between storage service provider.
 
 ## 📋 Documentation
 - [**API Documentation**](doc/API.md)
@@ -29,8 +30,7 @@ He can manage your application files which spread over the internet.
 
 ### Outbound Dependencies
 1. Built in file service
-2. AWS S3
-3. Database, current support: `mongodb`
+2. Database, current support: `mongodb`
 
 ## ✔️ Running the App
 
@@ -70,17 +70,11 @@ No QnA right now
 No issues right now
 
 ## 💪 Todo
-1. Local GetDetail implementation
-2. Refactor file size rule to be adjusted according to file extension/mimetype
-3. Refactor file entity used amoung package (it's better to have little copying rather than little dependency)
-4. GetResource API
-5. Database Implementation `mongodb`
-6. GetDetail API
-7. AWSS3 SaveFile & GetDetail implementation
-8. BuiltIn SaveFile & GetDetail implementation
-9. Database model + repository implementation
-10. Unit Test
-11. End to end Test
+1. Database Implementation `mongodb`
+2. AWSS3 Storage Provider Support
+3. BuiltIn Storage Provider Support
+4. Unit Test
+5. End to end Test
 
 ## 🤩 Nice to Have
 1. Depedency injection
@@ -90,6 +84,8 @@ No issues right now
 5. Custom file validation rules
 6. Storage dashboard monitoring
 7. Multiple provider for each file support (for backup purpose)
+8. MySQL Database Support
+9. Concurrent/pararell processing when uploading multiple files
 
 ## 💖 Contributions
 
