@@ -107,9 +107,9 @@ Database used by this application is `mongodb`
     "type": "String",
     "required": true,
     "enum": [
-      "built_in", "aws_s3"
+      "local", "aws_s3"
     ],
-    "example": "built_in"
+    "example": "aws_s3"
   },
   "priority": {
     "type": "Uint8",
@@ -133,14 +133,7 @@ Database used by this application is `mongodb`
     "example": "Suzaku 1",
     "min": 3,
     "max": 100
-  },
-  "host": {
-    "type": "String",
-    "required": true,
-    "example": "http://file-service.idaman.local",
-    "min": 3,
-    "max": 2048
-  },
+  },  
   "status": {
     "type": "String",
     "required": true,
@@ -148,6 +141,18 @@ Database used by this application is `mongodb`
       "active", "inactive"
     ],
     "example": "active"
+  },
+  "local_config": {
+    "type": "Object",
+    "field": {
+      "storage_dir": {
+        "type": "String",
+        "required": true
+      }
+    }
+  },
+  "aws_s3_config": {
+    "type": "Object"
   }
 }
 ```

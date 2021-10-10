@@ -10,6 +10,15 @@
 | Manual Test |   ✅  | Tested            |
 | Manual Test |   🚨  | Untested           |
 
+## Index
+- [**Home ✔️⚠️✅** ](#home)
+- [**Upload File ❌⚠️🚨** ](#upload-file)
+- [**File Detail ❌⚠️🚨** ](#file-detail)
+- [**File Resource ❌⚠️🚨** ](#file-resource)
+- [**Delete File ❌⚠️🚨** ](#delete-file)
+
+---
+
 ## General Flow
 All available API below may be returning general response according to the specific situation occured.
 
@@ -56,10 +65,22 @@ All available API below may be returning general response according to the speci
 
 ---
 
-## Index
-- [**Upload File ❌⚠️🚨** ](#upload-file)
-- [**File Detail ❌⚠️🚨** ](#file-detail)
-- [**File Resource ❌⚠️🚨** ](#file-resource)
+## Resource
+### Home
+- Method: **GET**
+- Endpoint: **/**
+- Status: ✔️⚠️✅
+
+**Success Response**
+- HttpCode: 200
+- Response Body:
+```json
+{
+	"message": "ok"
+}
+```
+
+---
 
 ### Upload File
 - Method: **POST**
@@ -187,3 +208,27 @@ All available API below may be returning general response according to the speci
 - Response Body: **NotFound FileObject**
 
 ---
+
+### Delete File
+- Method: **DELETE**
+- Endpoint: **/v1/file/:id**
+- Status: ❌⚠️🚨
+- Example: **http://storage.idaman.local/v1/file/651fd093-03cb-4ff4-a23c-7959ce07def5**
+
+**Success Response**
+- HttpCode: 200
+- Response Body:
+```json
+{
+	"message": "Berhasil menghapus file"
+}
+```
+
+**Failed Response**
+- HttpCode: 404
+- Response Body: 
+```json
+{
+	"message": "File tidak ditemukan"
+}
+```
