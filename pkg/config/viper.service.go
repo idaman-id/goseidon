@@ -22,8 +22,7 @@ func (config *ViperConfig) GetString(key string) string {
 }
 
 func (config *ViperConfig) GetInt(key string) int {
-	var value int
-	value = viper.GetInt(key)
+	value := viper.GetInt(key)
 	return value
 }
 

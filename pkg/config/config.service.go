@@ -42,8 +42,13 @@ func loadConfiguration() error {
 		return err
 	}
 
+	config.SetDefault("APP_HOST", "localhost")
+	config.SetDefault("APP_PORT", 3000)
+	config.SetDefault("APP_DEFAULT_LOCALE", "en")
 	config.SetDefault("MIN_UPLOADED_FILE", 1)
 	config.SetDefault("MAX_UPLOADED_FILE", 5)
+	config.SetDefault("MIN_FILE_SIZE", 1)
+	config.SetDefault("MAX_FILE_SIZE", 134217728)
 	return nil
 }
 
