@@ -2,30 +2,18 @@ package rest
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"idaman.id/storage/pkg/app"
 	"idaman.id/storage/pkg/retrieving"
 	"idaman.id/storage/pkg/translation"
 	"idaman.id/storage/pkg/uploading"
-	"idaman.id/storage/pkg/validation"
 )
-
-func createHomeHandler(dependency *Dependency) Handler {
-	return func(ctx Context) Result {
-		localizer := dependency.getLocalizer(ctx)
-		translator := translation.CreateSimpleTranslator(localizer)
-		response := createSuccessResponse(ResponseDto{
-			Translator: translator,
-		})
-		return ctx.JSON(response)
-	}
-}
 
 func createGetDetailHandler(dependency *Dependency) Handler {
 	return func(ctx Context) Result {
 		localizer := dependency.getLocalizer(ctx)
 		translator := translation.CreateSimpleTranslator(localizer)
 
-		identifier := ctx.Params("identifier")
-		fileEntity, err := retrieving.GetFile(identifier)
+		fileEntity, err := retrieving.GetFile(ctx.Params("identifier"))
 		isFileAvailable := err == nil
 		if isFileAvailable {
 			response := createSuccessResponse(ResponseDto{
@@ -35,11 +23,29 @@ func createGetDetailHandler(dependency *Dependency) Handler {
 			return ctx.JSON(response)
 		}
 
-		response := createFailedResponse(ResponseDto{
-			Message:    err.Error(),
-			Translator: translator,
-		})
-		return ctx.Status(fiber.StatusBadRequest).JSON(response)
+		var statusCode int
+		var response ResponseEntity
+
+		switch err.(type) {
+		case *app.NotFoundError:
+			notFoundError := err.(*app.NotFoundError)
+			statusCode = fiber.StatusNotFound
+			response = createFailedResponse(ResponseDto{
+				Message:    notFoundError.Error(),
+				Translator: translator,
+				TranslationData: map[string]interface{}{
+					"context": notFoundError.Context,
+				},
+			})
+		default:
+			statusCode = fiber.StatusBadRequest
+			response = createFailedResponse(ResponseDto{
+				Message:    err.Error(),
+				Translator: translator,
+			})
+		}
+
+		return ctx.Status(statusCode).JSON(response)
 	}
 }
 
@@ -48,8 +54,7 @@ func createGetResourceHandler(dependency *Dependency) Handler {
 		localizer := dependency.getLocalizer(ctx)
 		translator := translation.CreateSimpleTranslator(localizer)
 
-		identifier := ctx.Params("identifier")
-		result, err := retrieving.RetrieveFile(identifier)
+		result, err := retrieving.RetrieveFile(ctx.Params("identifier"))
 		isFileAvailable := err == nil
 
 		if isFileAvailable {
@@ -61,11 +66,15 @@ func createGetResourceHandler(dependency *Dependency) Handler {
 		var statusCode int
 
 		switch err.(type) {
-		case *retrieving.FileNotFoundError:
+		case *app.NotFoundError:
+			notFoundError := err.(*app.NotFoundError)
 			statusCode = fiber.StatusNotFound
 			response = createFailedResponse(ResponseDto{
-				Message:    err.Error(),
+				Message:    notFoundError.Error(),
 				Translator: translator,
+				TranslationData: map[string]interface{}{
+					"context": notFoundError.Context,
+				},
 			})
 		default:
 			statusCode = fiber.StatusBadRequest
@@ -116,9 +125,9 @@ func createUploadFileHandler(dependency *Dependency) Handler {
 		var status int
 
 		switch err.(type) {
-		case *validation.ValidationError:
+		case *app.ValidationError:
 			status = fiber.StatusUnprocessableEntity
-			validationError := err.(*validation.ValidationError)
+			validationError := err.(*app.ValidationError)
 			response = createFailedResponse(ResponseDto{
 				Message:    validationError.Error(),
 				Error:      validationError.Items,
