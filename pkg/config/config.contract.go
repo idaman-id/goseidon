@@ -1,7 +1,7 @@
 package config
 
 type Config interface {
-	LoadConfiguration() error
+	loadConfiguration() error
 	GetString(key string) string
 	GetInt(key string) int
 	Get(key string) interface{}
@@ -10,5 +10,5 @@ type Config interface {
 }
 
 const (
-	PROVIDER_VIPER = "viper"
+	CONFIG_VIPER = "viper"
 )

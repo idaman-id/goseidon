@@ -8,7 +8,7 @@ type ViperConfig struct {
 	fileName string
 }
 
-func (config *ViperConfig) LoadConfiguration() error {
+func (config *ViperConfig) loadConfiguration() error {
 	viper.SetConfigFile(config.fileName)
 	err := viper.ReadInConfig()
 	return err

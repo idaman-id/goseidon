@@ -1,23 +1,43 @@
 package config
 
+import (
+	"idaman.id/storage/pkg/app"
+)
+
 var config Config
 
-func InitConfig(provider string) {
-	config = CreateConfig(provider)
-}
-
-func CreateConfig(provider string) Config {
-	if provider != PROVIDER_VIPER {
-		panic("Config provider is not supported")
+func InitConfig(provider string) error {
+	configService, err := CreateConfig(provider)
+	if err != nil {
+		return err
 	}
 
-	return &ViperConfig{
+	config = configService
+
+	err = loadConfiguration()
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func CreateConfig(provider string) (Config, error) {
+	if provider != CONFIG_VIPER {
+		return nil, &app.NotSupportedError{
+			Message: app.STATUS_NOT_SUPPORTED,
+			Context: "Config",
+		}
+	}
+
+	config := &ViperConfig{
 		fileName: ".env",
 	}
+	return config, nil
 }
 
-func LoadConfiguration() error {
-	err := config.LoadConfiguration()
+func loadConfiguration() error {
+	err := config.loadConfiguration()
 	if err != nil {
 		return err
 	}
