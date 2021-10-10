@@ -22,21 +22,22 @@ He can manage your application files which spread over the internet.
 ## 👷🏻 Architecture
 ![System Architecture][architecture-image]
 
-## 🖖 Dependencies
-### Inbound Dependencies
-1. Client with a given `application` configuration (app_key, app_secret)
-2. Public resource through `/file/:id` endpoint
-3. Database, current support: `mongodb`
-
-### Outbound Dependencies
-1. Built in file service
-2. Database, current support: `mongodb`
-
 ## ✔️ Running the App
 
 ### Setup
 - Copy `.env.example` into `.env`
 - Setup `.env` configuration
+
+| Environment | Type | Example | Default Value | Description |
+| --- | --- | --- | --- | --- |
+| APP_URL | String | http://storage.domain.tld | (none) | Public application domain/subdomain used to access `goseidon` app |
+| APP_HOST | String | localhost | localhost | Private application host used to access `goseidon` app privately, for example when used behind `load balancer` or `process management` |
+| APP_PORT | Integer | 3000 | 3000 | Private application port used to access goseidon app privately |
+| APP_DEFAULT_LOCALE | String | id | en | Default application langauge when no `Accept-Language` header or `lang` query specified |
+| MIN_UPLOADED_FILE | Integer | 1 | 1 | Minimum amount of file to be uploaded in one single upload |
+| MAX_UPLOADED_FILE | Integer | 5 | 5 | Maximum amount of file to be uploaded in one single upload |
+| MIN_FILE_SIZE | Integer | 1 | 1 | Minimum file size `byte` for each uploaded file during single upload, default is 1 indicating valid `non zero` file size |
+| MAX_FILE_SIZE | Integer | 134217728 | 134217728 | Maximum file size `byte` for each uploaded file during single upload, default is `134217728` byte or `128` MB |
 
 ### Development
 ```bash
@@ -70,22 +71,23 @@ No QnA right now
 No issues right now
 
 ## 💪 Todo
-1. Database Implementation `mongodb`
-2. AWSS3 Storage Provider Support
-3. BuiltIn Storage Provider Support
+1. Delete file implementation
+2. Database implementation `mongodb`
+3. Depedency injection
 4. Unit Test
 5. End to end Test
 
 ## 🤩 Nice to Have
-1. Depedency injection
-2. Allowing file authorization in the future.
-3. Custom file slug configuration.
-4. Caching layer
-5. Custom file validation rules
-6. Storage dashboard monitoring
-7. Multiple provider for each file support (for backup purpose)
-8. MySQL Database Support
-9. Concurrent/pararell processing when uploading multiple files
+1. `AWS S3` Support
+2. `Built In` Support (using other instance of go-seidon)
+3. Concurrent/pararell processing when uploading multiple files
+4. MySQL Database Support
+5. Custom file validation rules (e/g: based on provider)
+6. Caching layer
+7. Allowing file authorization in the future.
+8. Custom file slug configuration.
+9. Storage dashboard monitoring
+10. Multiple provider for each file support (for backup purpose)
 
 ## 💖 Contributions
 
