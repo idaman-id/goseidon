@@ -13,7 +13,7 @@ import (
 	"idaman.id/storage/pkg/file"
 )
 
-func ValidateStruct(param ValidationStructDto) *ValidationError {
+func ValidateStruct(param ValidationStructDto) *app.ValidationError {
 	translator := createTranslator(param.Locale)
 	validate, validatorErr := createValidator(translator, param.Locale)
 	if validatorErr != nil {
@@ -26,7 +26,7 @@ func ValidateStruct(param ValidationStructDto) *ValidationError {
 		return nil
 	}
 
-	validationError := ValidationError{
+	validationError := app.ValidationError{
 		Message: app.STATUS_INVALID_DATA,
 	}
 
@@ -34,7 +34,7 @@ func ValidateStruct(param ValidationStructDto) *ValidationError {
 	for _, error := range errors {
 		value := getValueAsString(error.Value())
 
-		element := ValidationItem{
+		element := app.ValidationItem{
 			Field:   error.Field(),
 			Message: error.Translate(translator),
 			Value:   value,
@@ -45,7 +45,7 @@ func ValidateStruct(param ValidationStructDto) *ValidationError {
 	return &validationError
 }
 
-func ValidateRule(param ValidationRuleDto) *ValidationError {
+func ValidateRule(param ValidationRuleDto) *app.ValidationError {
 	translator := createTranslator(param.Locale)
 	validate, validatorErr := createValidator(translator, param.Locale)
 	if validatorErr != nil {
@@ -59,7 +59,7 @@ func ValidateRule(param ValidationRuleDto) *ValidationError {
 		return nil
 	}
 
-	validationError := ValidationError{
+	validationError := app.ValidationError{
 		Message: app.STATUS_INVALID_DATA,
 	}
 
@@ -83,7 +83,7 @@ func ValidateRule(param ValidationRuleDto) *ValidationError {
 			message := strings.Trim(error.Translate(translator), " ")
 			value := getValueAsString(error.Value())
 
-			element := ValidationItem{
+			element := app.ValidationItem{
 				Field:   field, //error.Field()
 				Message: message,
 				Value:   value,
@@ -159,14 +159,8 @@ func registerValidation(validate *validator.Validate) error {
 	err = validate.RegisterValidation("valid_provider", func(fl validator.FieldLevel) bool {
 		value := fl.Field().Interface().(string)
 
-		if value == "local" {
-			return true
-		}
-		/*
-			@todo
-			1. check `value` to `database.provider.unique_id`
-		*/
-		return false
+		isProviderValid := value == "local"
+		return isProviderValid
 	})
 	if err != nil {
 		return err
@@ -197,6 +191,19 @@ func registerValidation(validate *validator.Validate) error {
 		isLengthValid := length >= minLength && length <= maxLength
 
 		return isLengthValid
+	})
+	if err != nil {
+		return err
+	}
+
+	err = validate.RegisterValidation("valid_file_size", func(fl validator.FieldLevel) bool {
+		fileSize := fl.Field().Interface().(int)
+
+		minSize := config.GetInt("MIN_FILE_SIZE")
+		maxSize := config.GetInt("MAX_FILE_SIZE")
+		isSizeValid := fileSize >= minSize && fileSize <= maxSize
+
+		return isSizeValid
 	})
 	if err != nil {
 		return err

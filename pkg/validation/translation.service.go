@@ -1,12 +1,15 @@
 package validation
 
 import (
+	"fmt"
+
 	"github.com/go-playground/locales/en"
 	"github.com/go-playground/locales/id"
 	ut "github.com/go-playground/universal-translator"
 	"github.com/go-playground/validator/v10"
 	en_translations "github.com/go-playground/validator/v10/translations/en"
 	id_translations "github.com/go-playground/validator/v10/translations/id"
+	"idaman.id/storage/pkg/config"
 )
 
 func createTranslator(locale string) ut.Translator {
@@ -35,7 +38,6 @@ func registerDefaultTranslation(validate *validator.Validate, translator ut.Tran
 /*
 	@todo
 	1. translate multilingual (indonesian)
-	2. use .env variable
 */
 func registerTranslation(validate *validator.Validate, translator ut.Translator) error {
 	var err error
@@ -61,9 +63,25 @@ func registerTranslation(validate *validator.Validate, translator ut.Translator)
 	}
 
 	err = validate.RegisterTranslation("valid_file_amounts", translator, func(ut ut.Translator) error {
-		return ut.Add("valid_file_amounts", "{0} must be greater than or equal 1 and less than or equal 5", true)
+		minLength := config.GetInt("MIN_UPLOADED_FILE")
+		maxLength := config.GetInt("MAX_UPLOADED_FILE")
+		message := fmt.Sprintf("{0} must be greater than or equal %d and less than or equal %d", minLength, maxLength)
+		return ut.Add("valid_file_amounts", message, true)
 	}, func(ut ut.Translator, fe validator.FieldError) string {
 		t, _ := ut.T("valid_file_amounts", fe.Field())
+		return t
+	})
+	if err != nil {
+		return err
+	}
+
+	err = validate.RegisterTranslation("valid_file_size", translator, func(ut ut.Translator) error {
+		minSize := config.GetInt("MIN_FILE_SIZE")
+		maxSize := config.GetInt("MAX_FILE_SIZE")
+		message := fmt.Sprintf("{0} must be greater than or equal %d and less than or equal %d", minSize, maxSize)
+		return ut.Add("valid_file_size", message, true)
+	}, func(ut ut.Translator, fe validator.FieldError) string {
+		t, _ := ut.T("valid_file_size", fe.Field())
 		return t
 	})
 	if err != nil {

@@ -6,9 +6,8 @@ import (
 	"idaman.id/storage/pkg/file"
 )
 
-/* max_size: 128MB = 134217728 bytes */
 type FileRule struct {
-	Size uint64 `json:"files.size" validate:"required,min=1,max=134217728"`
+	Size uint64 `json:"files.size" validate:"required,valid_file_size"`
 }
 
 type FileRules = []*FileRule

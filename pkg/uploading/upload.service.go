@@ -62,9 +62,6 @@ func UploadFile(param UploadFileDto) (*UploadResult, error) {
 	/*
 		@todo:
 		1. insert record for all success upload files (including provider_id, application_id)
-
-		@nicetohave:
-		1. concurrent/pararell processing
 	*/
 	return &uploadResult, nil
 }
