@@ -7,36 +7,44 @@ import (
 
 func GetFile(identifier string) (*FileEntity, error) {
 
-	/*
-		@todo
-		1. check file existance
-		2. if not found return NotFoundError
-	*/
-
 	uniqueId := file.RemoveFileExtension(identifier)
-	return &FileEntity{
-		UniqueId:      uniqueId,
-		OriginalName:  "hio.jpeg",
-		Name:          "hio",
-		Extension:     "jpeg",
-		Size:          6720,
-		Mimetype:      "image/jpeg",
-		Url:           "http://storage.domain.tld/storage/file/4980a441-b747-4226-ada0-63a5b2cac26d.jpeg",
-		Path:          "",
-		ProviderId:    "",
-		ApplicationId: "",
-	}, nil
+	file, err := file.FindByUniqueId(uniqueId)
+	isRecordAvailable := err == nil
+	if !isRecordAvailable {
+		return nil, err
+	}
+
+	result := &FileEntity{
+		UniqueId:      file.UniqueId,
+		OriginalName:  file.OriginalName,
+		Name:          file.Name,
+		Extension:     file.Extension,
+		Size:          file.Size,
+		Mimetype:      file.Mimetype,
+		Url:           file.Url,
+		Path:          file.Path,
+		ProviderId:    file.ProviderId,
+		ApplicationId: file.ApplicationId,
+		CreatedAt:     file.CreatedAt,
+		UpdatedAt:     file.UpdatedAt,
+	}
+	return result, nil
 }
 
 func RetrieveFile(identifier string) (*RetrieveFileResult, error) {
+
+	uniqueId := file.RemoveFileExtension(identifier)
+	file, err := file.FindByUniqueId(uniqueId)
+	isRecordAvailable := err == nil
+	if !isRecordAvailable {
+		return nil, err
+	}
+
 	/*
 		@todo
-		1. check file existance
-		2. if not found return NotFoundError
-		3.set fileEntity using data from repo
+		1. set provider from file.provider.id
+		2. set config from file.provider.[`${file.provider.type}_config`]
 	*/
-	uniqueId := file.RemoveFileExtension(identifier)
-
 	provider := "local"
 
 	storageService, err := storage.CreateStorage(provider)
@@ -46,22 +54,45 @@ func RetrieveFile(identifier string) (*RetrieveFileResult, error) {
 	}
 
 	storageFile := storage.FileEntity{
-		UniqueId:  uniqueId,
-		Extension: "jpeg",
+		UniqueId:     file.UniqueId, //local only use this field
+		Extension:    "jpeg",        //local only use this field
+		OriginalName: file.OriginalName,
+		Name:         file.Name,
+		Size:         file.Size,
+		Mimetype:     file.Mimetype,
+		Url:          file.Url,
+		Path:         file.Path,
+		CreatedAt:    file.CreatedAt,
+		UpdatedAt:    file.UpdatedAt,
 	}
 
+	/*
+		@todo
+		1. refactor function param using dto if necessary (consistency)
+	*/
 	fileData, err := storageService.RetrieveFile(&storageFile)
-	isFileAvailable := err == nil
-	if !isFileAvailable {
+	isRetrieveSuccess := err == nil
+	if !isRetrieveSuccess {
 		return nil, err
 	}
 
-	file := FileEntity{
-		Mimetype: "image/jpeg",
+	fileResult := FileEntity{
+		UniqueId:      file.UniqueId,
+		OriginalName:  file.OriginalName,
+		Name:          file.Name,
+		Extension:     file.Extension,
+		Mimetype:      file.Mimetype,
+		Size:          file.Size,
+		Url:           file.Url,
+		Path:          file.Path,
+		ProviderId:    file.ProviderId,
+		ApplicationId: file.ApplicationId,
+		CreatedAt:     file.CreatedAt,
+		UpdatedAt:     file.UpdatedAt,
 	}
 	result := &RetrieveFileResult{
 		FileData: fileData,
-		File:     file,
+		File:     fileResult,
 	}
 
 	return result, nil
