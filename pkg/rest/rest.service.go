@@ -12,7 +12,9 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/requestid"
 	"github.com/nicksnyder/go-i18n/v2/i18n"
 	"golang.org/x/text/language"
+	"idaman.id/storage/pkg/app"
 	"idaman.id/storage/pkg/config"
+	"idaman.id/storage/pkg/file"
 )
 
 func localeParser(ctx Context) string {
@@ -33,11 +35,14 @@ func createLocalizer(i18nBundle *i18n.Bundle) func(ctx Context) *i18n.Localizer 
 }
 
 func CreateApp() App {
-	config.InitConfig(config.PROVIDER_VIPER)
-	err := config.LoadConfiguration()
-	isLoadSuccess := err == nil
-	if !isLoadSuccess {
+	err := config.InitConfig(config.CONFIG_VIPER)
+	if err != nil {
 		panic("Failed to load app configuration")
+	}
+
+	err = file.InitRepo(app.DATABASE_MONGO)
+	if err != nil {
+		panic("Failed to load file repository")
 	}
 
 	i18nBundle := i18n.NewBundle(language.English)
