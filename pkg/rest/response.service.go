@@ -2,6 +2,7 @@ package rest
 
 import (
 	"idaman.id/storage/pkg/app"
+	"idaman.id/storage/pkg/translation"
 )
 
 func createSuccessResponse(param ResponseDto) ResponseEntity {
@@ -19,7 +20,10 @@ func createSuccessResponse(param ResponseDto) ResponseEntity {
 	}
 
 	if param.Translator != nil {
-		translation := param.Translator(response.Message)
+		translation := param.Translator(translation.TranslatorDto{
+			Id:       response.Message,
+			Template: param.TranslationData,
+		})
 		response.Message = translation
 	}
 
@@ -41,7 +45,10 @@ func createFailedResponse(param ResponseDto) ResponseEntity {
 	}
 
 	if param.Translator != nil {
-		translation := param.Translator(response.Message)
+		translation := param.Translator(translation.TranslatorDto{
+			Id:       response.Message,
+			Template: param.TranslationData,
+		})
 		response.Message = translation
 	}
 
