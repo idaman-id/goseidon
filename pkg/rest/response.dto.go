@@ -5,8 +5,9 @@ import (
 )
 
 type ResponseDto struct {
-	Message    string
-	Data       interface{}
-	Error      interface{}
-	Translator translation.Translator
+	Message         string
+	Data            interface{}
+	Error           interface{}
+	Translator      translation.Translator
+	TranslationData map[string]interface{}
 }
