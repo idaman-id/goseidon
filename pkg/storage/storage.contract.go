@@ -1,5 +1,10 @@
 package storage
 
+import "mime/multipart"
+
+type FileDto = *multipart.FileHeader
+type BinaryFile = []byte
+
 type Uploader interface {
 	SaveFile(fileHeader FileDto) (result *FileEntity, err error)
 }
