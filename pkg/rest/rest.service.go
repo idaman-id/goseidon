@@ -70,8 +70,9 @@ func CreateApp() App {
 	app.Use(limiter.New(createConfig()))
 	app.Get("/", createHomeHandler(dependency))
 	app.Get("/file/:identifier", createGetResourceHandler(dependency))
-	app.Get("/v1/file/:identifier", createGetDetailHandler(dependency))
 	app.Post("/v1/file", createUploadFileHandler(dependency))
+	app.Get("/v1/file/:identifier", createGetDetailHandler(dependency))
+	app.Delete("/v1/file/:identifier", createDeleteFileHandler(dependency))
 
 	return app
 }

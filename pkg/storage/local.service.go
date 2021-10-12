@@ -2,10 +2,12 @@ package storage
 
 import (
 	"bufio"
+	"io/fs"
 	"io/ioutil"
 	"os"
 
 	"github.com/valyala/fasthttp"
+	"idaman.id/storage/pkg/app"
 	"idaman.id/storage/pkg/config"
 )
 
@@ -42,17 +44,32 @@ func (storage *StorageLocal) SaveFile(fileHeader FileDto) (result *FileEntity, e
 
 func (storage *StorageLocal) RetrieveFile(file *FileEntity) (result BinaryFile, err error) {
 	path := storage.StorageDir + "/" + file.UniqueId + "." + file.Extension
-	ioFile, err := os.Open(path)
+	osFile, err := os.Open(path)
 	if err != nil {
 		return nil, err
 	}
-	defer ioFile.Close()
+	defer osFile.Close()
 
-	reader := bufio.NewReader(ioFile)
+	reader := bufio.NewReader(osFile)
 	bytes, err := ioutil.ReadAll(reader)
 	if err != nil {
 		return nil, err
 	}
 
 	return bytes, nil
+}
+
+func (storage *StorageLocal) DeleteFile(file *FileEntity) error {
+	path := storage.StorageDir + "/" + file.UniqueId + "." + file.Extension
+	err := os.Remove(path)
+
+	switch err.(type) {
+	case *fs.PathError:
+		err = &app.NotFoundError{
+			Message: app.STATUS_NOT_FOUND,
+			Context: "File",
+		}
+	}
+
+	return err
 }

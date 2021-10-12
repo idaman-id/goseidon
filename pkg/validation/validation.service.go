@@ -197,7 +197,8 @@ func registerValidation(validate *validator.Validate) error {
 	}
 
 	err = validate.RegisterValidation("valid_file_size", func(fl validator.FieldLevel) bool {
-		fileSize := fl.Field().Interface().(int)
+		size := fl.Field().Interface().(uint64)
+		fileSize := int(size)
 
 		minSize := config.GetInt("MIN_FILE_SIZE")
 		maxSize := config.GetInt("MAX_FILE_SIZE")

@@ -6,7 +6,7 @@ He can manage your application files which spread over the internet.
 
 ## 🚀 Motivations
 1. Provide single point of entry to upload files.
-2. Provide single point of entry to accessing the uploaded file.
+2. Provide single point of entry to access the uploaded file.
 3. Allowing multiple files upload at once.
 4. Allowing multiple storage `provider`, current support is: `local`
 5. Support multiple `language` interface, current supports are: `id`, `en`
@@ -71,11 +71,10 @@ No QnA right now
 No issues right now
 
 ## 💪 Todo
-1. Delete file implementation
-2. Database implementation `mongodb`
-3. Depedency injection
-4. Unit Test
-5. End to end Test
+1. Database implementation `mongodb`
+2. Depedency injection
+3. Unit Test
+4. End to end Test
 
 ## 🤩 Nice to Have
 1. `AWS S3` Support

@@ -111,7 +111,7 @@ All available API below may be returning general response according to the speci
 ```json
 {
 	"code": "200",
-	"message": "Berhasil mengunggah file",
+	"message": "ok",
 	"data": [
 		{
 			"status": "success",
@@ -170,6 +170,7 @@ All available API below may be returning general response according to the speci
 - Response Body:
 ```json
 {
+	"message": "ok",
 	"data": {
 		"unique_id": "651fd093-03cb-4ff4-a23c-7959ce07def5",
 		"name": "samplevideo-1280x720-1mb.mp4",
@@ -220,15 +221,24 @@ All available API below may be returning general response according to the speci
 - Response Body:
 ```json
 {
-	"message": "Berhasil menghapus file"
+	"message": "ok"
 }
 ```
 
-**Failed Response**
+**Not Found Response**
 - HttpCode: 404
 - Response Body: 
 ```json
 {
 	"message": "File tidak ditemukan"
+}
+```
+
+**Failed Response**
+- HttpCode: 400
+- Response Body: 
+```json
+{
+	"message": "Gagal menghapus file"
 }
 ```

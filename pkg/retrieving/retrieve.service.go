@@ -53,7 +53,7 @@ func RetrieveFile(identifier string) (*RetrieveFileResult, error) {
 		return nil, err
 	}
 
-	storageFile := storage.FileEntity{
+	storageFile := &storage.FileEntity{
 		UniqueId:     fileRecord.UniqueId,  //local only use this field
 		Extension:    fileRecord.Extension, //local only use this field
 		OriginalName: fileRecord.OriginalName,
@@ -70,7 +70,7 @@ func RetrieveFile(identifier string) (*RetrieveFileResult, error) {
 		@todo
 		1. refactor function param using dto if necessary (consistency)
 	*/
-	fileData, err := storageService.RetrieveFile(&storageFile)
+	fileData, err := storageService.RetrieveFile(storageFile)
 	isRetrieveSuccess := err == nil
 	if !isRetrieveSuccess {
 		return nil, err
