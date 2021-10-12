@@ -71,10 +71,9 @@ No QnA right now
 No issues right now
 
 ## 💪 Todo
-1. Database implementation `mongodb`
-2. Depedency injection
-3. Unit Test
-4. End to end Test
+1. Unit Test
+2. End to end Test
+3. Database implementation `mongodb`
 
 ## 🤩 Nice to Have
 1. `AWS S3` Support
@@ -87,6 +86,7 @@ No issues right now
 8. Custom file slug configuration.
 9. Storage dashboard monitoring
 10. Multiple provider for each file support (for backup purpose)
+11. Depedency injection
 
 ## 💖 Contributions
 
