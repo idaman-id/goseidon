@@ -28,7 +28,7 @@ func (storage *StorageLocal) SaveFile(fileHeader FileDto) (result *FileEntity, e
 
 	path := storage.StorageDir + "/" + file.UniqueId + "." + file.Extension
 
-	appUrl := config.GetString("APP_URL")
+	appUrl := config.Service.GetString("APP_URL")
 	file.Path = path
 	file.Url = appUrl + "/" + path
 

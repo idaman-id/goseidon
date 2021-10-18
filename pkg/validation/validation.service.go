@@ -186,8 +186,8 @@ func registerValidation(validate *validator.Validate) error {
 			length = s.Len()
 		}
 
-		minLength := config.GetInt("MIN_UPLOADED_FILE")
-		maxLength := config.GetInt("MAX_UPLOADED_FILE")
+		minLength := config.Service.GetInt("MIN_UPLOADED_FILE")
+		maxLength := config.Service.GetInt("MAX_UPLOADED_FILE")
 		isLengthValid := length >= minLength && length <= maxLength
 
 		return isLengthValid
@@ -200,8 +200,8 @@ func registerValidation(validate *validator.Validate) error {
 		size := fl.Field().Interface().(uint64)
 		fileSize := int(size)
 
-		minSize := config.GetInt("MIN_FILE_SIZE")
-		maxSize := config.GetInt("MAX_FILE_SIZE")
+		minSize := config.Service.GetInt("MIN_FILE_SIZE")
+		maxSize := config.Service.GetInt("MAX_FILE_SIZE")
 		isSizeValid := fileSize >= minSize && fileSize <= maxSize
 
 		return isSizeValid

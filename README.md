@@ -47,6 +47,10 @@ $ air -c .air.toml # custom configuration
 
 # run manually #
 $ go run \\cmd\\web-service\\main.go 
+
+# testing #
+$ ginkgo watch -r
+
 ```
 
 ### Deployment
@@ -92,6 +96,8 @@ No issues right now
 
 Please always follow the development guidance described above to keep the `code quality` great and also to `decrease unecessary bug`. 
 
+![Test coverage][coverage-image]
+
 Do run the `unit test` after changing code or before push/updating the code.
 
 > *Leave better than you found it*
@@ -99,3 +105,4 @@ Do run the `unit test` after changing code or before push/updating the code.
 [goseidon-logo]: asset/image/go-seidon.png?raw=true
 [coverage-image]: asset/image/test-coverage.png?raw=true
 [architecture-image]: asset/image/system-architecture.jpg?raw=true
+[coverage-image]: asset/image/test-coverage.png?raw=true

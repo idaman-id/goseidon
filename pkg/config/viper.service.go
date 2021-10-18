@@ -5,19 +5,17 @@ import (
 )
 
 type ViperConfig struct {
-	fileName string
+	FileName string
 }
 
-func (config *ViperConfig) loadConfiguration() error {
-	viper.SetConfigFile(config.fileName)
+func (config *ViperConfig) LoadConfiguration() error {
+	viper.SetConfigFile(config.FileName)
 	err := viper.ReadInConfig()
 	return err
 }
 
 func (config *ViperConfig) GetString(key string) string {
-	var value string
-	keyValue := viper.Get(key)
-	value, _ = keyValue.(string)
+	value := viper.GetString(key)
 	return value
 }
 

@@ -7,6 +7,6 @@ import (
 
 func main() {
 	app := rest.CreateApp()
-	address := config.GetString("APP_HOST") + ":" + config.GetString("APP_PORT")
+	address := config.Service.GetString("APP_HOST") + ":" + config.Service.GetString("APP_PORT")
 	app.Listen(address)
 }

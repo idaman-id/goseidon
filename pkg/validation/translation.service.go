@@ -63,8 +63,8 @@ func registerTranslation(validate *validator.Validate, translator ut.Translator)
 	}
 
 	err = validate.RegisterTranslation("valid_file_amounts", translator, func(ut ut.Translator) error {
-		minLength := config.GetInt("MIN_UPLOADED_FILE")
-		maxLength := config.GetInt("MAX_UPLOADED_FILE")
+		minLength := config.Service.GetInt("MIN_UPLOADED_FILE")
+		maxLength := config.Service.GetInt("MAX_UPLOADED_FILE")
 		message := fmt.Sprintf("{0} must be greater than or equal %d and less than or equal %d", minLength, maxLength)
 		return ut.Add("valid_file_amounts", message, true)
 	}, func(ut ut.Translator, fe validator.FieldError) string {
@@ -76,8 +76,8 @@ func registerTranslation(validate *validator.Validate, translator ut.Translator)
 	}
 
 	err = validate.RegisterTranslation("valid_file_size", translator, func(ut ut.Translator) error {
-		minSize := config.GetInt("MIN_FILE_SIZE")
-		maxSize := config.GetInt("MAX_FILE_SIZE")
+		minSize := config.Service.GetInt("MIN_FILE_SIZE")
+		maxSize := config.Service.GetInt("MAX_FILE_SIZE")
 		message := fmt.Sprintf("{0} must be greater than or equal %d and less than or equal %d", minSize, maxSize)
 		return ut.Add("valid_file_size", message, true)
 	}, func(ut ut.Translator, fe validator.FieldError) string {

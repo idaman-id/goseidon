@@ -20,7 +20,7 @@ import (
 func localeParser(ctx Context) string {
 	locale := ctx.Query("lang")
 	if locale == "" {
-		defaultLocale := config.GetString("APP_DEFAULT_LOCALE")
+		defaultLocale := config.Service.GetString("APP_DEFAULT_LOCALE")
 		locale = ctx.Get("Accept-Language", defaultLocale, "en")
 	}
 	return locale
@@ -35,14 +35,23 @@ func createLocalizer(i18nBundle *i18n.Bundle) func(ctx Context) *i18n.Localizer 
 }
 
 func CreateApp() App {
-	err := config.InitConfig(config.CONFIG_VIPER)
-	if err != nil {
-		panic("Failed to load app configuration")
+	configService, err := config.CreateConfig(config.CONFIG_VIPER)
+	isFailedCreateConfig := err != nil
+	if isFailedCreateConfig {
+		panic(err.Error())
+	}
+
+	config.Service = configService
+	err = config.Init()
+	isFailedInitConfig := err != nil
+	if isFailedInitConfig {
+		panic(err.Error())
 	}
 
 	err = file.InitRepo(app.DATABASE_MONGO)
-	if err != nil {
-		panic("Failed to load file repository")
+	isFailedInitDatabase := err != nil
+	if isFailedInitDatabase {
+		panic(err.Error())
 	}
 
 	i18nBundle := i18n.NewBundle(language.English)

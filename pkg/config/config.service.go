@@ -1,47 +1,50 @@
 package config
 
-import (
-	"idaman.id/storage/pkg/app"
+import "idaman.id/storage/pkg/app"
+
+var (
+	Service ConfigService
 )
 
-var config Config
+func Init() error {
 
-func InitConfig(provider string) error {
-	configService, err := CreateConfig(provider)
-	if err != nil {
-		return err
-	}
-
-	config = configService
-
-	err = loadConfiguration()
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func CreateConfig(provider string) (Config, error) {
-	if provider != CONFIG_VIPER {
-		return nil, &app.NotSupportedError{
-			Message: app.STATUS_NOT_SUPPORTED,
+	isServiceAvailable := Service != nil
+	if !isServiceAvailable {
+		return &app.NotFoundError{
+			Message: app.STATUS_NOT_FOUND,
 			Context: "Config",
 		}
 	}
 
-	config := &ViperConfig{
-		fileName: ".env",
-	}
-	return config, nil
-}
-
-func loadConfiguration() error {
-	err := config.loadConfiguration()
-	if err != nil {
+	err := Service.LoadConfiguration()
+	isFailedLoadConfig := err != nil
+	if isFailedLoadConfig {
 		return err
 	}
 
+	setDefaultData(Service)
+
+	return nil
+}
+
+func CreateConfig(provider string) (ConfigService, error) {
+	isProviderSupported := provider == CONFIG_VIPER
+	if !isProviderSupported {
+		err := &app.NotSupportedError{
+			Message: app.STATUS_NOT_SUPPORTED,
+			Context: "Config",
+		}
+		return nil, err
+	}
+
+	config := &ViperConfig{
+		FileName: ".env",
+	}
+
+	return config, nil
+}
+
+func setDefaultData(config ConfigService) {
 	config.SetDefault("APP_HOST", "localhost")
 	config.SetDefault("APP_PORT", 3000)
 	config.SetDefault("APP_DEFAULT_LOCALE", "en")
@@ -49,25 +52,4 @@ func loadConfiguration() error {
 	config.SetDefault("MAX_UPLOADED_FILE", 5)
 	config.SetDefault("MIN_FILE_SIZE", 1)
 	config.SetDefault("MAX_FILE_SIZE", 134217728)
-	return nil
-}
-
-func GetString(key string) string {
-	return config.GetString(key)
-}
-
-func GetInt(key string) int {
-	return config.GetInt(key)
-}
-
-func Get(key string) interface{} {
-	return config.Get(key)
-}
-
-func Set(key string, value interface{}) {
-	config.Set(key, value)
-}
-
-func SetDefault(key string, value interface{}) {
-	config.SetDefault(key, value)
 }
