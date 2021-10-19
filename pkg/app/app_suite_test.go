@@ -4,9 +4,8 @@ import (
 	"testing"
 
 	. "github.com/onsi/ginkgo"
-	"idaman.id/storage/pkg/app"
-
 	. "github.com/onsi/gomega"
+	"idaman.id/storage/pkg/app"
 )
 
 func TestApp(t *testing.T) {
