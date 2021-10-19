@@ -16,7 +16,7 @@ func ParseOriginalName(fileHeader *multipart.FileHeader) string {
 func ParseName(fileHeader *multipart.FileHeader) string {
 	fileName := ParseOriginalName(fileHeader)
 	fileNameWithoutExtension := RemoveFileExtension(fileName)
-	fileName = text.Slugify(fileNameWithoutExtension)
+	fileName = text.Service.Slugify(fileNameWithoutExtension)
 	return fileName
 }
 
