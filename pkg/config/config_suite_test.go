@@ -17,12 +17,6 @@ func TestConfig(t *testing.T) {
 
 var _ = Describe("Config Service", func() {
 
-	Describe("Contract constant", func() {
-		It("should contain valid constant", func() {
-			Expect(config.CONFIG_VIPER).To(Equal("viper"))
-		})
-	})
-
 	Describe("Init function", func() {
 		BeforeEach(func() {
 			config.Service = NewMockconfig()
@@ -109,6 +103,16 @@ var _ = Describe("Config Service", func() {
 				Expect(config).To(Equal(expected))
 				Expect(err).To(BeNil())
 			})
+		})
+	})
+
+})
+
+var _ = Describe("Config Contract", func() {
+
+	Describe("Contract constant", func() {
+		It("should contain valid constant", func() {
+			Expect(config.CONFIG_VIPER).To(Equal("viper"))
 		})
 	})
 
