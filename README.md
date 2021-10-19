@@ -76,8 +76,9 @@ No issues right now
 
 ## 💪 Todo
 1. Unit Test
-2. End to end Test
-3. Database implementation `mongodb`
+2. Refactor Mock using `Testify`
+3. End to end Test
+4. Database implementation `mongodb`
 
 ## 🤩 Nice to Have
 1. `AWS S3` Support

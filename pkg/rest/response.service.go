@@ -21,8 +21,8 @@ func createSuccessResponse(param ResponseDto) ResponseEntity {
 
 	if param.Translator != nil {
 		translation := param.Translator(translation.TranslatorDto{
-			Id:       response.Message,
-			Template: param.TranslationData,
+			MessageId: response.Message,
+			Template:  param.TranslationData,
 		})
 		response.Message = translation
 	}
@@ -46,8 +46,8 @@ func createFailedResponse(param ResponseDto) ResponseEntity {
 
 	if param.Translator != nil {
 		translation := param.Translator(translation.TranslatorDto{
-			Id:       response.Message,
-			Template: param.TranslationData,
+			MessageId: response.Message,
+			Template:  param.TranslationData,
 		})
 		response.Message = translation
 	}

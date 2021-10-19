@@ -12,7 +12,7 @@ import (
 func createGetDetailHandler(dependency *Dependency) Handler {
 	return func(ctx Context) Result {
 		localizer := dependency.getLocalizer(ctx)
-		translator := translation.CreateSimpleTranslator(localizer)
+		translator := translation.NewGoI18nService(localizer).Translate
 
 		fileEntity, err := retrieving.GetFile(ctx.Params("identifier"))
 		isFileAvailable := err == nil
@@ -53,7 +53,7 @@ func createGetDetailHandler(dependency *Dependency) Handler {
 func createDeleteFileHandler(dependency *Dependency) Handler {
 	return func(ctx Context) Result {
 		localizer := dependency.getLocalizer(ctx)
-		translator := translation.CreateSimpleTranslator(localizer)
+		translator := translation.NewGoI18nService(localizer).Translate
 
 		err := deleting.DeleteFile(ctx.Params("identifier"))
 		isSuccessDelete := err == nil
@@ -93,7 +93,7 @@ func createDeleteFileHandler(dependency *Dependency) Handler {
 func createGetResourceHandler(dependency *Dependency) Handler {
 	return func(ctx Context) Result {
 		localizer := dependency.getLocalizer(ctx)
-		translator := translation.CreateSimpleTranslator(localizer)
+		translator := translation.NewGoI18nService(localizer).Translate
 
 		result, err := retrieving.RetrieveFile(ctx.Params("identifier"))
 		isFileAvailable := err == nil
@@ -133,7 +133,7 @@ func createUploadFileHandler(dependency *Dependency) Handler {
 	return func(ctx Context) Result {
 		locale := dependency.getLocale(ctx)
 		localizer := dependency.getLocalizer(ctx)
-		translator := translation.CreateSimpleTranslator(localizer)
+		translator := translation.NewGoI18nService(localizer).Translate
 
 		form, err := ctx.MultipartForm()
 

@@ -7,7 +7,7 @@ import (
 func createHomeHandler(dependency *Dependency) Handler {
 	return func(ctx Context) Result {
 		localizer := dependency.getLocalizer(ctx)
-		translator := translation.CreateSimpleTranslator(localizer)
+		translator := translation.NewGoI18nService(localizer).Translate
 
 		response := createSuccessResponse(ResponseDto{
 			Translator: translator,
