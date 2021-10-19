@@ -49,7 +49,7 @@ $ air -c .air.toml # custom configuration
 $ go run \\cmd\\web-service\\main.go 
 
 # testing #
-$ ginkgo watch -r
+$ ginkgo watch -r -v
 
 ```
 
