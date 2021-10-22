@@ -25,7 +25,7 @@ var _ = Describe("GoI18n Service", func() {
 		var (
 			localizer translation.Localizer
 			service   *translation.GoI18nService
-			param     translation.TranslatorDto
+			param     translation.TranslatorParam
 		)
 
 		BeforeEach(func() {
@@ -33,7 +33,7 @@ var _ = Describe("GoI18n Service", func() {
 				success: true,
 			}
 			service = translation.NewGoI18nService(localizer)
-			param = translation.TranslatorDto{
+			param = translation.TranslatorParam{
 				MessageId: "FAKE_MSG_ID",
 			}
 		})

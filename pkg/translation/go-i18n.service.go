@@ -6,7 +6,7 @@ type GoI18nService struct {
 	localizer Localizer
 }
 
-func (s *GoI18nService) Translate(param TranslatorDto) string {
+func (s *GoI18nService) Translate(param TranslatorParam) string {
 	if s.localizer == nil {
 		return param.MessageId
 	}

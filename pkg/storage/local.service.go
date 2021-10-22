@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"io/fs"
 	"io/ioutil"
+	"mime/multipart"
 	"os"
 
 	"github.com/valyala/fasthttp"
@@ -22,7 +23,7 @@ func CreateStorageLocal() *StorageLocal {
 	return &storage
 }
 
-func (storage *StorageLocal) SaveFile(fileHeader FileDto) (result *FileEntity, err error) {
+func (storage *StorageLocal) SaveFile(fileHeader *multipart.FileHeader) (result *FileEntity, err error) {
 	var file FileEntity
 	file.New(fileHeader)
 

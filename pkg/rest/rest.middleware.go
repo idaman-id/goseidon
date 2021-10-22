@@ -22,7 +22,7 @@ func createErrorHandler(dependency *Dependency) ErrorHandler {
 		localizer := dependency.getLocalizer(ctx)
 		translator := translation.NewGoI18nService(localizer).Translate
 
-		response := createFailedResponse(ResponseDto{
+		response := createFailedResponse(ResponseParam{
 			Message:    err.Error(),
 			Translator: translator,
 		})
@@ -42,7 +42,7 @@ func createLimiterConfig(dependency *Dependency) func() limiter.Config {
 			LimitReached: func(ctx *fiber.Ctx) error {
 				localizer := dependency.getLocalizer(ctx)
 				translator := translation.NewGoI18nService(localizer).Translate
-				response := createFailedResponse(ResponseDto{
+				response := createFailedResponse(ResponseParam{
 					Message:    application.STATUS_TOO_MANY_REQUEST,
 					Translator: translator,
 				})

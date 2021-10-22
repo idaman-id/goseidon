@@ -17,7 +17,7 @@ func createGetDetailHandler(dependency *Dependency) Handler {
 		fileEntity, err := retrieving.GetFile(ctx.Params("identifier"))
 		isFileAvailable := err == nil
 		if isFileAvailable {
-			response := createSuccessResponse(ResponseDto{
+			response := createSuccessResponse(ResponseParam{
 				Translator: translator,
 				Data:       fileEntity,
 			})
@@ -31,7 +31,7 @@ func createGetDetailHandler(dependency *Dependency) Handler {
 		case *app.NotFoundError:
 			notFoundError := err.(*app.NotFoundError)
 			statusCode = fiber.StatusNotFound
-			response = createFailedResponse(ResponseDto{
+			response = createFailedResponse(ResponseParam{
 				Message:    notFoundError.Error(),
 				Translator: translator,
 				TranslationData: map[string]interface{}{
@@ -40,7 +40,7 @@ func createGetDetailHandler(dependency *Dependency) Handler {
 			})
 		default:
 			statusCode = fiber.StatusBadRequest
-			response = createFailedResponse(ResponseDto{
+			response = createFailedResponse(ResponseParam{
 				Message:    err.Error(),
 				Translator: translator,
 			})
@@ -58,7 +58,7 @@ func createDeleteFileHandler(dependency *Dependency) Handler {
 		err := deleting.DeleteFile(ctx.Params("identifier"))
 		isSuccessDelete := err == nil
 		if isSuccessDelete {
-			response := createSuccessResponse(ResponseDto{
+			response := createSuccessResponse(ResponseParam{
 				Translator: translator,
 			})
 			return ctx.JSON(response)
@@ -71,7 +71,7 @@ func createDeleteFileHandler(dependency *Dependency) Handler {
 		case *app.NotFoundError:
 			notFoundError := err.(*app.NotFoundError)
 			statusCode = fiber.StatusNotFound
-			response = createFailedResponse(ResponseDto{
+			response = createFailedResponse(ResponseParam{
 				Message:    notFoundError.Error(),
 				Translator: translator,
 				TranslationData: map[string]interface{}{
@@ -80,7 +80,7 @@ func createDeleteFileHandler(dependency *Dependency) Handler {
 			})
 		default:
 			statusCode = fiber.StatusBadRequest
-			response = createFailedResponse(ResponseDto{
+			response = createFailedResponse(ResponseParam{
 				Message:    err.Error(),
 				Translator: translator,
 			})
@@ -110,7 +110,7 @@ func createGetResourceHandler(dependency *Dependency) Handler {
 		case *app.NotFoundError:
 			notFoundError := err.(*app.NotFoundError)
 			statusCode = fiber.StatusNotFound
-			response = createFailedResponse(ResponseDto{
+			response = createFailedResponse(ResponseParam{
 				Message:    notFoundError.Error(),
 				Translator: translator,
 				TranslationData: map[string]interface{}{
@@ -119,7 +119,7 @@ func createGetResourceHandler(dependency *Dependency) Handler {
 			})
 		default:
 			statusCode = fiber.StatusBadRequest
-			response = createFailedResponse(ResponseDto{
+			response = createFailedResponse(ResponseParam{
 				Message:    err.Error(),
 				Translator: translator,
 			})
@@ -139,14 +139,14 @@ func createUploadFileHandler(dependency *Dependency) Handler {
 
 		isFormInvalid := err != nil
 		if isFormInvalid {
-			response := createFailedResponse(ResponseDto{
+			response := createFailedResponse(ResponseParam{
 				Message:    err.Error(),
 				Translator: translator,
 			})
 			return ctx.Status(fiber.StatusBadRequest).JSON(response)
 		}
 
-		uploadData := uploading.UploadFileDto{
+		uploadData := uploading.UploadFileParam{
 			Files:    form.File["files"],
 			Provider: ctx.FormValue("provider"),
 			Locale:   locale,
@@ -155,7 +155,7 @@ func createUploadFileHandler(dependency *Dependency) Handler {
 
 		isUploadSuccess := err == nil
 		if isUploadSuccess {
-			response := createSuccessResponse(ResponseDto{
+			response := createSuccessResponse(ResponseParam{
 				Data:       result.Items,
 				Translator: translator,
 			})
@@ -169,14 +169,14 @@ func createUploadFileHandler(dependency *Dependency) Handler {
 		case *app.ValidationError:
 			status = fiber.StatusUnprocessableEntity
 			validationError := err.(*app.ValidationError)
-			response = createFailedResponse(ResponseDto{
+			response = createFailedResponse(ResponseParam{
 				Message:    validationError.Error(),
 				Error:      validationError.Items,
 				Translator: translator,
 			})
 		default:
 			status = fiber.StatusBadRequest
-			response = createFailedResponse(ResponseDto{
+			response = createFailedResponse(ResponseParam{
 				Message:    err.Error(),
 				Translator: translator,
 			})

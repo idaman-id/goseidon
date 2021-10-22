@@ -4,7 +4,7 @@ import (
 	"idaman.id/storage/pkg/translation"
 )
 
-type ResponseDto struct {
+type ResponseParam struct {
 	Message         string
 	Data            interface{}
 	Error           interface{}

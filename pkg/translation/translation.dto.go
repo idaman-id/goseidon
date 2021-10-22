@@ -1,6 +1,6 @@
 package translation
 
-type TranslatorDto struct {
+type TranslatorParam struct {
 	MessageId string
 	Template  TemplateData
 }

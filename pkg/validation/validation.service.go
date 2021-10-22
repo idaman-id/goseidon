@@ -13,7 +13,7 @@ import (
 	"idaman.id/storage/pkg/file"
 )
 
-func ValidateStruct(param ValidationStructDto) *app.ValidationError {
+func ValidateStruct(param ValidationStructParam) *app.ValidationError {
 	translator := createTranslator(param.Locale)
 	validate, validatorErr := createValidator(translator, param.Locale)
 	if validatorErr != nil {
@@ -45,7 +45,7 @@ func ValidateStruct(param ValidationStructDto) *app.ValidationError {
 	return &validationError
 }
 
-func ValidateRule(param ValidationRuleDto) *app.ValidationError {
+func ValidateRule(param ValidationRuleParam) *app.ValidationError {
 	translator := createTranslator(param.Locale)
 	validate, validatorErr := createValidator(translator, param.Locale)
 	if validatorErr != nil {
@@ -176,7 +176,7 @@ func registerValidation(validate *validator.Validate) error {
 		return err
 	}
 
-	err = validate.RegisterValidation("valid_file_amounts", func(fl validator.FieldLevel) bool {
+	err = validate.RegisterValidation("valid_file_amount", func(fl validator.FieldLevel) bool {
 
 		var length int
 		value := fl.Field().Interface()

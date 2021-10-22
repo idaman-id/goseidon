@@ -5,7 +5,7 @@ import (
 	"idaman.id/storage/pkg/translation"
 )
 
-func createSuccessResponse(param ResponseDto) ResponseEntity {
+func createSuccessResponse(param ResponseParam) ResponseEntity {
 
 	response := ResponseEntity{
 		Message: app.STATUS_OK,
@@ -20,7 +20,7 @@ func createSuccessResponse(param ResponseDto) ResponseEntity {
 	}
 
 	if param.Translator != nil {
-		translation := param.Translator(translation.TranslatorDto{
+		translation := param.Translator(translation.TranslatorParam{
 			MessageId: response.Message,
 			Template:  param.TranslationData,
 		})
@@ -30,7 +30,7 @@ func createSuccessResponse(param ResponseDto) ResponseEntity {
 	return response
 }
 
-func createFailedResponse(param ResponseDto) ResponseEntity {
+func createFailedResponse(param ResponseParam) ResponseEntity {
 
 	response := ResponseEntity{
 		Message: app.STATUS_ERROR,
@@ -45,7 +45,7 @@ func createFailedResponse(param ResponseDto) ResponseEntity {
 	}
 
 	if param.Translator != nil {
-		translation := param.Translator(translation.TranslatorDto{
+		translation := param.Translator(translation.TranslatorParam{
 			MessageId: response.Message,
 			Template:  param.TranslationData,
 		})

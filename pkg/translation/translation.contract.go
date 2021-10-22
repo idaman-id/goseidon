@@ -1,8 +1,8 @@
 package translation
 
 type TemplateData = map[string]interface{}
-type Translator = func(param TranslatorDto) string
+type Translator = func(param TranslatorParam) string
 
 type TranslationService interface {
-	Translate(param TranslatorDto) string
+	Translate(param TranslatorParam) string
 }

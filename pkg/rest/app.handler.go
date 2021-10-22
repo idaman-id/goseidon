@@ -9,7 +9,7 @@ func createHomeHandler(dependency *Dependency) Handler {
 		localizer := dependency.getLocalizer(ctx)
 		translator := translation.NewGoI18nService(localizer).Translate
 
-		response := createSuccessResponse(ResponseDto{
+		response := createSuccessResponse(ResponseParam{
 			Translator: translator,
 		})
 		return ctx.JSON(response)
