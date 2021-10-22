@@ -23,11 +23,11 @@ func CreateStorageLocal() *StorageLocal {
 	return &storage
 }
 
-func (storage *StorageLocal) SaveFile(fileHeader *multipart.FileHeader) (result *FileEntity, err error) {
+func (s *StorageLocal) SaveFile(fileHeader *multipart.FileHeader) (result *FileEntity, err error) {
 	var file FileEntity
 	file.New(fileHeader)
 
-	path := storage.StorageDir + "/" + file.UniqueId + "." + file.Extension
+	path := s.StorageDir + "/" + file.UniqueId + "." + file.Extension
 
 	appUrl := config.Service.GetString("APP_URL")
 	file.Path = path
@@ -43,8 +43,8 @@ func (storage *StorageLocal) SaveFile(fileHeader *multipart.FileHeader) (result 
 	return &file, nil
 }
 
-func (storage *StorageLocal) RetrieveFile(file *FileEntity) (result BinaryFile, err error) {
-	path := storage.StorageDir + "/" + file.UniqueId + "." + file.Extension
+func (s *StorageLocal) RetrieveFile(file *FileEntity) (result BinaryFile, err error) {
+	path := s.StorageDir + "/" + file.UniqueId + "." + file.Extension
 	osFile, err := os.Open(path)
 	if err != nil {
 		return nil, err
@@ -60,8 +60,8 @@ func (storage *StorageLocal) RetrieveFile(file *FileEntity) (result BinaryFile, 
 	return bytes, nil
 }
 
-func (storage *StorageLocal) DeleteFile(file *FileEntity) error {
-	path := storage.StorageDir + "/" + file.UniqueId + "." + file.Extension
+func (s *StorageLocal) DeleteFile(file *FileEntity) error {
+	path := s.StorageDir + "/" + file.UniqueId + "." + file.Extension
 	err := os.Remove(path)
 
 	switch err.(type) {

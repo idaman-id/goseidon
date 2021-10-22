@@ -8,31 +8,31 @@ type ViperConfig struct {
 	FileName string
 }
 
-func (config *ViperConfig) LoadConfiguration() error {
-	viper.SetConfigFile(config.FileName)
+func (s *ViperConfig) LoadConfiguration() error {
+	viper.SetConfigFile(s.FileName)
 	err := viper.ReadInConfig()
 	return err
 }
 
-func (config *ViperConfig) GetString(key string) string {
+func (s *ViperConfig) GetString(key string) string {
 	value := viper.GetString(key)
 	return value
 }
 
-func (config *ViperConfig) GetInt(key string) int {
+func (s *ViperConfig) GetInt(key string) int {
 	value := viper.GetInt(key)
 	return value
 }
 
-func (config *ViperConfig) Get(key string) interface{} {
+func (s *ViperConfig) Get(key string) interface{} {
 	value := viper.Get(key)
 	return value
 }
 
-func (config *ViperConfig) Set(key string, value interface{}) {
+func (s *ViperConfig) Set(key string, value interface{}) {
 	viper.Set(key, value)
 }
 
-func (config *ViperConfig) SetDefault(key string, value interface{}) {
+func (s *ViperConfig) SetDefault(key string, value interface{}) {
 	viper.SetDefault(key, value)
 }
