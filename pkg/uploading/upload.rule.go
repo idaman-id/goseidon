@@ -1,8 +1,6 @@
 package uploading
 
 import (
-	"mime/multipart"
-
 	"idaman.id/storage/pkg/file"
 )
 
@@ -13,14 +11,14 @@ type FileRule struct {
 type FileRules = []*FileRule
 
 type UploadRule struct {
-	Files    FileRules `json:"files" validate:"required,valid_file_amounts,dive,required"`
+	Files    FileRules `json:"files" validate:"required,valid_file_amount,dive,required"`
 	Provider string    `json:"provider" validate:"required,valid_provider"`
 }
 
-func (rule *UploadRule) SetData(fileHeaders []*multipart.FileHeader, provider string) {
+func (rule *UploadRule) SetData(param UploadRuleParam) {
 	var fileRules FileRules
 
-	for _, fileHeader := range fileHeaders {
+	for _, fileHeader := range param.FileHeaders {
 
 		fileRule := &FileRule{
 			Size: file.ParseSize(fileHeader),
@@ -28,6 +26,6 @@ func (rule *UploadRule) SetData(fileHeaders []*multipart.FileHeader, provider st
 		fileRules = append(fileRules, fileRule)
 	}
 
-	rule.Provider = provider
+	rule.Provider = param.Provider
 	rule.Files = fileRules
 }

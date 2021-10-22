@@ -5,11 +5,14 @@ import (
 	"idaman.id/storage/pkg/validation"
 )
 
-func UploadFile(param UploadFileDto) (*UploadResult, error) {
+func UploadFile(param UploadFileParam) (*UploadResult, error) {
 	var rule UploadRule
-	rule.SetData(param.Files, param.Provider)
+	rule.SetData(UploadRuleParam{
+		FileHeaders: param.Files,
+		Provider:    param.Provider,
+	})
 
-	validationError := validation.ValidateStruct(validation.ValidationStructDto{
+	validationError := validation.ValidateStruct(validation.ValidationStructParam{
 		Locale: param.Locale,
 		Struct: rule,
 	})

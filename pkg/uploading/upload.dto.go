@@ -4,7 +4,7 @@ import (
 	"mime/multipart"
 )
 
-type UploadFileDto struct {
+type UploadFileParam struct {
 	Files    []*multipart.FileHeader
 	Provider string
 	Locale   string
@@ -18,4 +18,9 @@ type UploadResultItem struct {
 
 type UploadResult struct {
 	Items []UploadResultItem
+}
+
+type UploadRuleParam struct {
+	FileHeaders []*multipart.FileHeader
+	Provider    string
 }
