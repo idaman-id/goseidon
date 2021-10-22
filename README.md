@@ -75,23 +75,27 @@ No QnA right now
 No issues right now
 
 ## 💪 Todo
-1. Unit Test
-2. Refactor Mock using `Testify`
-3. End to end Test
-4. Database implementation `mongodb`
+1. Remove validation translator because it's chaosing the validation responsibility.
+2. Refactor repository into it's own package
+3. Move translation responsibility into service layer (moved from rest.createResponse function)
+4. Refactor storage.saveFile using os Write (remove fasthttp dependency)
+5. Complete Unit Test
+6. Refactor Mock using `Testify` (if necessary)
+7. End to end Test (Test usecase)
+8. Database implementation `mongodb`
+9. MySQL Database Support
 
 ## 🤩 Nice to Have
 1. `AWS S3` Support
 2. `Built In` Support (using other instance of go-seidon)
 3. Concurrent/pararell processing when uploading multiple files
-4. MySQL Database Support
-5. Custom file validation rules (e/g: based on provider)
-6. Caching layer
-7. Allowing file authorization in the future.
-8. Custom file slug configuration.
-9. Storage dashboard monitoring
-10. Multiple provider for each file support (for backup purpose)
-11. Depedency injection
+4. Custom file validation rules (e/g: based on provider)
+5. Caching layer
+6. Allowing file authorization in the future.
+7. Custom file slug configuration.
+8. Storage dashboard monitoring
+9. Multiple provider for each file support (for backup purpose)
+10. Dependency injection
 
 ## 💖 Contributions
 
