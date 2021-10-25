@@ -2,13 +2,14 @@ package retrieving
 
 import (
 	"idaman.id/storage/pkg/file"
+	"idaman.id/storage/pkg/repository"
 	"idaman.id/storage/pkg/storage"
 )
 
 func GetFile(identifier string) (*FileEntity, error) {
 
 	uniqueId := file.RemoveFileExtension(identifier)
-	file, err := file.FindByUniqueId(uniqueId)
+	file, err := repository.FileRepo.FindByUniqueId(uniqueId)
 	isRecordAvailable := err == nil
 	if !isRecordAvailable {
 		return nil, err
@@ -34,7 +35,7 @@ func GetFile(identifier string) (*FileEntity, error) {
 func RetrieveFile(identifier string) (*RetrieveFileResult, error) {
 
 	uniqueId := file.RemoveFileExtension(identifier)
-	fileRecord, err := file.FindByUniqueId(uniqueId)
+	fileRecord, err := repository.FileRepo.FindByUniqueId(uniqueId)
 	isRecordAvailable := err == nil
 	if !isRecordAvailable {
 		return nil, err
@@ -44,6 +45,7 @@ func RetrieveFile(identifier string) (*RetrieveFileResult, error) {
 		@todo
 		1. set provider from file.provider.id
 		2. set config from file.provider.[`${file.provider.type}_config`]
+		3. test
 	*/
 	provider := "local"
 

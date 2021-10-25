@@ -62,6 +62,7 @@ func UploadFile(param UploadFileParam) (*UploadResult, error) {
 	/*
 		@todo:
 		1. insert record for all success upload files (including provider_id, application_id)
+		2. test
 	*/
 	return &uploadResult, nil
 }

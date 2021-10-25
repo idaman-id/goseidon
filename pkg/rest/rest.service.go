@@ -14,7 +14,7 @@ import (
 	"golang.org/x/text/language"
 	"idaman.id/storage/pkg/app"
 	"idaman.id/storage/pkg/config"
-	"idaman.id/storage/pkg/file"
+	"idaman.id/storage/pkg/repository"
 )
 
 func localeParser(ctx Context) string {
@@ -48,7 +48,7 @@ func CreateApp() App {
 		panic(err.Error())
 	}
 
-	err = file.InitRepo(app.DATABASE_MONGO)
+	err = repository.Init(app.DATABASE_MONGO)
 	isFailedInitDatabase := err != nil
 	if isFailedInitDatabase {
 		panic(err.Error())

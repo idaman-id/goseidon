@@ -1,28 +1,28 @@
-package file
+package repository_mongo
 
 import (
 	"time"
 
 	"idaman.id/storage/pkg/app"
+	"idaman.id/storage/pkg/file"
 )
 
-type MongoRepository struct {
+type FileRepository struct {
 }
 
 /*
 	@todo
 	1. mongo db implementation
+	2. test
 */
-func (repo *MongoRepository) FindByUniqueId(uniqueId string) (*FileEntity, error) {
+func (repo *FileRepository) FindByUniqueId(uniqueId string) (*file.FileEntity, error) {
 
 	if uniqueId == "not_found" {
-		return nil, &app.NotFoundError{
-			Message: app.STATUS_NOT_FOUND,
-			Context: "File",
-		}
+		err := app.NewNotFoundError("File")
+		return nil, err
 	}
 
-	file := &FileEntity{
+	file := &file.FileEntity{
 		UniqueId:      uniqueId,
 		OriginalName:  "hio.jpeg",
 		Name:          "hio",

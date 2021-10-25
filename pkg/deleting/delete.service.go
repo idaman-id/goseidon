@@ -2,13 +2,14 @@ package deleting
 
 import (
 	"idaman.id/storage/pkg/file"
+	"idaman.id/storage/pkg/repository"
 	"idaman.id/storage/pkg/storage"
 )
 
 func DeleteFile(identifier string) error {
 
 	uniqueId := file.RemoveFileExtension(identifier)
-	fileRecord, err := file.FindByUniqueId(uniqueId)
+	fileRecord, err := repository.FileRepo.FindByUniqueId(uniqueId)
 	isRecordAvailable := err == nil
 	if !isRecordAvailable {
 		return err
@@ -17,6 +18,7 @@ func DeleteFile(identifier string) error {
 	/*
 		@todo
 		1. choose provider according to fileRecord.provider.type
+		2. test
 	*/
 	provider := "local"
 	storageService, err := storage.NewStorage(provider)

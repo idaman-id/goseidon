@@ -75,15 +75,14 @@ No QnA right now
 No issues right now
 
 ## 💪 Todo
-1. Refactor repository into it's own package
-2. Move translation responsibility into service layer (moved from rest.createResponse function)
-3. Refactor storage.saveFile using os Write (remove fasthttp dependency)
-4. Enhancment storage.SaveFile using date foldering
-5. Complete Unit Test
-6. Refactor Mock using `Testify` (if necessary)
-7. End to end Test (Test usecase)
-8. Database implementation `mongodb`
-9. MySQL Database Support
+1. Move translation responsibility into service layer (moved from rest.createResponse function)
+2. Refactor storage.saveFile using os Write (remove fasthttp dependency)
+3. Enhancment storage.SaveFile using date foldering
+4. Complete Unit Test
+5. Refactor Mock using `Testify` (if necessary)
+6. End to end Test (Test usecase)
+7. Database implementation `mongodb`
+8. MySQL Database Support
 
 ## 🤩 Nice to Have
 1. `AWS S3` Support
