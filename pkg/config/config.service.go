@@ -10,10 +10,8 @@ func Init() error {
 
 	isServiceAvailable := Service != nil
 	if !isServiceAvailable {
-		return &app.NotFoundError{
-			Message: app.STATUS_NOT_FOUND,
-			Context: "Config",
-		}
+		err := app.NewNotFoundError("Config")
+		return err
 	}
 
 	err := Service.LoadConfiguration()
@@ -30,10 +28,7 @@ func Init() error {
 func NewConfig(provider string) (ConfigService, error) {
 	isProviderSupported := provider == CONFIG_VIPER
 	if !isProviderSupported {
-		err := &app.NotSupportedError{
-			Message: app.STATUS_NOT_SUPPORTED,
-			Context: "Config",
-		}
+		err := app.NewNotSupportedError("Config")
 		return nil, err
 	}
 
