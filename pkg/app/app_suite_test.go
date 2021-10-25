@@ -16,7 +16,6 @@ func TestApp(t *testing.T) {
 var _ = Describe("App Contract", func() {
 	Describe("Contract constant", func() {
 		It("should contain valid constant", func() {
-			Expect(app.DATABASE_MONGO).To(Equal("mongo"))
 			Expect(app.STATUS_OK).To(Equal("OK"))
 			Expect(app.STATUS_ERROR).To(Equal("ERROR"))
 			Expect(app.STATUS_INVALID_DATA).To(Equal("INVALID_DATA"))

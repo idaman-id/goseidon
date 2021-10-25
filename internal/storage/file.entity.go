@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"idaman.id/storage/pkg/file"
+	"idaman.id/storage/internal/file"
 )
 
 type FileEntity struct {

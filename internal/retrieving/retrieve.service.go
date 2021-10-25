@@ -1,9 +1,9 @@
 package retrieving
 
 import (
-	"idaman.id/storage/pkg/file"
-	"idaman.id/storage/pkg/repository"
-	"idaman.id/storage/pkg/storage"
+	"idaman.id/storage/internal/file"
+	"idaman.id/storage/internal/repository"
+	"idaman.id/storage/internal/storage"
 )
 
 func GetFile(identifier string) (*FileEntity, error) {

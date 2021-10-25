@@ -2,11 +2,11 @@ package rest
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"idaman.id/storage/internal/deleting"
+	"idaman.id/storage/internal/retrieving"
+	"idaman.id/storage/internal/uploading"
 	"idaman.id/storage/pkg/app"
-	"idaman.id/storage/pkg/deleting"
-	"idaman.id/storage/pkg/retrieving"
 	"idaman.id/storage/pkg/translation"
-	"idaman.id/storage/pkg/uploading"
 )
 
 func createGetDetailHandler(dependency *Dependency) Handler {

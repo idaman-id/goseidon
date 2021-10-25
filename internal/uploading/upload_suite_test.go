@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	. "github.com/onsi/ginkgo"
-	"idaman.id/storage/pkg/uploading"
+	"idaman.id/storage/internal/uploading"
 
 	. "github.com/onsi/gomega"
 )

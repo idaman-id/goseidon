@@ -1,8 +1,8 @@
 package repository
 
 import (
+	mongo "idaman.id/storage/internal/repository/mongo"
 	"idaman.id/storage/pkg/app"
-	mongo "idaman.id/storage/pkg/repository/mongo"
 )
 
 var (
@@ -10,7 +10,7 @@ var (
 )
 
 func Init(provider string) error {
-	if provider != app.DATABASE_MONGO {
+	if provider != DATABASE_MONGO {
 		err := app.NewNotSupportedError("Database")
 		return err
 	}

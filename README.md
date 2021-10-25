@@ -92,9 +92,10 @@ No issues right now
 5. Caching layer
 6. Allowing file authorization in the future.
 7. Custom file slug configuration.
-8. Storage dashboard monitoring
-9. Multiple provider for each file support (for backup purpose)
-10. Dependency injection
+8. `Alibabab` Support
+9. Storage dashboard monitoring
+10. Multiple provider for each file support (e.g: for backup purpose)
+11. Dependency injection
 
 ## 💖 Contributions
 

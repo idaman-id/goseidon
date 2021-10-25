@@ -1,8 +1,8 @@
 package main
 
 import (
+	"idaman.id/storage/internal/rest"
 	"idaman.id/storage/pkg/config"
-	"idaman.id/storage/pkg/rest"
 )
 
 func main() {

@@ -5,16 +5,16 @@ import (
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
+	"idaman.id/storage/internal/repository"
 	"idaman.id/storage/pkg/app"
-	"idaman.id/storage/pkg/repository"
 )
 
-func TestConfig(t *testing.T) {
+func TestRepository(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "Config Suite")
+	RunSpecs(t, "Repository Suite")
 }
 
-var _ = Describe("Config Service", func() {
+var _ = Describe("Repository Service", func() {
 
 	Describe("Init function", func() {
 
@@ -23,7 +23,7 @@ var _ = Describe("Config Service", func() {
 		)
 
 		BeforeEach(func() {
-			provider = app.DATABASE_MONGO
+			provider = repository.DATABASE_MONGO
 			repository.FileRepo = nil
 		})
 
@@ -61,6 +61,14 @@ var _ = Describe("Config Service", func() {
 
 				Expect(repository.FileRepo).ToNot(BeNil())
 			})
+		})
+	})
+})
+
+var _ = Describe("Repository Contract", func() {
+	Describe("Contract constant", func() {
+		It("should be defined", func() {
+			Expect(repository.DATABASE_MONGO).To(Equal("mongo"))
 		})
 	})
 })

@@ -1,7 +1,7 @@
 package uploading
 
 import (
-	"idaman.id/storage/pkg/storage"
+	"idaman.id/storage/internal/storage"
 	"idaman.id/storage/pkg/validation"
 )
 

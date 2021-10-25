@@ -1,7 +1,7 @@
 package uploading
 
 import (
-	"idaman.id/storage/pkg/file"
+	"idaman.id/storage/internal/file"
 )
 
 type FileRule struct {

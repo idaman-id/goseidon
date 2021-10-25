@@ -12,9 +12,8 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/requestid"
 	"github.com/nicksnyder/go-i18n/v2/i18n"
 	"golang.org/x/text/language"
-	"idaman.id/storage/pkg/app"
+	"idaman.id/storage/internal/repository"
 	"idaman.id/storage/pkg/config"
-	"idaman.id/storage/pkg/repository"
 )
 
 func localeParser(ctx Context) string {
@@ -48,7 +47,7 @@ func CreateApp() App {
 		panic(err.Error())
 	}
 
-	err = repository.Init(app.DATABASE_MONGO)
+	err = repository.Init(repository.DATABASE_MONGO)
 	isFailedInitDatabase := err != nil
 	if isFailedInitDatabase {
 		panic(err.Error())

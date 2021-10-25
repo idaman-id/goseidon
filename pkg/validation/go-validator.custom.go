@@ -5,8 +5,8 @@ import (
 	"strings"
 
 	"github.com/go-playground/validator/v10"
+	"idaman.id/storage/internal/file"
 	"idaman.id/storage/pkg/config"
-	"idaman.id/storage/pkg/file"
 )
 
 var tagNameFunc = func(field reflect.StructField) string {
