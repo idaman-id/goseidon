@@ -12,17 +12,14 @@ func UploadFile(param UploadFileParam) (*UploadResult, error) {
 		Provider:    param.Provider,
 	})
 
-	validationError := validation.ValidateStruct(validation.ValidationStructParam{
-		Locale: param.Locale,
-		Struct: rule,
-	})
+	err := validation.Service.ValidateStruct(rule)
 
-	isDataInvalid := validationError != nil
+	isDataInvalid := err != nil
 	if isDataInvalid {
-		return nil, validationError
+		return nil, err
 	}
 
-	storage, err := storage.CreateStorage(param.Provider)
+	storage, err := storage.NewStorage(param.Provider)
 	isProviderUnsupported := err != nil
 
 	if isProviderUnsupported {

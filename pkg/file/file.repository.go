@@ -7,7 +7,7 @@ import (
 var repository FileRepository
 
 func InitRepo(provider string) error {
-	repo, err := CreateRepo(provider)
+	repo, err := NewRepo(provider)
 	if err != nil {
 		return err
 	}
@@ -16,7 +16,7 @@ func InitRepo(provider string) error {
 	return nil
 }
 
-func CreateRepo(provider string) (FileRepository, error) {
+func NewRepo(provider string) (FileRepository, error) {
 	if provider != app.DATABASE_MONGO {
 		return nil, &app.NotSupportedError{
 			Message: app.STATUS_NOT_SUPPORTED,

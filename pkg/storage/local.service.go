@@ -16,7 +16,7 @@ type StorageLocal struct {
 	StorageDir string
 }
 
-func CreateStorageLocal() *StorageLocal {
+func NewStorageLocal() *StorageLocal {
 	storage := StorageLocal{
 		StorageDir: "storage/file",
 	}

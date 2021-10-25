@@ -35,7 +35,7 @@ func createLocalizer(i18nBundle *i18n.Bundle) func(ctx Context) *i18n.Localizer 
 }
 
 func CreateApp() App {
-	configService, err := config.CreateConfig(config.CONFIG_VIPER)
+	configService, err := config.NewConfig(config.CONFIG_VIPER)
 	isFailedCreateConfig := err != nil
 	if isFailedCreateConfig {
 		panic(err.Error())

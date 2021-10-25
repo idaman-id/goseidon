@@ -47,7 +47,7 @@ func RetrieveFile(identifier string) (*RetrieveFileResult, error) {
 	*/
 	provider := "local"
 
-	storageService, err := storage.CreateStorage(provider)
+	storageService, err := storage.NewStorage(provider)
 	isStorageUnsupported := err != nil
 	if isStorageUnsupported {
 		return nil, err

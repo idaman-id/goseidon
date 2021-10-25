@@ -2,7 +2,7 @@ package storage
 
 import "idaman.id/storage/pkg/app"
 
-func CreateStorage(provider string) (Storage, error) {
+func NewStorage(provider string) (Storage, error) {
 
 	if provider != "local" {
 		return nil, &app.NotSupportedError{
@@ -11,7 +11,7 @@ func CreateStorage(provider string) (Storage, error) {
 		}
 	}
 
-	storage := CreateStorageLocal()
+	storage := NewStorageLocal()
 
 	return storage, nil
 }

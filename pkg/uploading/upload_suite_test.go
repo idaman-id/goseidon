@@ -16,11 +16,9 @@ func TestUploading(t *testing.T) {
 }
 
 var _ = Describe("Upload Contract", func() {
-	Describe("Contract constant", func() {
-		It("should contain valid constant", func() {
-			Expect(uploading.UPLOAD_FAILED).To(Equal("failed"))
-			Expect(uploading.UPLOAD_SUCCESS).To(Equal("success"))
-		})
+	It("should contain valid constant", func() {
+		Expect(uploading.UPLOAD_FAILED).To(Equal("failed"))
+		Expect(uploading.UPLOAD_SUCCESS).To(Equal("success"))
 	})
 })
 

@@ -19,7 +19,7 @@ func DeleteFile(identifier string) error {
 		1. choose provider according to fileRecord.provider.type
 	*/
 	provider := "local"
-	storageService, err := storage.CreateStorage(provider)
+	storageService, err := storage.NewStorage(provider)
 	if err != nil {
 		return err
 	}

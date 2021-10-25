@@ -75,10 +75,10 @@ No QnA right now
 No issues right now
 
 ## 💪 Todo
-1. Remove validation translator because it's chaosing the validation responsibility.
-2. Refactor repository into it's own package
-3. Move translation responsibility into service layer (moved from rest.createResponse function)
-4. Refactor storage.saveFile using os Write (remove fasthttp dependency)
+1. Refactor repository into it's own package
+2. Move translation responsibility into service layer (moved from rest.createResponse function)
+3. Refactor storage.saveFile using os Write (remove fasthttp dependency)
+4. Enhancment storage.SaveFile using date foldering
 5. Complete Unit Test
 6. Refactor Mock using `Testify` (if necessary)
 7. End to end Test (Test usecase)

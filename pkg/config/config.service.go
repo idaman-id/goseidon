@@ -27,7 +27,7 @@ func Init() error {
 	return nil
 }
 
-func CreateConfig(provider string) (ConfigService, error) {
+func NewConfig(provider string) (ConfigService, error) {
 	isProviderSupported := provider == CONFIG_VIPER
 	if !isProviderSupported {
 		err := &app.NotSupportedError{

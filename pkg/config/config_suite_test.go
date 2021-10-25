@@ -70,7 +70,7 @@ var _ = Describe("Config Service", func() {
 		})
 	})
 
-	Describe("CreateConfig function", func() {
+	Describe("NewConfig function", func() {
 		var (
 			provider string
 		)
@@ -81,7 +81,7 @@ var _ = Describe("Config Service", func() {
 		When("provider is not supported", func() {
 			It("should return NotfoundError", func() {
 				provider = "invalid"
-				config, err := config.CreateConfig(provider)
+				config, err := config.NewConfig(provider)
 
 				expected := &app.NotSupportedError{
 					Message: app.STATUS_NOT_SUPPORTED,
@@ -98,7 +98,7 @@ var _ = Describe("Config Service", func() {
 				expected := &config.ViperConfig{
 					FileName: ".env",
 				}
-				config, err := config.CreateConfig(provider)
+				config, err := config.NewConfig(provider)
 
 				Expect(config).To(Equal(expected))
 				Expect(err).To(BeNil())
