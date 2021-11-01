@@ -5,7 +5,7 @@ import (
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	response "idaman.id/storage/internal/rest/response"
+	response "idaman.id/storage/internal/rest-response"
 	app "idaman.id/storage/pkg/app"
 )
 

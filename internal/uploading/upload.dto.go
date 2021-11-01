@@ -7,7 +7,6 @@ import (
 type UploadFileParam struct {
 	Files    []*multipart.FileHeader
 	Provider string
-	Locale   string
 }
 
 type UploadResultItem struct {

@@ -42,7 +42,7 @@ He can manage your application files which spread over the internet.
 ### Development
 ```bash
 # run using hot reloading #
-$ air 
+$ air # default configuration (.air.toml)
 $ air -c .air.toml # custom configuration
 
 # run manually #
@@ -50,6 +50,9 @@ $ go run \\cmd\\web-service\\main.go
 
 # testing #
 $ ginkgo watch -r -v
+
+# mocking #
+$ mockery --name=[InterfaceName] --output=mock --outpkg mock --case underscore
 
 ```
 
@@ -75,27 +78,30 @@ No QnA right now
 No issues right now
 
 ## 💪 Todo
-1. Move translation responsibility into service layer (moved from rest.createResponse function)
-2. Refactor storage.saveFile using os Write (remove fasthttp dependency)
-3. Enhancment storage.SaveFile using date foldering
-4. Complete Unit Test
-5. Refactor Mock using `Testify` (if necessary)
-6. End to end Test (Test usecase)
-7. Database implementation `mongodb`
-8. MySQL Database Support
+1. Refactor Mock using `Testify Mock` + `Mockery Mock Generator`
+ref:
+- https://github.com/vektra/mockery
+- https://sebastiancoetzee.com/2019-04-01-testing-go-web-services-with-interfaces-and-mocks
+- https://dev.to/ilyakaznacheev/how-i-write-my-unit-tests-in-go-quickly-4bd5
+2. Implement translation on service layer
+3. Refactor storage.SaveFile using os Write (remove fasthttp dependency)
+4. Enhancment storage.SaveFile using date foldering
+5. End to end Test (Test usecase)
+6. `mongodb` database implementation + test
+7. `mysql` database implementation + test
+8. Test json marshalling (struct tag)
 
 ## 🤩 Nice to Have
-1. `AWS S3` Support
-2. `Built In` Support (using other instance of go-seidon)
-3. Concurrent/pararell processing when uploading multiple files
-4. Custom file validation rules (e/g: based on provider)
-5. Caching layer
-6. Allowing file authorization in the future.
-7. Custom file slug configuration.
-8. `Alibabab` Support
-9. Storage dashboard monitoring
-10. Multiple provider for each file support (e.g: for backup purpose)
-11. Dependency injection
+1. `Built In` Support (using other `instance` of go-seidon)
+2. Concurrent/pararell processing when uploading multiple files
+3. `AWS S3` Support
+4. `Alicloud OSS` Support
+5. Custom file validation rules/policies (e.g: based on `provider`, or `application`)
+6. Caching layer
+7. Allowing file authorization in the future (e.g: based on `user context`)
+8. Custom file slug configuration (for SEO purpose)
+9. Storage dashboard monitoring (e.g: grafana dashboard by using prometheus exporter)
+10. Upload to multiple provider for each file support (e.g: for backup purpose)
 
 ## 💖 Contributions
 
