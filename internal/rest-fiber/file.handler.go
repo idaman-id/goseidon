@@ -46,7 +46,7 @@ func NewDeleteFileHandler(dService deleting.DeleteService) Handler {
 		err := dService.DeleteFile(ctx.Params("identifier"))
 		isSuccessDelete := err == nil
 		if isSuccessDelete {
-			responseEntity := response.NewSuccessResponse(&response.ResponseParam{})
+			responseEntity := response.NewSuccessResponse(nil)
 			return ctx.JSON(responseEntity)
 		}
 
