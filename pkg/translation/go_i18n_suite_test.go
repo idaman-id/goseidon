@@ -29,7 +29,7 @@ var _ = Describe("GoI18n Service", func() {
 		)
 
 		BeforeEach(func() {
-			localizer = &MockGoI18n{
+			localizer = &StubGoI18n{
 				success: true,
 			}
 			service = translation.NewGoI18nService(localizer)
@@ -49,7 +49,7 @@ var _ = Describe("GoI18n Service", func() {
 
 		When("fail to localize message", func() {
 			It("should return messageId", func() {
-				localizer = &MockGoI18n{
+				localizer = &StubGoI18n{
 					success: false,
 				}
 				service = translation.NewGoI18nService(localizer)

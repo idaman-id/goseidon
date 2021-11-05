@@ -7,46 +7,46 @@ import (
 	"idaman.id/storage/pkg/validation"
 )
 
-type MockGoValidator struct {
+type StubGoValidator struct {
 	StructShouldError             bool
 	RegisterTagNameFuncCounter    int
 	RegisterValidationCounter     int
 	RegisterValidationShouldError bool
 }
 
-func (mock *MockGoValidator) Struct(data interface{}) error {
+func (mock *StubGoValidator) Struct(data interface{}) error {
 	if mock.StructShouldError {
 		var errors validation.GoValidationErrors
-		err := &MockFieldError{}
+		err := &StubFieldError{}
 		errors = append(errors, err)
 		return errors
 	}
 	return nil
 }
 
-func (mock *MockGoValidator) RegisterTagNameFunc(fn validator.TagNameFunc) {
+func (mock *StubGoValidator) RegisterTagNameFunc(fn validator.TagNameFunc) {
 	mock.RegisterTagNameFuncCounter++
 }
 
-func (mock *MockGoValidator) RegisterValidation(tag string, fn validator.Func, callValidationEvenIfNull ...bool) error {
+func (mock *StubGoValidator) RegisterValidation(tag string, fn validator.Func, callValidationEvenIfNull ...bool) error {
 	if mock.RegisterValidationShouldError {
-		return errors.New("Mocked error")
+		return errors.New("Stubed error")
 	}
 	mock.RegisterValidationCounter++
 	return nil
 }
 
-type MockFieldError struct {
+type StubFieldError struct {
 }
 
-func (mock *MockFieldError) Field() string {
+func (mock *StubFieldError) Field() string {
 	return "Value"
 }
 
-func (mock *MockFieldError) Value() interface{} {
+func (mock *StubFieldError) Value() interface{} {
 	return ""
 }
 
-func (mock *MockFieldError) Error() string {
+func (mock *StubFieldError) Error() string {
 	return "Field value is required"
 }

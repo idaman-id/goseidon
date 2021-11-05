@@ -12,12 +12,12 @@ import (
 var _ = Describe("GoValidator Service", func() {
 	Describe("NewGoValidator function", func() {
 		var (
-			mock    *MockGoValidator
+			mock    *StubGoValidator
 			service *validation.GoValidatorService
 		)
 
 		BeforeEach(func() {
-			mock = &MockGoValidator{}
+			mock = &StubGoValidator{}
 			service, _ = validation.NewGoValidator(mock)
 		})
 
@@ -38,7 +38,7 @@ var _ = Describe("GoValidator Service", func() {
 			})
 
 			It("should return error when failed create validator", func() {
-				mock = &MockGoValidator{
+				mock = &StubGoValidator{
 					RegisterValidationShouldError: true,
 				}
 				service, err := validation.NewGoValidator(mock)
@@ -51,12 +51,12 @@ var _ = Describe("GoValidator Service", func() {
 
 	Describe("ValidateStruct method", func() {
 		var (
-			mock    *MockGoValidator
+			mock    *StubGoValidator
 			service *validation.GoValidatorService
 		)
 
 		BeforeEach(func() {
-			mock = &MockGoValidator{}
+			mock = &StubGoValidator{}
 			service, _ = validation.NewGoValidator(mock)
 		})
 
@@ -96,7 +96,7 @@ var _ = Describe("GoValidator Service", func() {
 
 		When("param contain invalid data", func() {
 			It("should return ValidationError", func() {
-				mock = &MockGoValidator{
+				mock = &StubGoValidator{
 					StructShouldError: true,
 				}
 				service, _ = validation.NewGoValidator(mock)

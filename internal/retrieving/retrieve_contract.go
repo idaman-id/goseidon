@@ -12,3 +12,8 @@ type RetrieveService interface {
 	FileGetter
 	FileRetriever
 }
+
+type RetrieveFileResult struct {
+	File     FileEntity
+	FileData []byte
+}

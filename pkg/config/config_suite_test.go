@@ -19,7 +19,7 @@ var _ = Describe("Config Service", func() {
 
 	Describe("Init function", func() {
 		BeforeEach(func() {
-			config.Service = NewMockconfig()
+			config.Service = NewStubconfig()
 		})
 
 		When("service is not available ", func() {
@@ -38,8 +38,8 @@ var _ = Describe("Config Service", func() {
 
 		When("failed load configuration", func() {
 			It("should return err", func() {
-				expected := errors.New("Mocked error")
-				config.Service = &MockConfig{
+				expected := errors.New("Stubed error")
+				config.Service = &StubConfig{
 					loadConfigError: expected,
 				}
 

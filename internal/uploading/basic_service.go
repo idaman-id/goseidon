@@ -5,7 +5,10 @@ import (
 	"idaman.id/storage/pkg/validation"
 )
 
-func UploadFile(param UploadFileParam) (*UploadResult, error) {
+type BasicService struct {
+}
+
+func (s *BasicService) UploadFile(param UploadFileParam) (*UploadResult, error) {
 	var rule UploadRule
 	rule.SetData(UploadRuleParam{
 		FileHeaders: param.Files,

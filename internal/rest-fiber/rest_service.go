@@ -7,7 +7,9 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/gofiber/fiber/v2/middleware/requestid"
+	"idaman.id/storage/internal/deleting"
 	"idaman.id/storage/internal/retrieving"
+	"idaman.id/storage/internal/uploading"
 )
 
 func NewApp() *App {
@@ -26,9 +28,9 @@ func NewApp() *App {
 
 func RegisterRoute(app *App) {
 	app.Get("/", NewHomeHandler())
-	// app.Get("/file/:identifier", NewGetResourceHandler())
-	// app.Post("/v1/file", NewUploadFileHandler())
+	app.Get("/file/:identifier", NewGetResourceHandler(retrieving.Service))
+	app.Post("/v1/file", NewUploadFileHandler(uploading.Service))
 	app.Get("/v1/file/:identifier", NewFileGetDetailHandler(retrieving.Service))
-	// app.Delete("/v1/file/:identifier", NewDeleteFileHandler())
+	app.Delete("/v1/file/:identifier", NewDeleteFileHandler(deleting.Service))
 	app.Get("*", NewNotFoundHandler())
 }
