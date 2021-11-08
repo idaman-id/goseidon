@@ -10,7 +10,6 @@ import (
 	"idaman.id/storage/internal/deleting"
 	rest_fiber "idaman.id/storage/internal/rest-fiber"
 	response "idaman.id/storage/internal/rest-response"
-	test "idaman.id/storage/internal/rest-test"
 	"idaman.id/storage/internal/retrieving"
 	"idaman.id/storage/pkg/app"
 )
@@ -42,7 +41,7 @@ var _ = Describe("File Handler", func() {
 				req := httptest.NewRequest(http.MethodGet, "/v1/file/"+identifier, nil)
 				res, _ := fiberApp.Test(req)
 
-				resEntity := test.UnmarshallResponseBody(res.Body)
+				resEntity := rest_fiber.UnmarshallResponseBody(res.Body)
 
 				expected := response.NewErrorResponse(&response.ResponseParam{
 					Message: app.STATUS_NOT_FOUND,
@@ -59,7 +58,7 @@ var _ = Describe("File Handler", func() {
 				req := httptest.NewRequest(http.MethodGet, "/v1/file/"+identifier, nil)
 				res, _ := fiberApp.Test(req)
 
-				resEntity := test.UnmarshallResponseBody(res.Body)
+				resEntity := rest_fiber.UnmarshallResponseBody(res.Body)
 
 				expected := response.NewErrorResponse(&response.ResponseParam{
 					Message: app.STATUS_ERROR,
@@ -75,7 +74,7 @@ var _ = Describe("File Handler", func() {
 				req := httptest.NewRequest(http.MethodGet, "/v1/file/"+identifier, nil)
 				res, _ := fiberApp.Test(req)
 
-				resEntity := test.UnmarshallResponseBody(res.Body)
+				resEntity := rest_fiber.UnmarshallResponseBody(res.Body)
 
 				file := retrieving.FileEntity{}
 				expected := response.NewSuccessResponse(&response.ResponseParam{
@@ -109,7 +108,7 @@ var _ = Describe("File Handler", func() {
 				req := httptest.NewRequest(http.MethodDelete, "/v1/file/"+identifier, nil)
 				res, _ := fiberApp.Test(req)
 
-				resEntity := test.UnmarshallResponseBody(res.Body)
+				resEntity := rest_fiber.UnmarshallResponseBody(res.Body)
 
 				expected := response.NewErrorResponse(&response.ResponseParam{
 					Message: app.STATUS_NOT_FOUND,
@@ -126,7 +125,7 @@ var _ = Describe("File Handler", func() {
 				req := httptest.NewRequest(http.MethodDelete, "/v1/file/"+identifier, nil)
 				res, _ := fiberApp.Test(req)
 
-				resEntity := test.UnmarshallResponseBody(res.Body)
+				resEntity := rest_fiber.UnmarshallResponseBody(res.Body)
 
 				expected := response.NewErrorResponse(&response.ResponseParam{
 					Message: app.STATUS_ERROR,
@@ -142,7 +141,7 @@ var _ = Describe("File Handler", func() {
 				req := httptest.NewRequest(http.MethodDelete, "/v1/file/"+identifier, nil)
 				res, _ := fiberApp.Test(req)
 
-				resEntity := test.UnmarshallResponseBody(res.Body)
+				resEntity := rest_fiber.UnmarshallResponseBody(res.Body)
 				expected := response.NewSuccessResponse(nil)
 
 				Expect(res.StatusCode).To(Equal(fiber.StatusOK))
@@ -170,7 +169,7 @@ var _ = Describe("File Handler", func() {
 				req := httptest.NewRequest(http.MethodGet, "/file/"+identifier, nil)
 				res, _ := fiberApp.Test(req)
 
-				resEntity := test.UnmarshallResponseBody(res.Body)
+				resEntity := rest_fiber.UnmarshallResponseBody(res.Body)
 
 				expected := response.NewErrorResponse(&response.ResponseParam{
 					Message: app.STATUS_NOT_FOUND,
@@ -187,7 +186,7 @@ var _ = Describe("File Handler", func() {
 				req := httptest.NewRequest(http.MethodGet, "/file/"+identifier, nil)
 				res, _ := fiberApp.Test(req)
 
-				resEntity := test.UnmarshallResponseBody(res.Body)
+				resEntity := rest_fiber.UnmarshallResponseBody(res.Body)
 
 				expected := response.NewErrorResponse(&response.ResponseParam{
 					Message: app.STATUS_ERROR,

@@ -11,7 +11,6 @@ import (
 	. "github.com/onsi/gomega"
 	rest_fiber "idaman.id/storage/internal/rest-fiber"
 	response "idaman.id/storage/internal/rest-response"
-	test "idaman.id/storage/internal/rest-test"
 	"idaman.id/storage/pkg/app"
 )
 
@@ -38,7 +37,7 @@ var _ = Describe("App Handler", func() {
 				req := httptest.NewRequest(http.MethodGet, "/", nil)
 				res, _ := fiberApp.Test(req)
 
-				resEntity := test.UnmarshallResponseBody(res.Body)
+				resEntity := rest_fiber.UnmarshallResponseBody(res.Body)
 
 				expected := response.NewSuccessResponse(nil)
 
@@ -57,7 +56,7 @@ var _ = Describe("App Handler", func() {
 				req := httptest.NewRequest(http.MethodGet, "/unavailable-endpoint", nil)
 				res, _ := fiberApp.Test(req)
 
-				resEntity := test.UnmarshallResponseBody(res.Body)
+				resEntity := rest_fiber.UnmarshallResponseBody(res.Body)
 
 				expected := response.NewErrorResponse(&response.ResponseParam{
 					Message: app.STATUS_NOT_FOUND,
@@ -81,7 +80,7 @@ var _ = Describe("App Handler", func() {
 				req := httptest.NewRequest(http.MethodGet, "/error-handler", nil)
 				res, _ := fiberApp.Test(req)
 
-				resEntity := test.UnmarshallResponseBody(res.Body)
+				resEntity := rest_fiber.UnmarshallResponseBody(res.Body)
 
 				expected := response.NewErrorResponse(&response.ResponseParam{
 					Message: "custom error handler",
@@ -113,7 +112,7 @@ var _ = Describe("App Handler", func() {
 				req := httptest.NewRequest(http.MethodGet, "/error-handler", nil)
 				res, _ := fiberApp.Test(req)
 
-				resEntity := test.UnmarshallResponseBody(res.Body)
+				resEntity := rest_fiber.UnmarshallResponseBody(res.Body)
 
 				expected := response.NewErrorResponse(&response.ResponseParam{
 					Message: "Bad Gateway",
