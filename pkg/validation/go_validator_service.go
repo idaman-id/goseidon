@@ -69,10 +69,6 @@ func (s *GoValidatorService) registerCustomization() error {
 			fn:   validProviderRule,
 		},
 		{
-			name: "valid_file_type",
-			fn:   validFileTypeRule,
-		},
-		{
 			name: "valid_file_amount",
 			fn:   validFileAmountRule,
 		},

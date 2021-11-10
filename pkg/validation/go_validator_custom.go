@@ -5,7 +5,6 @@ import (
 	"strings"
 
 	"github.com/go-playground/validator/v10"
-	"idaman.id/storage/internal/file"
 	"idaman.id/storage/pkg/config"
 )
 
@@ -22,13 +21,6 @@ var validProviderRule = func(fl validator.FieldLevel) bool {
 
 	isProviderValid := value == "local"
 	return isProviderValid
-}
-
-var validFileTypeRule = func(fl validator.FieldLevel) bool {
-	fileType := fl.Field().Interface().(string)
-
-	result, isTypeSupported := file.SUPPORTED_TYPES[fileType]
-	return result && isTypeSupported
 }
 
 var validFileAmountRule = func(fl validator.FieldLevel) bool {
