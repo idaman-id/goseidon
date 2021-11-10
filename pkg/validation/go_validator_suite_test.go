@@ -34,7 +34,7 @@ var _ = Describe("GoValidator Service", func() {
 			})
 
 			It("should register custom validation function", func() {
-				Expect(mock.RegisterValidationCounter).To(Equal(4))
+				Expect(mock.RegisterValidationCounter).To(Equal(3))
 			})
 
 			It("should return error when failed create validator", func() {

@@ -84,13 +84,14 @@ ref:
 - https://sebastiancoetzee.com/2019-04-01-testing-go-web-services-with-interfaces-and-mocks
 - https://dev.to/ilyakaznacheev/how-i-write-my-unit-tests-in-go-quickly-4bd5
 2. Refactor init should receive service as param (`bootstraping` package)
-3. Implement translation on service layer
-4. Refactor storage.SaveFile using os Write (remove fasthttp dependency)
-5. Enhancment storage.SaveFile using date foldering
-6. End to end Test (Test usecase)
-7. `mongodb` database implementation + test
-8. `mysql` database implementation + test
-9. Test json marshalling (struct tag)
+3. Move creation into factory function `repository`
+4. Implement translation on service layer
+5. Refactor storage.SaveFile using os Write (remove fasthttp dependency)
+6. Enhancment storage.SaveFile using date foldering
+7. End to end Test (Test usecase)
+8. `mongodb` database implementation + test
+9. `mysql` database implementation + test
+10. Test json marshalling (struct tag)
 
 ## 🤩 Nice to Have
 1. `Built In` Support (using other `instance` of go-seidon)
