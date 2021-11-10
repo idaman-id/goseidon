@@ -1,7 +1,7 @@
 package repository
 
 import (
-	mongo "idaman.id/storage/internal/repository/mongo"
+	mongo "idaman.id/storage/internal/repository-mongo"
 	"idaman.id/storage/pkg/app"
 )
 
