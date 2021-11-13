@@ -5,16 +5,15 @@ import (
 	"idaman.id/storage/pkg/app"
 )
 
-var (
-	FileRepo FileRepository
-)
-
-func Init(provider string) error {
+func NewRepository(provider string) (*Repository, error) {
 	if provider != DATABASE_MONGO {
 		err := app.NewNotSupportedError("Database")
-		return err
+		return nil, err
 	}
 
-	FileRepo = &mongo.FileRepository{}
-	return nil
+	repo := &Repository{
+		FileRepo: &mongo.FileRepository{},
+	}
+
+	return repo, nil
 }

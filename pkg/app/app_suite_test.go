@@ -14,7 +14,7 @@ func TestApp(t *testing.T) {
 }
 
 var _ = Describe("App Contract", func() {
-	Describe("Contract constant", func() {
+	Context("Contract constant", func() {
 		It("should contain valid constant", func() {
 			Expect(app.STATUS_OK).To(Equal("OK"))
 			Expect(app.STATUS_ERROR).To(Equal("ERROR"))
@@ -27,7 +27,7 @@ var _ = Describe("App Contract", func() {
 })
 
 var _ = Describe("App Error", func() {
-	Describe("ValidationError struct", func() {
+	Context("ValidationError struct", func() {
 		var (
 			err *app.ValidationError
 		)
@@ -46,7 +46,7 @@ var _ = Describe("App Error", func() {
 		})
 	})
 
-	Describe("NewValidationError function", func() {
+	Context("NewValidationError function", func() {
 		var (
 			items []*app.ValidationItem
 		)
@@ -72,7 +72,7 @@ var _ = Describe("App Error", func() {
 		})
 	})
 
-	Describe("NotSupportedError struct", func() {
+	Context("NotSupportedError struct", func() {
 		var (
 			err *app.NotSupportedError
 		)
@@ -91,7 +91,7 @@ var _ = Describe("App Error", func() {
 		})
 	})
 
-	Describe("NewNotSupportedError function", func() {
+	Context("NewNotSupportedError function", func() {
 		var (
 			context string
 		)
@@ -113,7 +113,7 @@ var _ = Describe("App Error", func() {
 		})
 	})
 
-	Describe("NotFoundError struct", func() {
+	Context("NotFoundError struct", func() {
 		var (
 			err *app.NotFoundError
 		)
@@ -132,7 +132,7 @@ var _ = Describe("App Error", func() {
 		})
 	})
 
-	Describe("NewNotFoundError function", func() {
+	Context("NewNotFoundError function", func() {
 		var (
 			context string
 		)

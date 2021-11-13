@@ -8,3 +8,7 @@ const (
 	STATUS_NOT_FOUND        = "NOT_FOUND"
 	STATUS_NOT_SUPPORTED    = "NOT_SUPPORTED"
 )
+
+type App interface {
+	Run() error
+}

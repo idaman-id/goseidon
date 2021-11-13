@@ -9,3 +9,7 @@ const (
 type FileRepository interface {
 	FindByUniqueId(uniqueId string) (*file.FileEntity, error)
 }
+
+type Repository struct {
+	FileRepo FileRepository
+}

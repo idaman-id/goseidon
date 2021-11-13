@@ -5,16 +5,21 @@ import (
 
 	"github.com/go-playground/validator/v10"
 	"idaman.id/storage/pkg/app"
+	"idaman.id/storage/pkg/config"
 	"idaman.id/storage/pkg/text"
 )
 
 type GoValidatorService struct {
-	validate Validator
+	validate     Validator
+	stringParser text.StringParser
+	configGetter config.Getter
 }
 
-func NewGoValidator(validate Validator) (*GoValidatorService, error) {
+func NewGoValidator(validate Validator, stringParser text.StringParser, configGetter config.Getter) (*GoValidatorService, error) {
 	service := &GoValidatorService{
-		validate: validate,
+		validate:     validate,
+		stringParser: stringParser,
+		configGetter: configGetter,
 	}
 	err := service.registerCustomization()
 	if err != nil {
@@ -41,7 +46,7 @@ func (s *GoValidatorService) ValidateStruct(param interface{}) error {
 
 	errors := vResult.(GoValidationErrors)
 	for _, err := range errors {
-		value := text.Service.ParseString(err.Value())
+		value := s.stringParser.ParseString(err.Value())
 		element := app.ValidationItem{
 			Field:   err.Field(),
 			Message: err.Error(),
@@ -58,7 +63,7 @@ func (s *GoValidatorService) ValidateStruct(param interface{}) error {
 func (s *GoValidatorService) registerCustomization() error {
 	var err error
 
-	s.validate.RegisterTagNameFunc(tagNameFunc)
+	s.validate.RegisterTagNameFunc(NewTagNameFunc())
 
 	customValidations := []struct {
 		name string
@@ -66,15 +71,15 @@ func (s *GoValidatorService) registerCustomization() error {
 	}{
 		{
 			name: "valid_provider",
-			fn:   validProviderRule,
+			fn:   NewValidProviderRule(),
 		},
 		{
 			name: "valid_file_amount",
-			fn:   validFileAmountRule,
+			fn:   NewValidFileAmountRule(s.configGetter),
 		},
 		{
 			name: "valid_file_size",
-			fn:   validFileSizeRule,
+			fn:   NewValidFileSizeRule(s.configGetter),
 		},
 	}
 

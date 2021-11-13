@@ -8,44 +8,55 @@ import (
 	"idaman.id/storage/pkg/config"
 )
 
-var tagNameFunc = func(field reflect.StructField) string {
-	name := strings.SplitN(field.Tag.Get("json"), ",", 2)[0]
-	if name == "-" {
-		return ""
+type CustomValidator = func(fl validator.FieldLevel) bool
+type CustomTagName = func(field reflect.StructField) string
+
+func NewTagNameFunc() CustomTagName {
+	return func(field reflect.StructField) string {
+		name := strings.SplitN(field.Tag.Get("json"), ",", 2)[0]
+		if name == "-" {
+			return ""
+		}
+		return name
 	}
-	return name
 }
 
-var validProviderRule = func(fl validator.FieldLevel) bool {
-	value := fl.Field().Interface().(string)
+func NewValidProviderRule() CustomValidator {
+	return func(fl validator.FieldLevel) bool {
+		value := fl.Field().Interface().(string)
 
-	isProviderValid := value == "local"
-	return isProviderValid
-}
-
-var validFileAmountRule = func(fl validator.FieldLevel) bool {
-
-	var totalFile int
-	value := fl.Field().Interface()
-	switch reflect.TypeOf(value).Kind() {
-	case reflect.Slice:
-		totalFile = reflect.ValueOf(value).Len()
+		isProviderValid := value == "local"
+		return isProviderValid
 	}
-
-	minAmount := config.Service.GetInt("MIN_UPLOADED_FILE")
-	maxAmount := config.Service.GetInt("MAX_UPLOADED_FILE")
-	isAmountValid := totalFile >= minAmount && totalFile <= maxAmount
-
-	return isAmountValid
 }
 
-var validFileSizeRule = func(fl validator.FieldLevel) bool {
-	size := fl.Field().Interface().(uint64)
-	fileSize := int(size)
+func NewValidFileAmountRule(configGetter config.Getter) CustomValidator {
+	return func(fl validator.FieldLevel) bool {
 
-	minSize := config.Service.GetInt("MIN_FILE_SIZE")
-	maxSize := config.Service.GetInt("MAX_FILE_SIZE")
-	isSizeValid := fileSize >= minSize && fileSize <= maxSize
+		var totalFile int
+		value := fl.Field().Interface()
+		switch reflect.TypeOf(value).Kind() {
+		case reflect.Slice:
+			totalFile = reflect.ValueOf(value).Len()
+		}
 
-	return isSizeValid
+		minAmount := configGetter.GetInt("MIN_UPLOADED_FILE")
+		maxAmount := configGetter.GetInt("MAX_UPLOADED_FILE")
+		isAmountValid := totalFile >= minAmount && totalFile <= maxAmount
+
+		return isAmountValid
+	}
+}
+
+func NewValidFileSizeRule(configGetter config.Getter) CustomValidator {
+	return func(fl validator.FieldLevel) bool {
+		size := fl.Field().Interface().(uint64)
+		fileSize := int(size)
+
+		minSize := configGetter.GetInt("MIN_FILE_SIZE")
+		maxSize := configGetter.GetInt("MAX_FILE_SIZE")
+		isSizeValid := fileSize >= minSize && fileSize <= maxSize
+
+		return isSizeValid
+	}
 }

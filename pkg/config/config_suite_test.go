@@ -17,33 +17,23 @@ func TestConfig(t *testing.T) {
 
 var _ = Describe("Config Service", func() {
 
-	Describe("Init function", func() {
+	Context("InitConfig function", func() {
+		var (
+			configService config.ConfigService
+		)
+
 		BeforeEach(func() {
-			config.Service = NewStubconfig()
-		})
-
-		When("service is not available ", func() {
-			It("should return NotfoundError", func() {
-				config.Service = nil
-				err := config.Init()
-
-				expected := &app.NotFoundError{
-					Message: app.STATUS_NOT_FOUND,
-					Context: "Config",
-				}
-
-				Expect(err).To(MatchError(expected))
-			})
+			configService = NewStubconfig()
 		})
 
 		When("failed load configuration", func() {
 			It("should return err", func() {
 				expected := errors.New("Stubed error")
-				config.Service = &StubConfig{
+				s := &StubConfig{
 					loadConfigError: expected,
 				}
 
-				err := config.Init()
+				err := config.InitConfig(s)
 
 				Expect(err).To(MatchError(expected))
 			})
@@ -51,26 +41,26 @@ var _ = Describe("Config Service", func() {
 
 		When("success initialization", func() {
 			It("should return nil", func() {
-				err := config.Init()
+				err := config.InitConfig(configService)
 
 				Expect(err).To(BeNil())
 			})
 
 			It("should set default data", func() {
-				config.Init()
+				config.InitConfig(configService)
 
-				Expect(config.Service.GetString("APP_HOST")).To((Equal("localhost")))
-				Expect(config.Service.GetInt("APP_PORT")).To((Equal(3000)))
-				Expect(config.Service.GetString("APP_DEFAULT_LOCALE")).To((Equal("en")))
-				Expect(config.Service.GetInt("MIN_UPLOADED_FILE")).To((Equal(1)))
-				Expect(config.Service.GetInt("MAX_UPLOADED_FILE")).To((Equal(5)))
-				Expect(config.Service.GetInt("MIN_FILE_SIZE")).To((Equal(1)))
-				Expect(config.Service.GetInt("MAX_FILE_SIZE")).To((Equal(134217728)))
+				Expect(configService.GetString("APP_HOST")).To((Equal("localhost")))
+				Expect(configService.GetInt("APP_PORT")).To((Equal(3000)))
+				Expect(configService.GetString("APP_DEFAULT_LOCALE")).To((Equal("en")))
+				Expect(configService.GetInt("MIN_UPLOADED_FILE")).To((Equal(1)))
+				Expect(configService.GetInt("MAX_UPLOADED_FILE")).To((Equal(5)))
+				Expect(configService.GetInt("MIN_FILE_SIZE")).To((Equal(1)))
+				Expect(configService.GetInt("MAX_FILE_SIZE")).To((Equal(134217728)))
 			})
 		})
 	})
 
-	Describe("NewConfig function", func() {
+	Context("NewConfig function", func() {
 		var (
 			provider string
 		)
@@ -109,11 +99,9 @@ var _ = Describe("Config Service", func() {
 })
 
 var _ = Describe("Config Contract", func() {
-
-	Describe("Contract constant", func() {
+	Context("Contract constant", func() {
 		It("should contain valid constant", func() {
 			Expect(config.CONFIG_VIPER).To(Equal("viper"))
 		})
 	})
-
 })

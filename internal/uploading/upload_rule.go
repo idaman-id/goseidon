@@ -1,9 +1,5 @@
 package uploading
 
-import (
-	"idaman.id/storage/internal/file"
-)
-
 type FileRule struct {
 	Size uint64 `json:"files.size" validate:"required,valid_file_size"`
 }
@@ -21,7 +17,7 @@ func (rule *UploadRule) SetData(param UploadRuleParam) {
 	for _, fileHeader := range param.FileHeaders {
 
 		fileRule := &FileRule{
-			Size: file.ParseSize(fileHeader),
+			Size: uint64(fileHeader.Size),
 		}
 		fileRules = append(fileRules, fileRule)
 	}

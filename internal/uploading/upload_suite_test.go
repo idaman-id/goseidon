@@ -16,9 +16,11 @@ func TestUploading(t *testing.T) {
 }
 
 var _ = Describe("Upload Contract", func() {
-	It("should contain valid constant", func() {
-		Expect(uploading.UPLOAD_FAILED).To(Equal("failed"))
-		Expect(uploading.UPLOAD_SUCCESS).To(Equal("success"))
+	Context("Contract constant", func() {
+		It("should be defined", func() {
+			Expect(uploading.UPLOAD_FAILED).To(Equal("failed"))
+			Expect(uploading.UPLOAD_SUCCESS).To(Equal("success"))
+		})
 	})
 })
 
@@ -41,7 +43,7 @@ var _ = Describe("Upload Rule", func() {
 		}
 	})
 
-	Describe("SetData method", func() {
+	Context("SetData method", func() {
 		It("should set valid file rule", func() {
 			rule := uploading.UploadRule{}
 			rule.SetData(param)

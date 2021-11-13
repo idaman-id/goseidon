@@ -6,19 +6,25 @@ import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	"idaman.id/storage/pkg/app"
+	"idaman.id/storage/pkg/config"
+	"idaman.id/storage/pkg/text"
 	"idaman.id/storage/pkg/validation"
 )
 
 var _ = Describe("GoValidator Service", func() {
-	Describe("NewGoValidator function", func() {
+	Context("NewGoValidator function", func() {
 		var (
-			mock    *StubGoValidator
-			service *validation.GoValidatorService
+			stubValidator    *StubGoValidator
+			stubStringParser text.StringParser
+			stubConfigGetter config.Getter
+			service          *validation.GoValidatorService
 		)
 
 		BeforeEach(func() {
-			mock = &StubGoValidator{}
-			service, _ = validation.NewGoValidator(mock)
+			stubValidator = &StubGoValidator{}
+			stubStringParser = &StubStringParser{}
+			stubConfigGetter = &StubConfigGetter{}
+			service, _ = validation.NewGoValidator(stubValidator, stubStringParser, stubConfigGetter)
 		})
 
 		When("called", func() {
@@ -30,18 +36,18 @@ var _ = Describe("GoValidator Service", func() {
 			})
 
 			It("should register tag name function", func() {
-				Expect(mock.RegisterTagNameFuncCounter).To(Equal(1))
+				Expect(stubValidator.RegisterTagNameFuncCounter).To(Equal(1))
 			})
 
 			It("should register custom validation function", func() {
-				Expect(mock.RegisterValidationCounter).To(Equal(3))
+				Expect(stubValidator.RegisterValidationCounter).To(Equal(3))
 			})
 
 			It("should return error when failed create validator", func() {
-				mock = &StubGoValidator{
+				stubValidator = &StubGoValidator{
 					RegisterValidationShouldError: true,
 				}
-				service, err := validation.NewGoValidator(mock)
+				service, err := validation.NewGoValidator(stubValidator, stubStringParser, stubConfigGetter)
 
 				Expect(err).ToNot(BeNil())
 				Expect(service).To(BeNil())
@@ -49,15 +55,19 @@ var _ = Describe("GoValidator Service", func() {
 		})
 	})
 
-	Describe("ValidateStruct method", func() {
+	Context("ValidateStruct method", func() {
 		var (
-			mock    *StubGoValidator
-			service *validation.GoValidatorService
+			stubValidator    *StubGoValidator
+			stubStringParser text.StringParser
+			stubConfigGetter config.Getter
+			service          *validation.GoValidatorService
 		)
 
 		BeforeEach(func() {
-			mock = &StubGoValidator{}
-			service, _ = validation.NewGoValidator(mock)
+			stubValidator = &StubGoValidator{}
+			stubStringParser = &StubStringParser{}
+			stubConfigGetter = &StubConfigGetter{}
+			service, _ = validation.NewGoValidator(stubValidator, stubStringParser, stubConfigGetter)
 		})
 
 		When("param is not a struct", func() {
@@ -96,10 +106,10 @@ var _ = Describe("GoValidator Service", func() {
 
 		When("param contain invalid data", func() {
 			It("should return ValidationError", func() {
-				mock = &StubGoValidator{
+				stubValidator = &StubGoValidator{
 					StructShouldError: true,
 				}
-				service, _ = validation.NewGoValidator(mock)
+				service, _ = validation.NewGoValidator(stubValidator, stubStringParser, stubConfigGetter)
 
 				type Rule struct {
 					Value int `validate:"required"`

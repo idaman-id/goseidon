@@ -8,7 +8,7 @@ import (
 )
 
 var _ = Describe("GoI18n Service", func() {
-	Describe("NewGoI18nService function", func() {
+	Context("NewGoI18nService function", func() {
 		var (
 			localizer translation.Localizer
 		)
@@ -21,7 +21,7 @@ var _ = Describe("GoI18n Service", func() {
 		})
 	})
 
-	Describe("Translate method", func() {
+	Context("Translate method", func() {
 		var (
 			localizer translation.Localizer
 			service   *translation.GoI18nService

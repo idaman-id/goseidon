@@ -2,29 +2,6 @@ package config
 
 import "idaman.id/storage/pkg/app"
 
-var (
-	Service ConfigService
-)
-
-func Init() error {
-
-	isServiceAvailable := Service != nil
-	if !isServiceAvailable {
-		err := app.NewNotFoundError("Config")
-		return err
-	}
-
-	err := Service.LoadConfiguration()
-	isFailedLoadConfig := err != nil
-	if isFailedLoadConfig {
-		return err
-	}
-
-	setDefaultData(Service)
-
-	return nil
-}
-
 func NewConfig(provider string) (ConfigService, error) {
 	isProviderSupported := provider == CONFIG_VIPER
 	if !isProviderSupported {
@@ -37,6 +14,19 @@ func NewConfig(provider string) (ConfigService, error) {
 	}
 
 	return config, nil
+}
+
+func InitConfig(s ConfigService) error {
+
+	err := s.LoadConfiguration()
+	isFailedLoadConfig := err != nil
+	if isFailedLoadConfig {
+		return err
+	}
+
+	setDefaultData(s)
+
+	return nil
 }
 
 func setDefaultData(config ConfigService) {

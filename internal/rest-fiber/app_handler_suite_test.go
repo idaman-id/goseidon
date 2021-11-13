@@ -25,10 +25,12 @@ var _ = Describe("App Handler", func() {
 	)
 
 	BeforeEach(func() {
-		fiberApp = rest_fiber.NewApp()
+		fiberApp = fiber.New(fiber.Config{
+			ErrorHandler: rest_fiber.NewErrorHandler(),
+		})
 	})
 
-	Describe("Home Handler", func() {
+	Context("Home Handler", func() {
 		BeforeEach(func() {
 			fiberApp.Get("/", rest_fiber.NewHomeHandler())
 		})
@@ -47,7 +49,7 @@ var _ = Describe("App Handler", func() {
 		})
 	})
 
-	Describe("NotFound Handler", func() {
+	Context("NotFound Handler", func() {
 		BeforeEach(func() {
 			fiberApp.Get("*", rest_fiber.NewNotFoundHandler())
 		})
@@ -68,7 +70,7 @@ var _ = Describe("App Handler", func() {
 		})
 	})
 
-	Describe("Error Handler", func() {
+	Context("Error Handler", func() {
 		When("error is not fiber error", func() {
 			BeforeEach(func() {
 				fiberApp.Get("error-handler", func(c *fiber.Ctx) error {

@@ -16,7 +16,7 @@ func TestResponse(t *testing.T) {
 
 var _ = Describe("Response Service", func() {
 
-	Describe("NewSuccessResponse function", func() {
+	Context("NewSuccessResponse function", func() {
 		var (
 			param *response.ResponseParam
 		)
@@ -96,7 +96,7 @@ var _ = Describe("Response Service", func() {
 
 	})
 
-	Describe("NewErrorResponse function", func() {
+	Context("NewErrorResponse function", func() {
 		var (
 			param *response.ResponseParam
 		)

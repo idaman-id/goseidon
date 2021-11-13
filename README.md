@@ -71,27 +71,23 @@ $ go run \\cmd\\web-service\\main.go
 
 ## ❓ QnA
 
-No QnA right now
+Q1. Is there any possibility for file size to be negative? 
+
+A1. 
 
 ## 👀 Known Issues
 
 No issues right now
 
 ## 💪 Todo
-1. Refactor Mock using `Testify Mock` + `Mockery Mock Generator`
-ref:
-- https://github.com/vektra/mockery
-- https://sebastiancoetzee.com/2019-04-01-testing-go-web-services-with-interfaces-and-mocks
-- https://dev.to/ilyakaznacheev/how-i-write-my-unit-tests-in-go-quickly-4bd5
-2. Refactor init should receive service as param (`bootstraping` package)
-3. Move creation into factory function `repository`
-4. Implement translation on service layer
-5. Refactor storage.SaveFile using os Write (remove fasthttp dependency)
-6. Enhancment storage.SaveFile using date foldering
-7. End to end Test (Test usecase)
-8. `mongodb` database implementation + test
-9. `mysql` database implementation + test
-10. Test json marshalling (struct tag)
+1. Make all code work again after refactor
+2. Implement translation on service layer
+3. Refactor storage.SaveFile using os Write (remove fasthttp dependency)
+4. Enhancment storage.SaveFile using date foldering
+5. End to end Test (Test usecase)
+6. `mongodb` database implementation + test
+7. `mysql` database implementation + test
+8. Test json marshalling (struct tag)
 
 ## 🤩 Nice to Have
 1. `Built In` Support (using other `instance` of go-seidon)

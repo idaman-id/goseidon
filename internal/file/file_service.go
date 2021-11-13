@@ -8,41 +8,68 @@ import (
 	"idaman.id/storage/pkg/text"
 )
 
-func ParseOriginalName(fileHeader *multipart.FileHeader) string {
+type fileService struct {
+	slugger text.Slugger
+}
+
+func (s *fileService) ParseOriginalName(fileHeader *multipart.FileHeader) string {
+	if fileHeader == nil {
+		return ""
+	}
 	fileName := strings.ToLower(fileHeader.Filename)
 	return fileName
 }
 
-func ParseName(fileHeader *multipart.FileHeader) string {
-	fileName := ParseOriginalName(fileHeader)
-	fileNameWithoutExtension := RemoveFileExtension(fileName)
-	fileName = text.Service.Slugify(fileNameWithoutExtension)
+func (s *fileService) ParseName(fileHeader *multipart.FileHeader) string {
+	fileName := s.ParseOriginalName(fileHeader)
+	fileNameWithoutExtension := s.RemoveFileExtension(fileName)
+	fileName = s.slugger.Slugify(fileNameWithoutExtension)
 	return fileName
 }
 
-func ParseSize(fileHeader *multipart.FileHeader) uint64 {
-	fileSize := uint64(fileHeader.Size)
-	return fileSize
+func (s *fileService) ParseSize(fileHeader *multipart.FileHeader) uint64 {
+	if fileHeader == nil {
+		return 0
+	}
+	size := fileHeader.Size
+	if size < 0 {
+		return 0
+	}
+	return uint64(size)
 }
 
-func ParseMimeType(fileHeader *multipart.FileHeader) string {
+func (s *fileService) ParseMimeType(fileHeader *multipart.FileHeader) string {
+	if fileHeader == nil {
+		return ""
+	}
 	contentType, isAvailable := fileHeader.Header["Content-Type"]
-	isMimeTypeAvailable := isAvailable && len(contentType) > 0
+	isMimeAvailable := isAvailable && len(contentType) > 0
 
-	if !isMimeTypeAvailable {
+	if !isMimeAvailable {
 		return ""
 	}
 	return contentType[0]
 }
 
-func ParseExtension(fileHeader *multipart.FileHeader) string {
+func (s *fileService) ParseExtension(fileHeader *multipart.FileHeader) string {
+	if fileHeader == nil {
+		return ""
+	}
 	extension := filepath.Ext(fileHeader.Filename)
 	extensionWithoutDot := strings.ReplaceAll(extension, ".", "")
-	fileExtension := strings.ToLower(extensionWithoutDot)
-	return fileExtension
+	lowerExt := strings.ToLower(extensionWithoutDot)
+	return lowerExt
 }
 
-func RemoveFileExtension(fileName string) string {
-	name := strings.TrimSuffix(fileName, filepath.Ext(fileName))
-	return name
+func (s *fileService) RemoveFileExtension(fileName string) string {
+	extenstion := filepath.Ext(fileName)
+	name := strings.TrimSuffix(fileName, extenstion)
+	lowerName := strings.ToLower(name)
+	return lowerName
+}
+
+func NewFileService(slugger text.Slugger) FileService {
+	return &fileService{
+		slugger: slugger,
+	}
 }

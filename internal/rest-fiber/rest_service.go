@@ -8,29 +8,58 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/gofiber/fiber/v2/middleware/requestid"
 	"idaman.id/storage/internal/deleting"
+	"idaman.id/storage/internal/file"
+	"idaman.id/storage/internal/repository"
 	"idaman.id/storage/internal/retrieving"
 	"idaman.id/storage/internal/uploading"
+	"idaman.id/storage/pkg/app"
+	"idaman.id/storage/pkg/config"
+	"idaman.id/storage/pkg/text"
+	"idaman.id/storage/pkg/validation"
 )
 
-func NewApp() *App {
+func NewApp() (app.App, error) {
+	configService, err := config.NewConfig(config.CONFIG_VIPER)
+	if err != nil {
+		return nil, err
+	}
+	err = config.InitConfig(configService)
+	if err != nil {
+		return nil, err
+	}
+
+	validator := validation.NewValidator(validation.VALIDATOR_GO_I18N)
+
+	repo, err := repository.NewRepository(repository.DATABASE_MONGO)
+	if err != nil {
+		return nil, err
+	}
+
+	textService := text.NewTextService()
+	fileService := file.NewFileService(textService)
+	retrieveService := retrieving.NewRetrieveService(repo.FileRepo, fileService)
+	deleteService := deleting.NewDeleteService(repo.FileRepo, configService, fileService)
+	uploadService := uploading.NewUploadService(validator, configService, fileService)
+
 	app := fiber.New(fiber.Config{
 		ErrorHandler: NewErrorHandler(),
 	})
-
 	app.Use(recover.New())
 	app.Use(requestid.New())
 	app.Use(etag.New())
 	app.Use(cors.New())
 	app.Use(logger.New())
 
-	return app
-}
-
-func RegisterRoute(app *App) {
 	app.Get("/", NewHomeHandler())
-	app.Get("/file/:identifier", NewGetResourceHandler(retrieving.Service))
-	app.Post("/v1/file", NewUploadFileHandler(uploading.Service))
-	app.Get("/v1/file/:identifier", NewFileGetDetailHandler(retrieving.Service))
-	app.Delete("/v1/file/:identifier", NewDeleteFileHandler(deleting.Service))
+	app.Get("/file/:identifier", NewGetResourceHandler(retrieveService))
+	app.Post("/v1/file", NewUploadFileHandler(uploadService))
+	app.Get("/v1/file/:identifier", NewFileGetDetailHandler(retrieveService))
+	app.Delete("/v1/file/:identifier", NewDeleteFileHandler(deleteService))
 	app.Get("*", NewNotFoundHandler())
+
+	fiberApp := &FiberApp{
+		fiber:        app,
+		configGetter: configService,
+	}
+	return fiberApp, nil
 }

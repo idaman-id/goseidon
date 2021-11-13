@@ -6,10 +6,10 @@ import (
 	"idaman.id/storage/pkg/app"
 )
 
-type StubFileDeleterService struct {
+type StubDeleteService struct {
 }
 
-func (s *StubFileDeleterService) DeleteFile(identifier string) error {
+func (s *StubDeleteService) DeleteFile(identifier string) error {
 	if identifier == "not-found" {
 		return app.NewNotFoundError("File")
 	} else if identifier == "error" {

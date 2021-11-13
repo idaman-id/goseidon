@@ -20,10 +20,10 @@ var _ = Describe("File Handler", func() {
 	)
 
 	BeforeEach(func() {
-		fiberApp = rest_fiber.NewApp()
+		fiberApp = fiber.New()
 	})
 
-	Describe("FileGetDetail Handler", func() {
+	Context("FileGetDetail Handler", func() {
 		var (
 			identifier        string
 			fileGetterService retrieving.FileGetter
@@ -90,7 +90,7 @@ var _ = Describe("File Handler", func() {
 		})
 	})
 
-	Describe("DeleteFile Handler", func() {
+	Context("DeleteFile Handler", func() {
 		var (
 			identifier         string
 			fileDeleterService deleting.DeleteService
@@ -98,7 +98,7 @@ var _ = Describe("File Handler", func() {
 
 		BeforeEach(func() {
 			identifier = "fake-identifier"
-			fileDeleterService = &deleting.StubFileDeleterService{}
+			fileDeleterService = &deleting.StubDeleteService{}
 			fiberApp.Delete("/v1/file/:identifier", rest_fiber.NewDeleteFileHandler(fileDeleterService))
 		})
 
@@ -151,7 +151,7 @@ var _ = Describe("File Handler", func() {
 
 	})
 
-	Describe("GetFileResource Handler", func() {
+	Context("GetFileResource Handler", func() {
 		var (
 			identifier           string
 			fileRetrieverService retrieving.FileRetriever

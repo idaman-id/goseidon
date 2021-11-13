@@ -8,28 +8,32 @@ import (
 	"os"
 
 	"github.com/valyala/fasthttp"
+	"idaman.id/storage/internal/file"
 	"idaman.id/storage/pkg/app"
 	"idaman.id/storage/pkg/config"
 )
 
 type StorageLocal struct {
-	StorageDir string
+	StorageDir   string
+	configGetter config.Getter
+	fileService  file.FileService
 }
 
-func NewStorageLocal() *StorageLocal {
+func NewStorageLocal(configGetter config.Getter, fileService file.FileService) *StorageLocal {
 	storage := StorageLocal{
-		StorageDir: "storage/file",
+		StorageDir:   "storage/file",
+		configGetter: configGetter,
+		fileService:  fileService,
 	}
 	return &storage
 }
 
 func (s *StorageLocal) SaveFile(fileHeader *multipart.FileHeader) (result *FileEntity, err error) {
-	var file FileEntity
-	file.New(fileHeader)
+	file := NewFile(fileHeader, s.fileService)
 
 	path := s.StorageDir + "/" + file.UniqueId + "." + file.Extension
 
-	appUrl := config.Service.GetString("APP_URL")
+	appUrl := s.configGetter.GetString("APP_URL")
 	file.Path = path
 	file.Url = appUrl + "/" + path
 
@@ -40,7 +44,7 @@ func (s *StorageLocal) SaveFile(fileHeader *multipart.FileHeader) (result *FileE
 		return nil, err
 	}
 
-	return &file, nil
+	return file, nil
 }
 
 func (s *StorageLocal) RetrieveFile(file *FileEntity) (result BinaryFile, err error) {
