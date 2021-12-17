@@ -31,7 +31,7 @@ var _ = Describe("File Handler", func() {
 
 		BeforeEach(func() {
 			identifier = "fake-identifier"
-			fileGetterService = &retrieving.StubFileGetterService{}
+			fileGetterService = &StubFileGetterService{}
 			fiberApp.Get("/v1/file/:identifier", rest_fiber.NewFileGetDetailHandler(fileGetterService))
 		})
 
@@ -41,7 +41,7 @@ var _ = Describe("File Handler", func() {
 				req := httptest.NewRequest(http.MethodGet, "/v1/file/"+identifier, nil)
 				res, _ := fiberApp.Test(req)
 
-				resEntity := rest_fiber.UnmarshallResponseBody(res.Body)
+				resEntity := UnmarshallResponseBody(res.Body)
 
 				expected := response.NewErrorResponse(&response.ResponseParam{
 					Message: app.STATUS_NOT_FOUND,
@@ -58,7 +58,7 @@ var _ = Describe("File Handler", func() {
 				req := httptest.NewRequest(http.MethodGet, "/v1/file/"+identifier, nil)
 				res, _ := fiberApp.Test(req)
 
-				resEntity := rest_fiber.UnmarshallResponseBody(res.Body)
+				resEntity := UnmarshallResponseBody(res.Body)
 
 				expected := response.NewErrorResponse(&response.ResponseParam{
 					Message: app.STATUS_ERROR,
@@ -74,7 +74,7 @@ var _ = Describe("File Handler", func() {
 				req := httptest.NewRequest(http.MethodGet, "/v1/file/"+identifier, nil)
 				res, _ := fiberApp.Test(req)
 
-				resEntity := rest_fiber.UnmarshallResponseBody(res.Body)
+				resEntity := UnmarshallResponseBody(res.Body)
 
 				file := retrieving.FileEntity{}
 				expected := response.NewSuccessResponse(&response.ResponseParam{
@@ -98,7 +98,7 @@ var _ = Describe("File Handler", func() {
 
 		BeforeEach(func() {
 			identifier = "fake-identifier"
-			fileDeleterService = &deleting.StubDeleteService{}
+			fileDeleterService = &StubDeleteService{}
 			fiberApp.Delete("/v1/file/:identifier", rest_fiber.NewDeleteFileHandler(fileDeleterService))
 		})
 
@@ -108,7 +108,7 @@ var _ = Describe("File Handler", func() {
 				req := httptest.NewRequest(http.MethodDelete, "/v1/file/"+identifier, nil)
 				res, _ := fiberApp.Test(req)
 
-				resEntity := rest_fiber.UnmarshallResponseBody(res.Body)
+				resEntity := UnmarshallResponseBody(res.Body)
 
 				expected := response.NewErrorResponse(&response.ResponseParam{
 					Message: app.STATUS_NOT_FOUND,
@@ -125,7 +125,7 @@ var _ = Describe("File Handler", func() {
 				req := httptest.NewRequest(http.MethodDelete, "/v1/file/"+identifier, nil)
 				res, _ := fiberApp.Test(req)
 
-				resEntity := rest_fiber.UnmarshallResponseBody(res.Body)
+				resEntity := UnmarshallResponseBody(res.Body)
 
 				expected := response.NewErrorResponse(&response.ResponseParam{
 					Message: app.STATUS_ERROR,
@@ -141,7 +141,7 @@ var _ = Describe("File Handler", func() {
 				req := httptest.NewRequest(http.MethodDelete, "/v1/file/"+identifier, nil)
 				res, _ := fiberApp.Test(req)
 
-				resEntity := rest_fiber.UnmarshallResponseBody(res.Body)
+				resEntity := UnmarshallResponseBody(res.Body)
 				expected := response.NewSuccessResponse(nil)
 
 				Expect(res.StatusCode).To(Equal(fiber.StatusOK))
@@ -159,7 +159,7 @@ var _ = Describe("File Handler", func() {
 
 		BeforeEach(func() {
 			identifier = "fake-identifier"
-			fileRetrieverService = &retrieving.StubFileRetrieverService{}
+			fileRetrieverService = &StubFileRetrieverService{}
 			fiberApp.Get("/file/:identifier", rest_fiber.NewGetResourceHandler(fileRetrieverService))
 		})
 
@@ -169,7 +169,7 @@ var _ = Describe("File Handler", func() {
 				req := httptest.NewRequest(http.MethodGet, "/file/"+identifier, nil)
 				res, _ := fiberApp.Test(req)
 
-				resEntity := rest_fiber.UnmarshallResponseBody(res.Body)
+				resEntity := UnmarshallResponseBody(res.Body)
 
 				expected := response.NewErrorResponse(&response.ResponseParam{
 					Message: app.STATUS_NOT_FOUND,
@@ -186,7 +186,7 @@ var _ = Describe("File Handler", func() {
 				req := httptest.NewRequest(http.MethodGet, "/file/"+identifier, nil)
 				res, _ := fiberApp.Test(req)
 
-				resEntity := rest_fiber.UnmarshallResponseBody(res.Body)
+				resEntity := UnmarshallResponseBody(res.Body)
 
 				expected := response.NewErrorResponse(&response.ResponseParam{
 					Message: app.STATUS_ERROR,

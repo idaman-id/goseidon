@@ -19,15 +19,6 @@ type StorageLocal struct {
 	fileService  file.FileService
 }
 
-func NewStorageLocal(configGetter config.Getter, fileService file.FileService) *StorageLocal {
-	storage := StorageLocal{
-		StorageDir:   "storage/file",
-		configGetter: configGetter,
-		fileService:  fileService,
-	}
-	return &storage
-}
-
 func (s *StorageLocal) SaveFile(fileHeader *multipart.FileHeader) (result *FileEntity, err error) {
 	file := NewFile(fileHeader, s.fileService)
 
@@ -77,4 +68,13 @@ func (s *StorageLocal) DeleteFile(file *FileEntity) error {
 	}
 
 	return err
+}
+
+func NewStorageLocal(configGetter config.Getter, fileService file.FileService) *StorageLocal {
+	storage := StorageLocal{
+		StorageDir:   "storage/file",
+		configGetter: configGetter,
+		fileService:  fileService,
+	}
+	return &storage
 }

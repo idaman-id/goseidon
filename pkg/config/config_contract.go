@@ -1,5 +1,9 @@
 package config
 
+const (
+	CONFIG_VIPER = "viper"
+)
+
 type Defaultable interface {
 	SetDefault(key string, value interface{})
 }
@@ -20,7 +24,3 @@ type ConfigService interface {
 	Setter
 	Getter
 }
-
-const (
-	CONFIG_VIPER = "viper"
-)

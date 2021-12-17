@@ -1,4 +1,4 @@
-package rest_fiber
+package rest_fiber_test
 
 import (
 	"encoding/json"

@@ -51,9 +51,6 @@ $ go run \\cmd\\web-service\\main.go
 # testing #
 $ ginkgo watch -r -v
 
-# mocking #
-$ mockery --name=[InterfaceName] --output=mock --outpkg mock --case underscore
-
 ```
 
 ### Deployment
@@ -73,7 +70,7 @@ $ go run \\cmd\\web-service\\main.go
 
 Q1. Is there any possibility for file size to be negative? 
 
-A1. 
+A1. No, and for overflow problem system is gonna mark negative size as zero
 
 ## 👀 Known Issues
 

@@ -39,7 +39,7 @@ var _ = Describe("App Handler", func() {
 				req := httptest.NewRequest(http.MethodGet, "/", nil)
 				res, _ := fiberApp.Test(req)
 
-				resEntity := rest_fiber.UnmarshallResponseBody(res.Body)
+				resEntity := UnmarshallResponseBody(res.Body)
 
 				expected := response.NewSuccessResponse(nil)
 
@@ -58,7 +58,7 @@ var _ = Describe("App Handler", func() {
 				req := httptest.NewRequest(http.MethodGet, "/unavailable-endpoint", nil)
 				res, _ := fiberApp.Test(req)
 
-				resEntity := rest_fiber.UnmarshallResponseBody(res.Body)
+				resEntity := UnmarshallResponseBody(res.Body)
 
 				expected := response.NewErrorResponse(&response.ResponseParam{
 					Message: app.STATUS_NOT_FOUND,
@@ -82,7 +82,7 @@ var _ = Describe("App Handler", func() {
 				req := httptest.NewRequest(http.MethodGet, "/error-handler", nil)
 				res, _ := fiberApp.Test(req)
 
-				resEntity := rest_fiber.UnmarshallResponseBody(res.Body)
+				resEntity := UnmarshallResponseBody(res.Body)
 
 				expected := response.NewErrorResponse(&response.ResponseParam{
 					Message: "custom error handler",
@@ -114,7 +114,7 @@ var _ = Describe("App Handler", func() {
 				req := httptest.NewRequest(http.MethodGet, "/error-handler", nil)
 				res, _ := fiberApp.Test(req)
 
-				resEntity := rest_fiber.UnmarshallResponseBody(res.Body)
+				resEntity := UnmarshallResponseBody(res.Body)
 
 				expected := response.NewErrorResponse(&response.ResponseParam{
 					Message: "Bad Gateway",

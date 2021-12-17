@@ -5,9 +5,8 @@ import (
 	"testing"
 
 	. "github.com/onsi/ginkgo"
-	"idaman.id/storage/internal/uploading"
-
 	. "github.com/onsi/gomega"
+	"idaman.id/storage/internal/uploading"
 )
 
 func TestUploading(t *testing.T) {
