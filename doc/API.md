@@ -11,7 +11,7 @@
 | Manual Test |   🚨  | Untested           |
 
 ## Index
-- [**Home ✔️⚠️✅** ](#home)
+- [**Home ✔️☑️✅** ](#home)
 - [**Upload File ❌⚠️🚨** ](#upload-file)
 - [**File Detail ❌⚠️🚨** ](#file-detail)
 - [**File Resource ❌⚠️🚨** ](#file-resource)
@@ -69,7 +69,7 @@ All available API below may be returning general response according to the speci
 ### Home
 - Method: **GET**
 - Endpoint: **/**
-- Status: ✔️⚠️✅
+- Status: ✔️☑️✅
 
 **Success Response**
 - HttpCode: 200

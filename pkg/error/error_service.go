@@ -1,4 +1,4 @@
-package app
+package error
 
 type ValidationItem struct {
 	Field   string `json:"field"`
@@ -17,7 +17,7 @@ func (error *ValidationError) Error() string {
 
 func NewValidationError(items []*ValidationItem) *ValidationError {
 	err := &ValidationError{
-		Message: STATUS_INVALID_DATA,
+		Message: ERROR_INVALID_DATA,
 		Items:   items,
 	}
 	return err
@@ -34,7 +34,7 @@ func (error *NotSupportedError) Error() string {
 
 func NewNotSupportedError(context string) *NotSupportedError {
 	err := &NotSupportedError{
-		Message: STATUS_NOT_SUPPORTED,
+		Message: ERROR_NOT_SUPPORTED,
 		Context: context,
 	}
 	return err
@@ -51,7 +51,7 @@ func (error *NotFoundError) Error() string {
 
 func NewNotFoundError(context string) *NotFoundError {
 	err := &NotFoundError{
-		Message: STATUS_NOT_FOUND,
+		Message: ERROR_NOT_FOUND,
 		Context: context,
 	}
 	return err

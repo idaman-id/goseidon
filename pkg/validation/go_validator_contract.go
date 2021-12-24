@@ -2,7 +2,7 @@ package validation
 
 import (
 	"github.com/go-playground/validator/v10"
-	"idaman.id/storage/pkg/app"
+	app_error "idaman.id/storage/pkg/error"
 )
 
 type Map = map[string]interface{}
@@ -22,5 +22,5 @@ type GoFieldError interface {
 type GoValidationErrors []GoFieldError
 
 func (errs GoValidationErrors) Error() string {
-	return app.STATUS_INVALID_DATA
+	return app_error.ERROR_INVALID_DATA
 }

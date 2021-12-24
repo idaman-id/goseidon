@@ -5,8 +5,8 @@ import (
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"idaman.id/storage/pkg/app"
 	"idaman.id/storage/pkg/config"
+	"idaman.id/storage/pkg/error"
 	"idaman.id/storage/pkg/text"
 	"idaman.id/storage/pkg/validation"
 )
@@ -72,7 +72,7 @@ var _ = Describe("GoValidator Service", func() {
 
 		When("param is not a struct", func() {
 			It("should return NotSupportedError", func() {
-				expected := app.NewNotSupportedError("Validation")
+				expected := error.NewNotSupportedError("Validation")
 				res := service.ValidateStruct("")
 
 				Expect(res).To(MatchError(expected))
@@ -117,14 +117,14 @@ var _ = Describe("GoValidator Service", func() {
 				param := Rule{}
 				res := service.ValidateStruct(param)
 
-				var items []*app.ValidationItem
-				item := &app.ValidationItem{
+				var items []*error.ValidationItem
+				item := &error.ValidationItem{
 					Field:   "Value",
 					Message: "Field value is required",
 					Value:   "",
 				}
 				items = append(items, item)
-				expected := app.NewValidationError(items)
+				expected := error.NewValidationError(items)
 				Expect(res).To(MatchError(expected))
 			})
 		})

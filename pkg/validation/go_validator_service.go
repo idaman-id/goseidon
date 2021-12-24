@@ -4,8 +4,8 @@ import (
 	"reflect"
 
 	"github.com/go-playground/validator/v10"
-	"idaman.id/storage/pkg/app"
 	"idaman.id/storage/pkg/config"
+	app_error "idaman.id/storage/pkg/error"
 	"idaman.id/storage/pkg/text"
 )
 
@@ -33,7 +33,7 @@ func (s *GoValidatorService) ValidateStruct(param interface{}) error {
 
 	isDataTypeStruct := reflect.ValueOf(param).Kind() == reflect.Struct
 	if !isDataTypeStruct {
-		return app.NewNotSupportedError("Validation")
+		return app_error.NewNotSupportedError("Validation")
 	}
 
 	vResult := s.validate.Struct(param)
@@ -42,12 +42,12 @@ func (s *GoValidatorService) ValidateStruct(param interface{}) error {
 		return nil
 	}
 
-	var items []*app.ValidationItem
+	var items []*app_error.ValidationItem
 
 	errors := vResult.(GoValidationErrors)
 	for _, err := range errors {
 		value := s.stringParser.ParseString(err.Value())
-		element := app.ValidationItem{
+		element := app_error.ValidationItem{
 			Field:   err.Field(),
 			Message: err.Error(),
 			Value:   value,
@@ -55,7 +55,7 @@ func (s *GoValidatorService) ValidateStruct(param interface{}) error {
 		items = append(items, &element)
 	}
 
-	vErr := app.NewValidationError(items)
+	vErr := app_error.NewValidationError(items)
 
 	return vErr
 }

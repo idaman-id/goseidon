@@ -6,7 +6,7 @@ import (
 	response "idaman.id/storage/internal/rest-response"
 	"idaman.id/storage/internal/retrieving"
 	"idaman.id/storage/internal/uploading"
-	"idaman.id/storage/pkg/app"
+	app_error "idaman.id/storage/pkg/error"
 )
 
 func NewFileGetDetailHandler(rService retrieving.FileGetter) Handler {
@@ -25,8 +25,8 @@ func NewFileGetDetailHandler(rService retrieving.FileGetter) Handler {
 		var responseEntity *response.ResponseEntity
 
 		switch err.(type) {
-		case *app.NotFoundError:
-			notFoundError := err.(*app.NotFoundError)
+		case *app_error.NotFoundError:
+			notFoundError := err.(*app_error.NotFoundError)
 			statusCode = fiber.StatusNotFound
 			responseEntity = response.NewErrorResponse(&response.ResponseParam{
 				Message: notFoundError.Error(),
@@ -55,8 +55,8 @@ func NewDeleteFileHandler(dService deleting.DeleteService) Handler {
 		var responseEntity *response.ResponseEntity
 
 		switch err.(type) {
-		case *app.NotFoundError:
-			notFoundError := err.(*app.NotFoundError)
+		case *app_error.NotFoundError:
+			notFoundError := err.(*app_error.NotFoundError)
 			statusCode = fiber.StatusNotFound
 			responseEntity = response.NewErrorResponse(&response.ResponseParam{
 				Message: notFoundError.Error(),
@@ -86,8 +86,8 @@ func NewGetResourceHandler(rService retrieving.FileRetriever) Handler {
 		var statusCode int
 
 		switch err.(type) {
-		case *app.NotFoundError:
-			notFoundError := err.(*app.NotFoundError)
+		case *app_error.NotFoundError:
+			notFoundError := err.(*app_error.NotFoundError)
 			statusCode = fiber.StatusNotFound
 			responseEntity = response.NewErrorResponse(&response.ResponseParam{
 				Message: notFoundError.Error(),
@@ -134,9 +134,9 @@ func NewUploadFileHandler(uService uploading.UploadService) Handler {
 		var status int
 
 		switch err.(type) {
-		case *app.ValidationError:
+		case *app_error.ValidationError:
 			status = fiber.StatusUnprocessableEntity
-			validationError := err.(*app.ValidationError)
+			validationError := err.(*app_error.ValidationError)
 			responseEntity = response.NewErrorResponse(&response.ResponseParam{
 				Message: validationError.Error(),
 				Error:   validationError.Items,

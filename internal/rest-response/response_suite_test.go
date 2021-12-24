@@ -6,13 +6,21 @@ import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	response "idaman.id/storage/internal/rest-response"
-	app "idaman.id/storage/pkg/app"
 )
 
 func TestResponse(t *testing.T) {
 	RegisterFailHandler(Fail)
 	RunSpecs(t, "Response Suite")
 }
+
+var _ = Describe("Response Contract", func() {
+	Context("Contract constant", func() {
+		It("should contain valid constant", func() {
+			Expect(response.STATUS_OK).To(Equal("OK"))
+			Expect(response.STATUS_ERROR).To(Equal("ERROR"))
+		})
+	})
+})
 
 var _ = Describe("Response Service", func() {
 
@@ -31,7 +39,7 @@ var _ = Describe("Response Service", func() {
 				res := response.NewSuccessResponse(param)
 
 				expected := &response.ResponseEntity{
-					Message: app.STATUS_OK,
+					Message: response.STATUS_OK,
 				}
 				Expect(res).To(Equal(expected))
 			})
@@ -42,7 +50,7 @@ var _ = Describe("Response Service", func() {
 				res := response.NewSuccessResponse(param)
 
 				expected := &response.ResponseEntity{
-					Message: app.STATUS_OK,
+					Message: response.STATUS_OK,
 				}
 				Expect(res).To(Equal(expected))
 			})
@@ -72,7 +80,7 @@ var _ = Describe("Response Service", func() {
 				res := response.NewSuccessResponse(param)
 
 				expected := &response.ResponseEntity{
-					Message: app.STATUS_OK,
+					Message: response.STATUS_OK,
 				}
 				Expect(res).To(Equal(expected))
 			})
@@ -87,7 +95,7 @@ var _ = Describe("Response Service", func() {
 				res := response.NewSuccessResponse(param)
 
 				expected := &response.ResponseEntity{
-					Message: app.STATUS_OK,
+					Message: response.STATUS_OK,
 					Data:    data,
 				}
 				Expect(res).To(Equal(expected))
@@ -111,7 +119,7 @@ var _ = Describe("Response Service", func() {
 				res := response.NewErrorResponse(param)
 
 				expected := &response.ResponseEntity{
-					Message: app.STATUS_ERROR,
+					Message: response.STATUS_ERROR,
 				}
 				Expect(res).To(Equal(expected))
 			})
@@ -122,7 +130,7 @@ var _ = Describe("Response Service", func() {
 				res := response.NewErrorResponse(param)
 
 				expected := &response.ResponseEntity{
-					Message: app.STATUS_ERROR,
+					Message: response.STATUS_ERROR,
 				}
 				Expect(res).To(Equal(expected))
 			})
@@ -152,7 +160,7 @@ var _ = Describe("Response Service", func() {
 				res := response.NewErrorResponse(param)
 
 				expected := &response.ResponseEntity{
-					Message: app.STATUS_ERROR,
+					Message: response.STATUS_ERROR,
 				}
 				Expect(res).To(Equal(expected))
 			})
@@ -167,7 +175,7 @@ var _ = Describe("Response Service", func() {
 				res := response.NewErrorResponse(param)
 
 				expected := &response.ResponseEntity{
-					Message: app.STATUS_ERROR,
+					Message: response.STATUS_ERROR,
 					Error:   error,
 				}
 				Expect(res).To(Equal(expected))

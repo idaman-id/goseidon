@@ -9,8 +9,8 @@ import (
 
 	"github.com/valyala/fasthttp"
 	"idaman.id/storage/internal/file"
-	"idaman.id/storage/pkg/app"
 	"idaman.id/storage/pkg/config"
+	app_error "idaman.id/storage/pkg/error"
 )
 
 type StorageLocal struct {
@@ -61,10 +61,7 @@ func (s *StorageLocal) DeleteFile(file *FileEntity) error {
 
 	switch err.(type) {
 	case *fs.PathError:
-		err = &app.NotFoundError{
-			Message: app.STATUS_NOT_FOUND,
-			Context: "File",
-		}
+		err = app_error.NewNotFoundError("File")
 	}
 
 	return err

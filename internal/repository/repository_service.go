@@ -2,12 +2,12 @@ package repository
 
 import (
 	mongo "idaman.id/storage/internal/repository-mongo"
-	"idaman.id/storage/pkg/app"
+	app_error "idaman.id/storage/pkg/error"
 )
 
 func NewRepository(provider string) (*Repository, error) {
 	if provider != DATABASE_MONGO {
-		err := app.NewNotSupportedError("Database")
+		err := app_error.NewNotSupportedError("Database")
 		return nil, err
 	}
 

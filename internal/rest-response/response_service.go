@@ -2,14 +2,12 @@ package rest_response
 
 import (
 	"strings"
-
-	"idaman.id/storage/pkg/app"
 )
 
 func NewSuccessResponse(param *ResponseParam) *ResponseEntity {
 
 	response := ResponseEntity{
-		Message: app.STATUS_OK,
+		Message: STATUS_OK,
 	}
 
 	if param == nil {
@@ -31,7 +29,7 @@ func NewSuccessResponse(param *ResponseParam) *ResponseEntity {
 func NewErrorResponse(param *ResponseParam) *ResponseEntity {
 
 	response := ResponseEntity{
-		Message: app.STATUS_ERROR,
+		Message: STATUS_ERROR,
 	}
 
 	if param == nil {

@@ -59,10 +59,9 @@ func (s *deleteService) DeleteFile(identifier string) error {
 }
 
 func NewDeleteService(fileRepo repository.FileRepository, configGetter config.Getter, fileService file.FileService) DeleteService {
-	s := &deleteService{
+	return &deleteService{
 		fileRepo:     fileRepo,
 		configGetter: configGetter,
 		fileService:  fileService,
 	}
-	return s
 }

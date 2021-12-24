@@ -1,11 +1,11 @@
-package app_test
+package error_test
 
 import (
 	"testing"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"idaman.id/storage/pkg/app"
+	"idaman.id/storage/pkg/error"
 )
 
 func TestApp(t *testing.T) {
@@ -16,12 +16,10 @@ func TestApp(t *testing.T) {
 var _ = Describe("App Contract", func() {
 	Context("Contract constant", func() {
 		It("should contain valid constant", func() {
-			Expect(app.STATUS_OK).To(Equal("OK"))
-			Expect(app.STATUS_ERROR).To(Equal("ERROR"))
-			Expect(app.STATUS_INVALID_DATA).To(Equal("INVALID_DATA"))
-			Expect(app.STATUS_TOO_MANY_REQUEST).To(Equal("TOO_MANY_REQUEST"))
-			Expect(app.STATUS_NOT_FOUND).To(Equal("NOT_FOUND"))
-			Expect(app.STATUS_NOT_SUPPORTED).To(Equal("NOT_SUPPORTED"))
+			Expect(error.ERROR_INVALID_DATA).To(Equal("INVALID_DATA"))
+			Expect(error.ERROR_TOO_MANY_REQUEST).To(Equal("TOO_MANY_REQUEST"))
+			Expect(error.ERROR_NOT_FOUND).To(Equal("NOT_FOUND"))
+			Expect(error.ERROR_NOT_SUPPORTED).To(Equal("NOT_SUPPORTED"))
 		})
 	})
 })
@@ -29,30 +27,30 @@ var _ = Describe("App Contract", func() {
 var _ = Describe("App Error", func() {
 	Context("ValidationError struct", func() {
 		var (
-			err *app.ValidationError
+			err *error.ValidationError
 		)
 
 		BeforeEach(func() {
-			err = &app.ValidationError{
-				Message: app.STATUS_INVALID_DATA,
+			err = &error.ValidationError{
+				Message: error.ERROR_INVALID_DATA,
 			}
 		})
 
 		When("Error method called", func() {
 			It("should return error message", func() {
 
-				Expect(err.Error()).To(Equal(app.STATUS_INVALID_DATA))
+				Expect(err.Error()).To(Equal(error.ERROR_INVALID_DATA))
 			})
 		})
 	})
 
 	Context("NewValidationError function", func() {
 		var (
-			items []*app.ValidationItem
+			items []*error.ValidationItem
 		)
 
 		BeforeEach(func() {
-			item1 := &app.ValidationItem{
+			item1 := &error.ValidationItem{
 				Field:   "name",
 				Message: "invalid value",
 				Value:   "",
@@ -61,11 +59,11 @@ var _ = Describe("App Error", func() {
 		})
 		When("function called", func() {
 			It("should return ValidationError instance", func() {
-				expected := &app.ValidationError{
-					Message: app.STATUS_INVALID_DATA,
+				expected := &error.ValidationError{
+					Message: error.ERROR_INVALID_DATA,
 					Items:   items,
 				}
-				err := app.NewValidationError(items)
+				err := error.NewValidationError(items)
 
 				Expect(err).To(MatchError(expected))
 			})
@@ -74,19 +72,19 @@ var _ = Describe("App Error", func() {
 
 	Context("NotSupportedError struct", func() {
 		var (
-			err *app.NotSupportedError
+			err *error.NotSupportedError
 		)
 
 		BeforeEach(func() {
-			err = &app.NotSupportedError{
-				Message: app.STATUS_NOT_SUPPORTED,
+			err = &error.NotSupportedError{
+				Message: error.ERROR_NOT_SUPPORTED,
 			}
 		})
 
 		When("Error method called", func() {
 			It("should return error message", func() {
 
-				Expect(err.Error()).To(Equal(app.STATUS_NOT_SUPPORTED))
+				Expect(err.Error()).To(Equal(error.ERROR_NOT_SUPPORTED))
 			})
 		})
 	})
@@ -102,11 +100,11 @@ var _ = Describe("App Error", func() {
 
 		When("function called", func() {
 			It("should return NotSupportedError instance", func() {
-				expected := &app.NotSupportedError{
-					Message: app.STATUS_NOT_SUPPORTED,
+				expected := &error.NotSupportedError{
+					Message: error.ERROR_NOT_SUPPORTED,
 					Context: context,
 				}
-				err := app.NewNotSupportedError(context)
+				err := error.NewNotSupportedError(context)
 
 				Expect(err).To(MatchError(expected))
 			})
@@ -115,19 +113,19 @@ var _ = Describe("App Error", func() {
 
 	Context("NotFoundError struct", func() {
 		var (
-			err *app.NotFoundError
+			err *error.NotFoundError
 		)
 
 		BeforeEach(func() {
-			err = &app.NotFoundError{
-				Message: app.STATUS_NOT_FOUND,
+			err = &error.NotFoundError{
+				Message: error.ERROR_NOT_FOUND,
 			}
 		})
 
 		When("Error method called", func() {
 			It("should return error message", func() {
 
-				Expect(err.Error()).To(Equal(app.STATUS_NOT_FOUND))
+				Expect(err.Error()).To(Equal(error.ERROR_NOT_FOUND))
 			})
 		})
 	})
@@ -143,11 +141,11 @@ var _ = Describe("App Error", func() {
 
 		When("function called", func() {
 			It("should return NotFoundError instance", func() {
-				expected := &app.NotFoundError{
-					Message: app.STATUS_NOT_FOUND,
+				expected := &error.NotFoundError{
+					Message: error.ERROR_NOT_FOUND,
 					Context: context,
 				}
-				err := app.NewNotFoundError(context)
+				err := error.NewNotFoundError(context)
 
 				Expect(err).To(MatchError(expected))
 			})

@@ -1,11 +1,13 @@
 package config
 
-import "idaman.id/storage/pkg/app"
+import (
+	app_error "idaman.id/storage/pkg/error"
+)
 
 func NewConfig(provider string) (ConfigService, error) {
 	isProviderSupported := provider == CONFIG_VIPER
 	if !isProviderSupported {
-		err := app.NewNotSupportedError("Config")
+		err := app_error.NewNotSupportedError("Config")
 		return nil, err
 	}
 

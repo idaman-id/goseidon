@@ -11,7 +11,7 @@ import (
 	rest_fiber "idaman.id/storage/internal/rest-fiber"
 	response "idaman.id/storage/internal/rest-response"
 	"idaman.id/storage/internal/retrieving"
-	"idaman.id/storage/pkg/app"
+	app_error "idaman.id/storage/pkg/error"
 )
 
 var _ = Describe("File Handler", func() {
@@ -44,7 +44,7 @@ var _ = Describe("File Handler", func() {
 				resEntity := UnmarshallResponseBody(res.Body)
 
 				expected := response.NewErrorResponse(&response.ResponseParam{
-					Message: app.STATUS_NOT_FOUND,
+					Message: app_error.ERROR_NOT_FOUND,
 				})
 
 				Expect(res.StatusCode).To(Equal(fiber.StatusNotFound))
@@ -61,7 +61,7 @@ var _ = Describe("File Handler", func() {
 				resEntity := UnmarshallResponseBody(res.Body)
 
 				expected := response.NewErrorResponse(&response.ResponseParam{
-					Message: app.STATUS_ERROR,
+					Message: response.STATUS_ERROR,
 				})
 
 				Expect(res.StatusCode).To(Equal(fiber.StatusBadRequest))
@@ -78,7 +78,7 @@ var _ = Describe("File Handler", func() {
 
 				file := retrieving.FileEntity{}
 				expected := response.NewSuccessResponse(&response.ResponseParam{
-					Message: app.STATUS_OK,
+					Message: response.STATUS_OK,
 					Data:    file,
 				})
 
@@ -111,7 +111,7 @@ var _ = Describe("File Handler", func() {
 				resEntity := UnmarshallResponseBody(res.Body)
 
 				expected := response.NewErrorResponse(&response.ResponseParam{
-					Message: app.STATUS_NOT_FOUND,
+					Message: app_error.ERROR_NOT_FOUND,
 				})
 
 				Expect(res.StatusCode).To(Equal(fiber.StatusNotFound))
@@ -128,7 +128,7 @@ var _ = Describe("File Handler", func() {
 				resEntity := UnmarshallResponseBody(res.Body)
 
 				expected := response.NewErrorResponse(&response.ResponseParam{
-					Message: app.STATUS_ERROR,
+					Message: response.STATUS_ERROR,
 				})
 
 				Expect(res.StatusCode).To(Equal(fiber.StatusBadRequest))
@@ -172,7 +172,7 @@ var _ = Describe("File Handler", func() {
 				resEntity := UnmarshallResponseBody(res.Body)
 
 				expected := response.NewErrorResponse(&response.ResponseParam{
-					Message: app.STATUS_NOT_FOUND,
+					Message: app_error.ERROR_NOT_FOUND,
 				})
 
 				Expect(res.StatusCode).To(Equal(fiber.StatusNotFound))
@@ -189,7 +189,7 @@ var _ = Describe("File Handler", func() {
 				resEntity := UnmarshallResponseBody(res.Body)
 
 				expected := response.NewErrorResponse(&response.ResponseParam{
-					Message: app.STATUS_ERROR,
+					Message: response.STATUS_ERROR,
 				})
 
 				Expect(res.StatusCode).To(Equal(fiber.StatusBadRequest))

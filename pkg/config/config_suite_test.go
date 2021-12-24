@@ -6,8 +6,8 @@ import (
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"idaman.id/storage/pkg/app"
 	config "idaman.id/storage/pkg/config"
+	"idaman.id/storage/pkg/error"
 )
 
 func TestConfig(t *testing.T) {
@@ -73,8 +73,8 @@ var _ = Describe("Config Service", func() {
 				provider = "invalid"
 				config, err := config.NewConfig(provider)
 
-				expected := &app.NotSupportedError{
-					Message: app.STATUS_NOT_SUPPORTED,
+				expected := &error.NotSupportedError{
+					Message: error.ERROR_NOT_SUPPORTED,
 					Context: "Config",
 				}
 
