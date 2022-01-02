@@ -46,7 +46,7 @@ $ air # default configuration (.air.toml)
 $ air -c .air.toml # custom configuration
 
 # run manually #
-$ go run \\cmd\\web-service\\main.go 
+$ go run \\cmd\\file-service\\main.go 
 
 # testing #
 $ ginkgo watch -r -v
@@ -60,10 +60,10 @@ But in general we can simply run with the following command:
 
 ```bash
 # build manually #
-$ go build -o ./build/web-service/ ./cmd/web-service/main.go
+$ go build -o ./build/file-service/ ./cmd/file-service/main.go
 
 # run manually #
-$ go run \\cmd\\web-service\\main.go 
+$ go run \\cmd\\file-service\\main.go 
 ```
 
 ## ❓ QnA
@@ -78,13 +78,13 @@ No issues right now
 
 ## 💪 Todo
 1. Make all code work again after refactor
-2. Implement translation on service layer
-3. Refactor storage.SaveFile using os Write (remove fasthttp dependency)
-4. Enhancment storage.SaveFile using date foldering
-5. End to end Test (Test usecase)
-6. `mongodb` database implementation + test
-7. `mysql` database implementation + test
-8. Test json marshalling (struct tag)
+2. `mongodb` database implementation + test
+3. `mysql` database implementation + test
+4. Refactor storage.SaveFile using os Write (remove fasthttp dependency)
+5. Enhancment storage.SaveFile using date foldering
+6. Implement translation on service layer
+7. Test json marshalling (struct tag)
+8. End to end Test (Test usecase)
 
 ## 🤩 Nice to Have
 1. `Built In` Support (using other `instance` of go-seidon)
