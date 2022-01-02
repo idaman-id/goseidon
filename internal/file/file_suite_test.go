@@ -4,7 +4,7 @@ import (
 	"mime/multipart"
 	"testing"
 
-	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 	"idaman.id/storage/internal/file"
 	"idaman.id/storage/pkg/text"

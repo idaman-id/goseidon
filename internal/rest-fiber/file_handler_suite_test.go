@@ -5,7 +5,7 @@ import (
 	"net/http/httptest"
 
 	"github.com/gofiber/fiber/v2"
-	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 	"idaman.id/storage/internal/deleting"
 	rest_fiber "idaman.id/storage/internal/rest-fiber"

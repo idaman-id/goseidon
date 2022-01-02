@@ -3,7 +3,7 @@ package rest_response_test
 import (
 	"testing"
 
-	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 	response "idaman.id/storage/internal/rest-response"
 )
