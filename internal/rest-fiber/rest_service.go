@@ -7,7 +7,6 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/gofiber/fiber/v2/middleware/requestid"
-	"idaman.id/storage/internal/deleting"
 	"idaman.id/storage/internal/file"
 	"idaman.id/storage/internal/repository"
 	"idaman.id/storage/internal/retrieving"
@@ -38,7 +37,6 @@ func NewApp() (app.App, error) {
 	textService := text.NewTextService()
 	fileService := file.NewFileService(textService)
 	retrieveService := retrieving.NewRetrieveService(repo.FileRepo, fileService)
-	deleteService := deleting.NewDeleteService(repo.FileRepo, configService, fileService)
 	uploadService := uploading.NewUploadService(validator, configService, fileService)
 
 	app := fiber.New(fiber.Config{
@@ -54,7 +52,6 @@ func NewApp() (app.App, error) {
 	app.Get("/file/:identifier", NewGetResourceHandler(retrieveService))
 	app.Post("/v1/file", NewUploadFileHandler(uploadService))
 	app.Get("/v1/file/:identifier", NewFileGetDetailHandler(retrieveService))
-	app.Delete("/v1/file/:identifier", NewDeleteFileHandler(deleteService))
 	app.Get("*", NewNotFoundHandler())
 
 	fiberApp := &FiberApp{

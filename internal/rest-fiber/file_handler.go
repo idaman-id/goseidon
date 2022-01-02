@@ -2,7 +2,6 @@ package rest_fiber
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"idaman.id/storage/internal/deleting"
 	response "idaman.id/storage/internal/rest-response"
 	"idaman.id/storage/internal/retrieving"
 	"idaman.id/storage/internal/uploading"
@@ -18,36 +17,6 @@ func NewFileGetDetailHandler(rService retrieving.FileGetter) Handler {
 			responseEntity := response.NewSuccessResponse(&response.ResponseParam{
 				Data: fileEntity,
 			})
-			return ctx.JSON(responseEntity)
-		}
-
-		var statusCode int
-		var responseEntity *response.ResponseEntity
-
-		switch err.(type) {
-		case *app_error.NotFoundError:
-			notFoundError := err.(*app_error.NotFoundError)
-			statusCode = fiber.StatusNotFound
-			responseEntity = response.NewErrorResponse(&response.ResponseParam{
-				Message: notFoundError.Error(),
-			})
-		default:
-			statusCode = fiber.StatusBadRequest
-			responseEntity = response.NewErrorResponse(&response.ResponseParam{
-				Message: err.Error(),
-			})
-		}
-
-		return ctx.Status(statusCode).JSON(responseEntity)
-	}
-}
-
-func NewDeleteFileHandler(dService deleting.DeleteService) Handler {
-	return func(ctx *Context) error {
-		err := dService.DeleteFile(ctx.Params("identifier"))
-		isSuccessDelete := err == nil
-		if isSuccessDelete {
-			responseEntity := response.NewSuccessResponse(nil)
 			return ctx.JSON(responseEntity)
 		}
 

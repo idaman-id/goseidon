@@ -15,7 +15,6 @@
 - [**Upload File ❌⚠️🚨** ](#upload-file)
 - [**File Detail ❌⚠️🚨** ](#file-detail)
 - [**File Resource ❌⚠️🚨** ](#file-resource)
-- [**Delete File ❌⚠️🚨** ](#delete-file)
 
 ---
 
@@ -207,38 +206,3 @@ All available API below may be returning general response according to the speci
 **Failed Response**
 - HttpCode: 404
 - Response Body: **NotFound FileObject**
-
----
-
-### Delete File
-- Method: **DELETE**
-- Endpoint: **/v1/file/:id**
-- Status: ❌⚠️🚨
-- Example: **http://storage.idaman.local/v1/file/651fd093-03cb-4ff4-a23c-7959ce07def5**
-
-**Success Response**
-- HttpCode: 200
-- Response Body:
-```json
-{
-	"message": "ok"
-}
-```
-
-**Not Found Response**
-- HttpCode: 404
-- Response Body: 
-```json
-{
-	"message": "File tidak ditemukan"
-}
-```
-
-**Failed Response**
-- HttpCode: 400
-- Response Body: 
-```json
-{
-	"message": "Gagal menghapus file"
-}
-```
