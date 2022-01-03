@@ -2,17 +2,11 @@ package uploading_test
 
 import (
 	"mime/multipart"
-	"testing"
 
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 	"idaman.id/storage/internal/uploading"
 )
-
-func TestUploading(t *testing.T) {
-	RegisterFailHandler(Fail)
-	RunSpecs(t, "Uploading Suite")
-}
 
 var _ = Describe("Upload Contract", func() {
 	Context("Contract constant", func() {

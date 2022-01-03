@@ -1,11 +1,11 @@
 package main
 
 import (
-	rest "idaman.id/storage/internal/rest-fiber"
+	fiber "idaman.id/storage/internal/rest-fiber"
 )
 
 func main() {
-	app, err := rest.NewApp()
+	app, err := fiber.NewApp()
 	if err != nil {
 		panic(err.Error())
 	}

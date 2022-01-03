@@ -1,4 +1,4 @@
-package validation
+package validation_go
 
 import (
 	"github.com/go-playground/validator/v10"
@@ -22,5 +22,5 @@ type GoFieldError interface {
 type GoValidationErrors []GoFieldError
 
 func (errs GoValidationErrors) Error() string {
-	return app_error.ERROR_INVALID_DATA
+	return app_error.STATUS_INVALID_DATA
 }

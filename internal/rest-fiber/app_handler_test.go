@@ -4,20 +4,14 @@ import (
 	"errors"
 	"net/http"
 	"net/http/httptest"
-	"testing"
 
 	"github.com/gofiber/fiber/v2"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 	app_error "idaman.id/storage/internal/error"
+	response "idaman.id/storage/internal/response"
 	rest_fiber "idaman.id/storage/internal/rest-fiber"
-	response "idaman.id/storage/internal/rest-response"
 )
-
-func TestHandler(t *testing.T) {
-	RegisterFailHandler(Fail)
-	RunSpecs(t, "Handler Suite")
-}
 
 var _ = Describe("App Handler", func() {
 	var (
@@ -61,7 +55,7 @@ var _ = Describe("App Handler", func() {
 				resEntity := UnmarshallResponseBody(res.Body)
 
 				expected := response.NewErrorResponse(&response.ResponseParam{
-					Message: app_error.ERROR_NOT_FOUND,
+					Message: app_error.STATUS_NOT_FOUND,
 				})
 
 				Expect(res.StatusCode).To(Equal(fiber.StatusNotFound))

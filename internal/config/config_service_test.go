@@ -2,18 +2,13 @@ package config_test
 
 import (
 	"errors"
-	"testing"
 
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 	config "idaman.id/storage/internal/config"
+	config_viper "idaman.id/storage/internal/config-viper"
 	"idaman.id/storage/internal/error"
 )
-
-func TestConfig(t *testing.T) {
-	RegisterFailHandler(Fail)
-	RunSpecs(t, "Config Suite")
-}
 
 var _ = Describe("Config Service", func() {
 
@@ -74,7 +69,7 @@ var _ = Describe("Config Service", func() {
 				config, err := config.NewConfig(provider)
 
 				expected := &error.NotSupportedError{
-					Message: error.ERROR_NOT_SUPPORTED,
+					Message: error.STATUS_NOT_SUPPORTED,
 					Context: "Config",
 				}
 
@@ -85,7 +80,7 @@ var _ = Describe("Config Service", func() {
 
 		When("provider is supported", func() {
 			It("should return valid config", func() {
-				expected := &config.ViperConfig{
+				expected := &config_viper.ViperConfig{
 					FileName: ".env",
 				}
 				config, err := config.NewConfig(provider)

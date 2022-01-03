@@ -5,7 +5,7 @@ import (
 	"io"
 	"io/ioutil"
 
-	response "idaman.id/storage/internal/rest-response"
+	response "idaman.id/storage/internal/response"
 )
 
 func StringifyResponse(r io.Reader) string {

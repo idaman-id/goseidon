@@ -1,6 +1,7 @@
 package config
 
 import (
+	config_viper "idaman.id/storage/internal/config-viper"
 	app_error "idaman.id/storage/internal/error"
 )
 
@@ -11,7 +12,7 @@ func NewConfig(provider string) (ConfigService, error) {
 		return nil, err
 	}
 
-	config := &ViperConfig{
+	config := &config_viper.ViperConfig{
 		FileName: ".env",
 	}
 

@@ -1,17 +1,10 @@
 package rest_response_test
 
 import (
-	"testing"
-
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
-	response "idaman.id/storage/internal/rest-response"
+	response "idaman.id/storage/internal/response"
 )
-
-func TestResponse(t *testing.T) {
-	RegisterFailHandler(Fail)
-	RunSpecs(t, "Response Suite")
-}
 
 var _ = Describe("Response Contract", func() {
 	Context("Contract constant", func() {

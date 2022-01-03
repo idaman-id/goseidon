@@ -2,11 +2,20 @@ package rest_fiber_test
 
 import (
 	"errors"
+	"testing"
+
+	. "github.com/onsi/ginkgo/v2"
+	. "github.com/onsi/gomega"
 
 	app_error "idaman.id/storage/internal/error"
-	response "idaman.id/storage/internal/rest-response"
+	response "idaman.id/storage/internal/response"
 	"idaman.id/storage/internal/retrieving"
 )
+
+func TestHandler(t *testing.T) {
+	RegisterFailHandler(Fail)
+	RunSpecs(t, "Handler Package")
+}
 
 type StubDeleteService struct {
 }

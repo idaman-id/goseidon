@@ -1,11 +1,44 @@
-package validation_test
+package validation_go_test
 
 import (
 	"errors"
 
+	"testing"
+
 	"github.com/go-playground/validator/v10"
-	"idaman.id/storage/internal/validation"
+	validation_go "idaman.id/storage/internal/validation-go"
+
+	. "github.com/onsi/ginkgo/v2"
+
+	. "github.com/onsi/gomega"
 )
+
+func TestGoValidation(t *testing.T) {
+	RegisterFailHandler(Fail)
+	RunSpecs(t, "GoValidation Package")
+}
+
+type StubStringParser struct {
+}
+
+func (s *StubStringParser) ParseString(param interface{}) string {
+	return ""
+}
+
+type StubConfigGetter struct {
+}
+
+func (s *StubConfigGetter) GetString(key string) string {
+	return ""
+}
+
+func (s *StubConfigGetter) GetInt(key string) int {
+	return 0
+}
+
+func (s *StubConfigGetter) Get(key string) interface{} {
+	return ""
+}
 
 type StubGoValidator struct {
 	StructShouldError             bool
@@ -16,7 +49,7 @@ type StubGoValidator struct {
 
 func (mock *StubGoValidator) Struct(data interface{}) error {
 	if mock.StructShouldError {
-		var errors validation.GoValidationErrors
+		var errors validation_go.GoValidationErrors
 		err := &StubFieldError{}
 		errors = append(errors, err)
 		return errors

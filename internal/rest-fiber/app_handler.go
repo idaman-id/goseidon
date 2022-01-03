@@ -3,7 +3,7 @@ package rest_fiber
 import (
 	"github.com/gofiber/fiber/v2"
 	app_error "idaman.id/storage/internal/error"
-	response "idaman.id/storage/internal/rest-response"
+	response "idaman.id/storage/internal/response"
 )
 
 func NewHomeHandler() Handler {
@@ -16,7 +16,7 @@ func NewHomeHandler() Handler {
 func NewNotFoundHandler() Handler {
 	return func(ctx *Context) error {
 		responseEntity := response.NewErrorResponse(&response.ResponseParam{
-			Message: app_error.ERROR_NOT_FOUND,
+			Message: app_error.STATUS_NOT_FOUND,
 		})
 		return ctx.Status(fiber.StatusNotFound).JSON(responseEntity)
 	}

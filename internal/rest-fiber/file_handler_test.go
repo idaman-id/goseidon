@@ -8,8 +8,8 @@ import (
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 	app_error "idaman.id/storage/internal/error"
+	response "idaman.id/storage/internal/response"
 	rest_fiber "idaman.id/storage/internal/rest-fiber"
-	response "idaman.id/storage/internal/rest-response"
 	"idaman.id/storage/internal/retrieving"
 )
 
@@ -43,7 +43,7 @@ var _ = Describe("File Handler", func() {
 				resEntity := UnmarshallResponseBody(res.Body)
 
 				expected := response.NewErrorResponse(&response.ResponseParam{
-					Message: app_error.ERROR_NOT_FOUND,
+					Message: app_error.STATUS_NOT_FOUND,
 				})
 
 				Expect(res.StatusCode).To(Equal(fiber.StatusNotFound))
@@ -110,7 +110,7 @@ var _ = Describe("File Handler", func() {
 				resEntity := UnmarshallResponseBody(res.Body)
 
 				expected := response.NewErrorResponse(&response.ResponseParam{
-					Message: app_error.ERROR_NOT_FOUND,
+					Message: app_error.STATUS_NOT_FOUND,
 				})
 
 				Expect(res.StatusCode).To(Equal(fiber.StatusNotFound))

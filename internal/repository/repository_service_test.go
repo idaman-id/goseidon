@@ -1,18 +1,11 @@
 package repository_test
 
 import (
-	"testing"
-
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 	app_error "idaman.id/storage/internal/error"
 	"idaman.id/storage/internal/repository"
 )
-
-func TestRepository(t *testing.T) {
-	RegisterFailHandler(Fail)
-	RunSpecs(t, "Repository Suite")
-}
 
 var _ = Describe("Repository Service", func() {
 
@@ -31,7 +24,7 @@ var _ = Describe("Repository Service", func() {
 				repo, err := repository.NewRepository(provider)
 
 				expected := &app_error.NotSupportedError{
-					Message: app_error.ERROR_NOT_SUPPORTED,
+					Message: app_error.STATUS_NOT_SUPPORTED,
 					Context: "Database",
 				}
 

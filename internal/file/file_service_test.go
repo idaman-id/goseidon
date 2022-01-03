@@ -2,18 +2,12 @@ package file_test
 
 import (
 	"mime/multipart"
-	"testing"
 
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 	"idaman.id/storage/internal/file"
 	"idaman.id/storage/internal/text"
 )
-
-func TestFile(t *testing.T) {
-	RegisterFailHandler(Fail)
-	RunSpecs(t, "File Suite")
-}
 
 var _ = Describe("File Service", func() {
 	var (
