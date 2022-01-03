@@ -3,8 +3,8 @@ package repository_mongo
 import (
 	"time"
 
+	app_error "idaman.id/storage/internal/error"
 	"idaman.id/storage/internal/file"
-	app_error "idaman.id/storage/pkg/error"
 )
 
 type FileRepository struct {

@@ -4,7 +4,7 @@ import (
 	"errors"
 
 	"github.com/go-playground/validator/v10"
-	"idaman.id/storage/pkg/validation"
+	"idaman.id/storage/internal/validation"
 )
 
 type StubGoValidator struct {

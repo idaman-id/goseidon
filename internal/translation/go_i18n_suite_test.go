@@ -2,7 +2,7 @@ package translation_test
 
 import (
 	. "github.com/onsi/ginkgo/v2"
-	"idaman.id/storage/pkg/translation"
+	"idaman.id/storage/internal/translation"
 
 	. "github.com/onsi/gomega"
 )

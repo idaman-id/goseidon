@@ -1,11 +1,11 @@
 package text
 
 type StringParser interface {
-	ParseString(data interface{}) string
+	ParseString(d interface{}) string
 }
 
 type Slugger interface {
-	Slugify(text string) string
+	Slugify(t string) string
 }
 
 type TextService interface {

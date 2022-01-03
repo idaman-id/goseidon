@@ -5,10 +5,10 @@ import (
 
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
-	"idaman.id/storage/pkg/config"
-	"idaman.id/storage/pkg/error"
-	"idaman.id/storage/pkg/text"
-	"idaman.id/storage/pkg/validation"
+	"idaman.id/storage/internal/config"
+	"idaman.id/storage/internal/error"
+	"idaman.id/storage/internal/text"
+	"idaman.id/storage/internal/validation"
 )
 
 var _ = Describe("GoValidator Service", func() {

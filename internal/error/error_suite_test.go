@@ -5,7 +5,7 @@ import (
 
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
-	"idaman.id/storage/pkg/error"
+	"idaman.id/storage/internal/error"
 )
 
 func TestApp(t *testing.T) {

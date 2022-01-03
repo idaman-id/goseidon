@@ -1,8 +1,8 @@
 package repository
 
 import (
+	app_error "idaman.id/storage/internal/error"
 	mongo "idaman.id/storage/internal/repository-mongo"
-	app_error "idaman.id/storage/pkg/error"
 )
 
 func NewRepository(provider string) (*Repository, error) {

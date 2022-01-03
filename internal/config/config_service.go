@@ -1,7 +1,7 @@
 package config
 
 import (
-	app_error "idaman.id/storage/pkg/error"
+	app_error "idaman.id/storage/internal/error"
 )
 
 func NewConfig(provider string) (ConfigService, error) {

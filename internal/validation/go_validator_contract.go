@@ -2,7 +2,7 @@ package validation
 
 import (
 	"github.com/go-playground/validator/v10"
-	app_error "idaman.id/storage/pkg/error"
+	app_error "idaman.id/storage/internal/error"
 )
 
 type Map = map[string]interface{}

@@ -5,7 +5,7 @@ import (
 
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
-	"idaman.id/storage/pkg/text"
+	"idaman.id/storage/internal/text"
 )
 
 func TestText(t *testing.T) {

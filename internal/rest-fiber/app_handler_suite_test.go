@@ -9,9 +9,9 @@ import (
 	"github.com/gofiber/fiber/v2"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
+	app_error "idaman.id/storage/internal/error"
 	rest_fiber "idaman.id/storage/internal/rest-fiber"
 	response "idaman.id/storage/internal/rest-response"
-	app_error "idaman.id/storage/pkg/error"
 )
 
 func TestHandler(t *testing.T) {

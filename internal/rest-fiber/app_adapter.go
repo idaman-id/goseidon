@@ -2,7 +2,7 @@ package rest_fiber
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"idaman.id/storage/pkg/config"
+	"idaman.id/storage/internal/config"
 )
 
 type FiberApp struct {

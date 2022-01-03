@@ -7,14 +7,14 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/gofiber/fiber/v2/middleware/requestid"
+	"idaman.id/storage/internal/app"
+	"idaman.id/storage/internal/config"
 	"idaman.id/storage/internal/file"
 	"idaman.id/storage/internal/repository"
 	"idaman.id/storage/internal/retrieving"
+	"idaman.id/storage/internal/text"
 	"idaman.id/storage/internal/uploading"
-	"idaman.id/storage/pkg/app"
-	"idaman.id/storage/pkg/config"
-	"idaman.id/storage/pkg/text"
-	"idaman.id/storage/pkg/validation"
+	"idaman.id/storage/internal/validation"
 )
 
 func NewApp() (app.App, error) {

@@ -3,9 +3,9 @@ package rest_fiber_test
 import (
 	"errors"
 
+	app_error "idaman.id/storage/internal/error"
 	response "idaman.id/storage/internal/rest-response"
 	"idaman.id/storage/internal/retrieving"
-	app_error "idaman.id/storage/pkg/error"
 )
 
 type StubDeleteService struct {

@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"idaman.id/storage/pkg/text"
+	"idaman.id/storage/internal/text"
 )
 
 type fileService struct {

@@ -1,10 +1,10 @@
 package retrieving
 
 import (
+	"idaman.id/storage/internal/config"
 	"idaman.id/storage/internal/file"
 	"idaman.id/storage/internal/repository"
 	"idaman.id/storage/internal/storage"
-	"idaman.id/storage/pkg/config"
 )
 
 type retrieveService struct {

@@ -5,8 +5,8 @@ import (
 
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
+	app_error "idaman.id/storage/internal/error"
 	"idaman.id/storage/internal/repository"
-	app_error "idaman.id/storage/pkg/error"
 )
 
 func TestRepository(t *testing.T) {

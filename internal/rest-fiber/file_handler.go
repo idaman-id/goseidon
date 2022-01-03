@@ -2,10 +2,10 @@ package rest_fiber
 
 import (
 	"github.com/gofiber/fiber/v2"
+	app_error "idaman.id/storage/internal/error"
 	response "idaman.id/storage/internal/rest-response"
 	"idaman.id/storage/internal/retrieving"
 	"idaman.id/storage/internal/uploading"
-	app_error "idaman.id/storage/pkg/error"
 )
 
 func NewFileGetDetailHandler(rService retrieving.FileGetter) Handler {

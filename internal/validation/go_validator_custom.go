@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	"github.com/go-playground/validator/v10"
-	"idaman.id/storage/pkg/config"
+	"idaman.id/storage/internal/config"
 )
 
 type CustomValidator = func(fl validator.FieldLevel) bool

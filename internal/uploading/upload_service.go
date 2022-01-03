@@ -1,10 +1,10 @@
 package uploading
 
 import (
+	"idaman.id/storage/internal/config"
 	"idaman.id/storage/internal/file"
 	"idaman.id/storage/internal/storage"
-	"idaman.id/storage/pkg/config"
-	"idaman.id/storage/pkg/validation"
+	"idaman.id/storage/internal/validation"
 )
 
 type uploadService struct {

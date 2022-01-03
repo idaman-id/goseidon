@@ -4,9 +4,9 @@ import (
 	"reflect"
 
 	"github.com/go-playground/validator/v10"
-	"idaman.id/storage/pkg/config"
-	app_error "idaman.id/storage/pkg/error"
-	"idaman.id/storage/pkg/text"
+	"idaman.id/storage/internal/config"
+	app_error "idaman.id/storage/internal/error"
+	"idaman.id/storage/internal/text"
 )
 
 type GoValidatorService struct {

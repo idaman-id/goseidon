@@ -7,7 +7,7 @@ import (
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 	"idaman.id/storage/internal/file"
-	"idaman.id/storage/pkg/text"
+	"idaman.id/storage/internal/text"
 )
 
 func TestFile(t *testing.T) {

@@ -2,8 +2,8 @@ package rest_fiber
 
 import (
 	"github.com/gofiber/fiber/v2"
+	app_error "idaman.id/storage/internal/error"
 	response "idaman.id/storage/internal/rest-response"
-	app_error "idaman.id/storage/pkg/error"
 )
 
 func NewHomeHandler() Handler {

@@ -8,9 +8,9 @@ import (
 	"os"
 
 	"github.com/valyala/fasthttp"
+	"idaman.id/storage/internal/config"
+	app_error "idaman.id/storage/internal/error"
 	"idaman.id/storage/internal/file"
-	"idaman.id/storage/pkg/config"
-	app_error "idaman.id/storage/pkg/error"
 )
 
 type StorageLocal struct {

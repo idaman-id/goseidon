@@ -6,8 +6,8 @@ import (
 
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
-	config "idaman.id/storage/pkg/config"
-	"idaman.id/storage/pkg/error"
+	config "idaman.id/storage/internal/config"
+	"idaman.id/storage/internal/error"
 )
 
 func TestConfig(t *testing.T) {
