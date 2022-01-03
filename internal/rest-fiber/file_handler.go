@@ -24,8 +24,8 @@ func NewFileGetDetailHandler(rService retrieving.FileGetter) Handler {
 		var responseEntity *response.ResponseEntity
 
 		switch err.(type) {
-		case *app_error.NotFoundError:
-			notFoundError := err.(*app_error.NotFoundError)
+		case *app_error.NotfoundError:
+			notFoundError := err.(*app_error.NotfoundError)
 			statusCode = fiber.StatusNotFound
 			responseEntity = response.NewErrorResponse(&response.ResponseParam{
 				Message: notFoundError.Error(),
@@ -55,8 +55,8 @@ func NewGetResourceHandler(rService retrieving.FileRetriever) Handler {
 		var statusCode int
 
 		switch err.(type) {
-		case *app_error.NotFoundError:
-			notFoundError := err.(*app_error.NotFoundError)
+		case *app_error.NotfoundError:
+			notFoundError := err.(*app_error.NotfoundError)
 			statusCode = fiber.StatusNotFound
 			responseEntity = response.NewErrorResponse(&response.ResponseParam{
 				Message: notFoundError.Error(),

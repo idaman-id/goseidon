@@ -18,7 +18,7 @@ type FileRepository struct {
 func (repo *FileRepository) FindByUniqueId(uniqueId string) (*file.FileEntity, error) {
 
 	if uniqueId == "not_found" {
-		err := app_error.NewNotFoundError("File")
+		err := app_error.NewNotfoundError("File")
 		return nil, err
 	}
 

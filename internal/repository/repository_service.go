@@ -7,7 +7,7 @@ import (
 
 func NewRepository(provider string) (*Repository, error) {
 	if provider != DATABASE_MONGO {
-		err := app_error.NewNotSupportedError("Database")
+		err := app_error.NewUnsupportedError("Database")
 		return nil, err
 	}
 

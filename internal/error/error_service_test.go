@@ -17,130 +17,136 @@ var _ = Describe("App Contract", func() {
 	})
 })
 
-var _ = Describe("App Error", func() {
-	Context("ValidationError struct", func() {
-		var (
-			err *error.ValidationError
-		)
+var _ = Describe("Error Service", func() {
+	Describe("Validation Error", func() {
+		Context("ValidationError struct", func() {
+			var (
+				err *error.ValidationError
+			)
 
-		BeforeEach(func() {
-			err = &error.ValidationError{
-				Message: error.STATUS_INVALID_DATA,
-			}
-		})
-
-		When("Error method called", func() {
-			It("should return error message", func() {
-
-				Expect(err.Error()).To(Equal(error.STATUS_INVALID_DATA))
-			})
-		})
-	})
-
-	Context("NewValidationError function", func() {
-		var (
-			items []*error.ValidationItem
-		)
-
-		BeforeEach(func() {
-			item1 := &error.ValidationItem{
-				Field:   "name",
-				Message: "invalid value",
-				Value:   "",
-			}
-			items = append(items, item1)
-		})
-		When("function called", func() {
-			It("should return ValidationError instance", func() {
-				expected := &error.ValidationError{
+			BeforeEach(func() {
+				err = &error.ValidationError{
 					Message: error.STATUS_INVALID_DATA,
-					Items:   items,
 				}
-				err := error.NewValidationError(items)
+			})
 
-				Expect(err).To(MatchError(expected))
+			When("Error method called", func() {
+				It("should return error message", func() {
+
+					Expect(err.Error()).To(Equal(error.STATUS_INVALID_DATA))
+				})
+			})
+		})
+
+		Context("NewValidationError function", func() {
+			var (
+				items []error.ValidationItem
+			)
+
+			BeforeEach(func() {
+				item1 := error.ValidationItem{
+					Field:   "name",
+					Message: "invalid value",
+					Value:   "",
+				}
+				items = append(items, item1)
+			})
+			When("function called", func() {
+				It("should return ValidationError instance", func() {
+					expected := &error.ValidationError{
+						Message: error.STATUS_INVALID_DATA,
+						Items:   items,
+					}
+					err := error.NewValidationError(items)
+
+					Expect(err).To(MatchError(expected))
+				})
 			})
 		})
 	})
 
-	Context("NotSupportedError struct", func() {
-		var (
-			err *error.NotSupportedError
-		)
+	Describe("Unsupported Error", func() {
+		Context("UnsupportedError struct", func() {
+			var (
+				err *error.UnsupportedError
+			)
 
-		BeforeEach(func() {
-			err = &error.NotSupportedError{
-				Message: error.STATUS_NOT_SUPPORTED,
-			}
-		})
-
-		When("Error method called", func() {
-			It("should return error message", func() {
-
-				Expect(err.Error()).To(Equal(error.STATUS_NOT_SUPPORTED))
-			})
-		})
-	})
-
-	Context("NewNotSupportedError function", func() {
-		var (
-			context string
-		)
-
-		BeforeEach(func() {
-			context = "Config"
-		})
-
-		When("function called", func() {
-			It("should return NotSupportedError instance", func() {
-				expected := &error.NotSupportedError{
+			BeforeEach(func() {
+				err = &error.UnsupportedError{
 					Message: error.STATUS_NOT_SUPPORTED,
-					Context: context,
 				}
-				err := error.NewNotSupportedError(context)
+			})
 
-				Expect(err).To(MatchError(expected))
+			When("Error method called", func() {
+				It("should return error message", func() {
+
+					Expect(err.Error()).To(Equal(error.STATUS_NOT_SUPPORTED))
+				})
+			})
+		})
+
+		Context("NewUnsupportedError function", func() {
+			var (
+				context string
+			)
+
+			BeforeEach(func() {
+				context = "Config"
+			})
+
+			When("function called", func() {
+				It("should return UnsupportedError instance", func() {
+					expected := &error.UnsupportedError{
+						Message: error.STATUS_NOT_SUPPORTED,
+						Context: context,
+					}
+					err := error.NewUnsupportedError(context)
+
+					Expect(err).To(MatchError(expected))
+				})
 			})
 		})
 	})
 
-	Context("NotFoundError struct", func() {
-		var (
-			err *error.NotFoundError
-		)
+	Describe("Notfound Error", func() {
+		Context("NotfoundError struct", func() {
+			var (
+				err *error.NotfoundError
+			)
 
-		BeforeEach(func() {
-			err = &error.NotFoundError{
-				Message: error.STATUS_NOT_FOUND,
-			}
-		})
-
-		When("Error method called", func() {
-			It("should return error message", func() {
-
-				Expect(err.Error()).To(Equal(error.STATUS_NOT_FOUND))
-			})
-		})
-	})
-
-	Context("NewNotFoundError function", func() {
-		var (
-			context string
-		)
-
-		BeforeEach(func() {
-			context = "Config"
-		})
-
-		When("function called", func() {
-			It("should return NotFoundError instance", func() {
-				expected := &error.NotFoundError{
+			BeforeEach(func() {
+				err = &error.NotfoundError{
 					Message: error.STATUS_NOT_FOUND,
-					Context: context,
 				}
-				err := error.NewNotFoundError(context)
+			})
 
-				Expect(err).To(MatchError(expected))
+			When("Error method called", func() {
+				It("should return error message", func() {
+
+					Expect(err.Error()).To(Equal(error.STATUS_NOT_FOUND))
+				})
+			})
+		})
+
+		Context("NewNotfoundError function", func() {
+			var (
+				context string
+			)
+
+			BeforeEach(func() {
+				context = "Config"
+			})
+
+			When("function called", func() {
+				It("should return NotfoundError instance", func() {
+					expected := &error.NotfoundError{
+						Message: error.STATUS_NOT_FOUND,
+						Context: context,
+					}
+					err := error.NewNotfoundError(context)
+
+					Expect(err).To(MatchError(expected))
+				})
 			})
 		})
 	})

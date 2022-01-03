@@ -61,7 +61,7 @@ func (s *StorageLocal) DeleteFile(file *FileEntity) error {
 
 	switch err.(type) {
 	case *fs.PathError:
-		err = app_error.NewNotFoundError("File")
+		err = app_error.NewNotfoundError("File")
 	}
 
 	return err

@@ -19,11 +19,11 @@ var _ = Describe("Repository Service", func() {
 		})
 
 		When("provider is not supported", func() {
-			It("should return NotSupportedError", func() {
+			It("should return UnsupportedError", func() {
 				provider = "unsupported"
 				repo, err := repository.NewRepository(provider)
 
-				expected := &app_error.NotSupportedError{
+				expected := &app_error.UnsupportedError{
 					Message: app_error.STATUS_NOT_SUPPORTED,
 					Context: "Database",
 				}

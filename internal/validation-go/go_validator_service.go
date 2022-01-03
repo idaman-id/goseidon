@@ -33,7 +33,7 @@ func (s *GoValidatorService) ValidateStruct(param interface{}) error {
 
 	isDataTypeStruct := reflect.ValueOf(param).Kind() == reflect.Struct
 	if !isDataTypeStruct {
-		return app_error.NewNotSupportedError("Validation")
+		return app_error.NewUnsupportedError("Validation")
 	}
 
 	vResult := s.validate.Struct(param)
@@ -42,7 +42,7 @@ func (s *GoValidatorService) ValidateStruct(param interface{}) error {
 		return nil
 	}
 
-	var items []*app_error.ValidationItem
+	var items []app_error.ValidationItem
 
 	errors := vResult.(GoValidationErrors)
 	for _, err := range errors {
@@ -52,7 +52,7 @@ func (s *GoValidatorService) ValidateStruct(param interface{}) error {
 			Message: err.Error(),
 			Value:   value,
 		}
-		items = append(items, &element)
+		items = append(items, element)
 	}
 
 	vErr := app_error.NewValidationError(items)

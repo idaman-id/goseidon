@@ -71,8 +71,8 @@ var _ = Describe("GoValidator Service", func() {
 		})
 
 		When("param is not a struct", func() {
-			It("should return NotSupportedError", func() {
-				expected := error.NewNotSupportedError("Validation")
+			It("should return UnsupportedError", func() {
+				expected := error.NewUnsupportedError("Validation")
 				res := service.ValidateStruct("")
 
 				Expect(res).To(MatchError(expected))
@@ -117,8 +117,8 @@ var _ = Describe("GoValidator Service", func() {
 				param := Rule{}
 				res := service.ValidateStruct(param)
 
-				var items []*error.ValidationItem
-				item := &error.ValidationItem{
+				var items []error.ValidationItem
+				item := error.ValidationItem{
 					Field:   "Value",
 					Message: "Field value is required",
 					Value:   "",

@@ -22,7 +22,7 @@ type StubDeleteService struct {
 
 func (s *StubDeleteService) DeleteFile(identifier string) error {
 	if identifier == "not-found" {
-		return app_error.NewNotFoundError("File")
+		return app_error.NewNotfoundError("File")
 	} else if identifier == "error" {
 		return errors.New(response.STATUS_ERROR)
 	}
@@ -34,7 +34,7 @@ type StubFileGetterService struct {
 
 func (stub *StubFileGetterService) GetFile(identifier string) (*retrieving.FileEntity, error) {
 	if identifier == "not-found" {
-		return nil, app_error.NewNotFoundError("File")
+		return nil, app_error.NewNotfoundError("File")
 	} else if identifier == "error" {
 		return nil, errors.New(response.STATUS_ERROR)
 	}
@@ -47,7 +47,7 @@ type StubFileRetrieverService struct {
 
 func (stub *StubFileRetrieverService) RetrieveFile(identifier string) (*retrieving.RetrieveFileResult, error) {
 	if identifier == "not-found" {
-		return nil, app_error.NewNotFoundError("File")
+		return nil, app_error.NewNotfoundError("File")
 	} else if identifier == "error" {
 		return nil, errors.New(response.STATUS_ERROR)
 	}

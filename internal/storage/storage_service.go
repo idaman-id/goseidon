@@ -9,7 +9,7 @@ import (
 func NewStorage(provider string, configGetter config.Getter, fileService file.FileService) (Storage, error) {
 
 	if provider != "local" {
-		err := app_error.NewNotSupportedError("Storage")
+		err := app_error.NewUnsupportedError("Storage")
 		return nil, err
 	}
 

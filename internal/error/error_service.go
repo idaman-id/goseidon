@@ -8,14 +8,14 @@ type ValidationItem struct {
 
 type ValidationError struct {
 	Message string
-	Items   []*ValidationItem
+	Items   []ValidationItem
 }
 
 func (error *ValidationError) Error() string {
 	return error.Message
 }
 
-func NewValidationError(items []*ValidationItem) *ValidationError {
+func NewValidationError(items []ValidationItem) *ValidationError {
 	err := &ValidationError{
 		Message: STATUS_INVALID_DATA,
 		Items:   items,
@@ -23,34 +23,34 @@ func NewValidationError(items []*ValidationItem) *ValidationError {
 	return err
 }
 
-type NotSupportedError struct {
+type UnsupportedError struct {
 	Message string
 	Context string
 }
 
-func (error *NotSupportedError) Error() string {
+func (error *UnsupportedError) Error() string {
 	return error.Message
 }
 
-func NewNotSupportedError(context string) *NotSupportedError {
-	err := &NotSupportedError{
+func NewUnsupportedError(context string) *UnsupportedError {
+	err := &UnsupportedError{
 		Message: STATUS_NOT_SUPPORTED,
 		Context: context,
 	}
 	return err
 }
 
-type NotFoundError struct {
+type NotfoundError struct {
 	Message string
 	Context string
 }
 
-func (error *NotFoundError) Error() string {
+func (error *NotfoundError) Error() string {
 	return error.Message
 }
 
-func NewNotFoundError(context string) *NotFoundError {
-	err := &NotFoundError{
+func NewNotfoundError(context string) *NotfoundError {
+	err := &NotfoundError{
 		Message: STATUS_NOT_FOUND,
 		Context: context,
 	}
