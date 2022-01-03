@@ -23,18 +23,18 @@ func (s *retrieveService) GetFile(identifier string) (*FileEntity, error) {
 	}
 
 	result := &FileEntity{
-		UniqueId:      file.UniqueId,
-		OriginalName:  file.OriginalName,
-		Name:          file.Name,
-		Extension:     file.Extension,
-		Size:          file.Size,
-		Mimetype:      file.Mimetype,
-		Url:           file.Url,
-		Path:          file.Path,
-		ProviderId:    file.ProviderId,
-		ApplicationId: file.ApplicationId,
-		CreatedAt:     file.CreatedAt,
-		UpdatedAt:     file.UpdatedAt,
+		UniqueId:     file.UniqueId,
+		OriginalName: file.OriginalName,
+		Name:         file.Name,
+		Extension:    file.Extension,
+		Size:         file.Size,
+		Mimetype:     file.Mimetype,
+		Url:          file.Url,
+		Path:         file.Path,
+		// ProviderId:    file.ProviderId,
+		// ApplicationId: file.ApplicationId,
+		CreatedAt: file.CreatedAt,
+		UpdatedAt: file.UpdatedAt,
 	}
 	return result, nil
 }
@@ -86,18 +86,18 @@ func (s *retrieveService) RetrieveFile(identifier string) (*RetrieveFileResult, 
 	}
 
 	fileResult := FileEntity{
-		UniqueId:      fileRecord.UniqueId,
-		OriginalName:  fileRecord.OriginalName,
-		Name:          fileRecord.Name,
-		Extension:     fileRecord.Extension,
-		Mimetype:      fileRecord.Mimetype,
-		Size:          fileRecord.Size,
-		Url:           fileRecord.Url,
-		Path:          fileRecord.Path,
-		ProviderId:    fileRecord.ProviderId,
-		ApplicationId: fileRecord.ApplicationId,
-		CreatedAt:     fileRecord.CreatedAt,
-		UpdatedAt:     fileRecord.UpdatedAt,
+		UniqueId:     fileRecord.UniqueId,
+		OriginalName: fileRecord.OriginalName,
+		Name:         fileRecord.Name,
+		Extension:    fileRecord.Extension,
+		Mimetype:     fileRecord.Mimetype,
+		Size:         fileRecord.Size,
+		Url:          fileRecord.Url,
+		Path:         fileRecord.Path,
+		// ProviderId:    fileRecord.ProviderId,
+		// ApplicationId: fileRecord.ApplicationId,
+		CreatedAt: fileRecord.CreatedAt,
+		UpdatedAt: fileRecord.UpdatedAt,
 	}
 	result := &RetrieveFileResult{
 		FileData: fileData,

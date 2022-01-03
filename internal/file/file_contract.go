@@ -2,15 +2,19 @@ package file
 
 import "mime/multipart"
 
-type FileParser interface {
-	ParseOriginalName(fileHeader *multipart.FileHeader) string
-	ParseName(fileHeader *multipart.FileHeader) string
-	ParseSize(fileHeader *multipart.FileHeader) uint64
-	ParseMimeType(fileHeader *multipart.FileHeader) string
-	ParseExtension(fileHeader *multipart.FileHeader) string
-}
-
 type FileService interface {
 	FileParser
-	RemoveFileExtension(fileName string) string
+	FileRemover
+}
+
+type FileParser interface {
+	ParseOriginalName(fh *multipart.FileHeader) string
+	ParseName(fh *multipart.FileHeader) string
+	ParseSize(fh *multipart.FileHeader) uint64
+	ParseMimeType(fh *multipart.FileHeader) string
+	ParseExtension(fh *multipart.FileHeader) string
+}
+
+type FileRemover interface {
+	RemoveFileExtension(fn string) string
 }
