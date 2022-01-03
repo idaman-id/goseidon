@@ -1,8 +1,10 @@
 package config
 
-const (
-	CONFIG_VIPER = "viper"
-)
+type ConfigService interface {
+	Getter
+	Setter
+	Defaultable
+}
 
 type Defaultable interface {
 	SetDefault(key string, value interface{})
@@ -16,11 +18,4 @@ type Getter interface {
 
 type Setter interface {
 	Set(key string, value interface{})
-}
-
-type ConfigService interface {
-	LoadConfiguration() error
-	Defaultable
-	Setter
-	Getter
 }

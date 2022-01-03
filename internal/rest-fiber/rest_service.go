@@ -18,11 +18,7 @@ import (
 )
 
 func NewApp() (app.App, error) {
-	configService, err := config.NewConfig(config.CONFIG_VIPER)
-	if err != nil {
-		return nil, err
-	}
-	err = config.InitConfig(configService)
+	configService, err := config.NewConfigService()
 	if err != nil {
 		return nil, err
 	}

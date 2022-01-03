@@ -12,9 +12,9 @@ import (
 	"idaman.id/storage/internal/retrieving"
 )
 
-func TestHandler(t *testing.T) {
+func TestRestFiber(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "Handler Package")
+	RunSpecs(t, "RestFiber Package")
 }
 
 type StubDeleteService struct {
