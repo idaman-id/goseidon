@@ -5,7 +5,7 @@ import (
 )
 
 type viperConfig struct {
-	FileName string
+	fileName string
 }
 
 func (s *viperConfig) GetString(key string) string {
@@ -32,14 +32,14 @@ func (s *viperConfig) SetDefault(key string, value interface{}) {
 }
 
 func (s *viperConfig) loadConfig() error {
-	viper.SetConfigFile(s.FileName)
+	viper.SetConfigFile(s.fileName)
 	err := viper.ReadInConfig()
 	return err
 }
 
 func NewViperConfig(fn string) (*viperConfig, error) {
 	s := &viperConfig{
-		FileName: fn,
+		fileName: fn,
 	}
 
 	err := s.loadConfig()
