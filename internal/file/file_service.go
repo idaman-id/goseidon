@@ -27,7 +27,7 @@ func (s *fileService) ParseName(fh *multipart.FileHeader) string {
 	return fn
 }
 
-func (s *fileService) ParseSize(fh *multipart.FileHeader) uint64 {
+func (s *fileService) ParseSize(fh *multipart.FileHeader) int64 {
 	if fh == nil {
 		return 0
 	}
@@ -35,7 +35,7 @@ func (s *fileService) ParseSize(fh *multipart.FileHeader) uint64 {
 	if size < 0 {
 		return 0
 	}
-	return uint64(size)
+	return size
 }
 
 func (s *fileService) ParseMimeType(fh *multipart.FileHeader) string {

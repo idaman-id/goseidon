@@ -84,46 +84,64 @@ func NewUploadFileHandler(uService uploading.UploadService) Handler {
 	return func(ctx *Context) error {
 
 		form, err := ctx.MultipartForm()
-
 		if err != nil {
+			err = app_error.NewNotfoundError("File")
 			responseEntity := response.NewErrorResponse(&response.ResponseParam{
 				Message: err.Error(),
 			})
 			return ctx.Status(fiber.StatusBadRequest).JSON(responseEntity)
 		}
 
-		uploadData := uploading.UploadFileParam{
-			Files:    form.File["files"],
-			Provider: ctx.FormValue("provider"),
-		}
-		result, err := uService.UploadFile(uploadData)
-
-		isUploadSuccess := err == nil
-		if isUploadSuccess {
-			responseEntity := response.NewSuccessResponse(&response.ResponseParam{
-				Data: result.Items,
-			})
-			return ctx.JSON(responseEntity)
-		}
-
-		var responseEntity *response.ResponseEntity
-		var status int
-
-		switch err.(type) {
-		case *app_error.ValidationError:
-			status = fiber.StatusUnprocessableEntity
-			validationError := err.(*app_error.ValidationError)
-			responseEntity = response.NewErrorResponse(&response.ResponseParam{
-				Message: validationError.Error(),
-				Error:   validationError.Items,
-			})
-		default:
-			status = fiber.StatusBadRequest
-			responseEntity = response.NewErrorResponse(&response.ResponseParam{
+		fHs := form.File["file"]
+		if len(fHs) == 0 {
+			err = app_error.NewNotfoundError("File")
+			responseEntity := response.NewErrorResponse(&response.ResponseParam{
 				Message: err.Error(),
 			})
+			return ctx.Status(fiber.StatusBadRequest).JSON(responseEntity)
 		}
 
-		return ctx.Status(status).JSON(responseEntity)
+		fileDetail, err := uService.UploadFile(uploading.UploadFileParam{
+			File: *fHs[0],
+		})
+
+		if err != nil {
+			var responseEntity *response.ResponseEntity
+			var status int
+
+			switch err.(type) {
+			case *app_error.ValidationError:
+				status = fiber.StatusUnprocessableEntity
+				validationError := err.(*app_error.ValidationError)
+				responseEntity = response.NewErrorResponse(&response.ResponseParam{
+					Message: validationError.Error(),
+					Error:   validationError.Items,
+				})
+			default:
+				status = fiber.StatusBadRequest
+				responseEntity = response.NewErrorResponse(&response.ResponseParam{
+					Message: err.Error(),
+				})
+			}
+
+			return ctx.Status(status).JSON(responseEntity)
+		}
+
+		fileEntity := &FileDetailEntity{
+			UniqueId:  fileDetail.UniqueId,
+			Name:      fileDetail.Name,
+			Extension: fileDetail.Extension,
+			Size:      fileDetail.Size,
+			Mimetype:  fileDetail.Mimetype,
+			Url:       fileDetail.Url,
+			Path:      fileDetail.Path,
+			CreatedAt: fileDetail.CreatedAt,
+			UpdatedAt: fileDetail.UpdatedAt,
+		}
+
+		responseEntity := response.NewSuccessResponse(&response.ResponseParam{
+			Data: fileEntity,
+		})
+		return ctx.JSON(responseEntity)
 	}
 }

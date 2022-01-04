@@ -5,80 +5,87 @@ import (
 
 	"idaman.id/storage/internal/config"
 	"idaman.id/storage/internal/file"
+	"idaman.id/storage/internal/repository"
+	"idaman.id/storage/internal/storage"
+	"idaman.id/storage/internal/text"
 	"idaman.id/storage/internal/validation"
 )
 
 type uploadService struct {
-	validationService validation.Validator
-	configGetter      config.Getter
-	fileService       file.FileService
+	validator       validation.Validator
+	configGetter    config.Getter
+	storageSaver    storage.Saver
+	stringGenerator text.Generator
+	fileRepo        repository.FileRepository
+	fileService     file.FileService
 }
 
-func (s *uploadService) UploadFile(param UploadFileParam) (*UploadResult, error) {
-	var rule UploadRule
-	rule.SetData(UploadRuleParam{
-		FileHeaders: param.Files,
-		Provider:    param.Provider,
-	})
-
-	err := s.validationService.Validate(rule)
+func (s *uploadService) UploadFile(p UploadFileParam) (*FileEntity, error) {
+	ur := NewUploadRule(p.File)
+	err := s.validator.Validate(*ur)
 
 	if err != nil {
 		return nil, err
 	}
 
-	// storage, err := storage.NewStorage(param.Provider, s.configGetter, s.fileService)
-	// if err != nil {
-	// 	return nil, err
-	// }
+	uniqueId := s.stringGenerator.GenerateUuid()
+	ext := s.fileService.ParseExtension(&p.File)
+	mime := s.fileService.ParseMimeType(&p.File)
+	name := s.fileService.ParseName(&p.File)
+	oriName := s.fileService.ParseOriginalName(&p.File)
+	size := s.fileService.ParseSize(&p.File)
 
-	uploadResult := UploadResult{}
-	for _, fileHeader := range param.Files {
-		fmt.Println("fileHeader", fileHeader)
-
-		// fileResult, err := storage.SaveFile(fileHeader)
-		// isSaveSuccess := err == nil
-
-		// if isSaveSuccess {
-		// 	file := FileEntity{
-		// 		UniqueId:      fileResult.UniqueId,
-		// 		OriginalName:  fileResult.OriginalName,
-		// 		Name:          fileResult.Name,
-		// 		Extension:     fileResult.Extension,
-		// 		Size:          fileResult.Size,
-		// 		Mimetype:      fileResult.Mimetype,
-		// 		Url:           fileResult.Url,
-		// 		Path:          fileResult.Path,
-		// 		CreatedAt:     fileResult.CreatedAt,
-		// 		ProviderId:    "", //@todo: update this field
-		// 		ApplicationId: "", //@todo: update this field
-		// 	}
-		// 	uploadResult.Items = append(uploadResult.Items, UploadResultItem{
-		// 		Status: UPLOAD_SUCCESS,
-		// 		File:   &file,
-		// 	})
-		// } else {
-		uploadResult.Items = append(uploadResult.Items, UploadResultItem{
-			Status:  UPLOAD_FAILED,
-			Message: err.Error(),
-		})
-		// }
-
+	res, err := s.storageSaver.SaveFile(storage.SaveFileParam{
+		FileHeader: p.File,
+		FileName:   uniqueId + "." + ext,
+	})
+	if err != nil {
+		return nil, err
 	}
 
-	/*
-		@todo:
-		1. insert record for all success upload files (including provider_id, application_id)
-		2. test
-	*/
-	return &uploadResult, nil
+	appUrl := s.configGetter.GetString("APP_URL")
+	publicUrl := fmt.Sprintf("%s/%s", appUrl, res.LocalPath)
+
+	err = s.fileRepo.Save(repository.SaveFileParam{
+		UniqueId:     uniqueId,
+		OriginalName: oriName,
+		Name:         name,
+		Size:         size,
+		PublicUrl:    publicUrl,
+		LocalPath:    res.LocalPath,
+		CreatedAt:    &res.CreatedAt,
+		Extension:    ext,
+		Mimetype:     mime,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	file := FileEntity{
+		UniqueId:     uniqueId,
+		Name:         name,
+		OriginalName: oriName,
+		Size:         size,
+		Extension:    ext,
+		Mimetype:     mime,
+		Path:         res.LocalPath,
+		Url:          publicUrl,
+		CreatedAt:    &res.CreatedAt,
+		UpdatedAt:    nil,
+		DeletedAt:    nil,
+	}
+
+	return &file, nil
 }
 
-func NewUploadService(validationService validation.Validator, configGetter config.Getter, fileService file.FileService) UploadService {
+func NewUploadService(v validation.Validator, cg config.Getter, ss storage.Saver, sg text.Generator, fr repository.FileRepository, fs file.FileService) UploadService {
 	s := &uploadService{
-		validationService: validationService,
-		configGetter:      configGetter,
-		fileService:       fileService,
+		validator:       v,
+		configGetter:    cg,
+		storageSaver:    ss,
+		stringGenerator: sg,
+		fileRepo:        fr,
+		fileService:     fs,
 	}
 	return s
 }

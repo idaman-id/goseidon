@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strconv"
 
+	"github.com/google/uuid"
 	"github.com/gosimple/slug"
 )
 
@@ -33,6 +34,10 @@ func (s *textService) ParseString(param interface{}) string {
 		value = ""
 	}
 	return value
+}
+
+func (s *textService) GenerateUuid() string {
+	return uuid.NewString()
 }
 
 func NewTextService() TextService {

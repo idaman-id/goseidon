@@ -8,7 +8,7 @@ type FileDetailEntity struct {
 	UniqueId  string     `json:"unique_id"`
 	Name      string     `json:"name"`
 	Extension string     `json:"extension"`
-	Size      uint64     `json:"size"`
+	Size      int64      `json:"size"`
 	Mimetype  string     `json:"mimetype"`
 	Url       string     `json:"url"`
 	Path      string     `json:"-"`

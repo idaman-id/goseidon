@@ -9,7 +9,7 @@ type FileEntity struct {
 	OriginalName string
 	Name         string
 	Extension    string
-	Size         uint64
+	Size         int64
 	Mimetype     string
 	Url          string
 	Path         string

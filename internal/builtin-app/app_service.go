@@ -24,7 +24,7 @@ func NewApp() (app.App, error) {
 	if err != nil {
 		return nil, err
 	}
-	validatorService, err := validation.NewValidator()
+	validatorService, err := validation.NewValidator(configService)
 	if err != nil {
 		return nil, err
 	}
@@ -38,10 +38,10 @@ func NewApp() (app.App, error) {
 	}
 	fileRepo := repository_mysql.NewFileRepository(mysqlClient, fileService)
 
-	localStorage := storage_local.NewStorageLocal(configService, fileService)
+	localStorage := storage_local.NewStorageLocal()
 
 	retrieveService := retrieving.NewRetrieveService(fileRepo, configService, fileService, localStorage)
-	uploadService := uploading.NewUploadService(validatorService, configService, fileService)
+	uploadService := uploading.NewUploadService(validatorService, configService, localStorage, textService, fileRepo, fileService)
 
 	app := fiber.New(fiber.Config{
 		ErrorHandler: NewErrorHandler(),

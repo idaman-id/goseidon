@@ -3,92 +3,80 @@ package validation_go
 import (
 	"reflect"
 
+	"github.com/go-playground/locales/en"
+	ut "github.com/go-playground/universal-translator"
 	"github.com/go-playground/validator/v10"
+	en_translations "github.com/go-playground/validator/v10/translations/en"
+
 	"idaman.id/storage/internal/config"
 	app_error "idaman.id/storage/internal/error"
-	"idaman.id/storage/internal/text"
 )
 
-type GoValidatorService struct {
-	validate     Validator
-	stringParser text.StringParser
-	configGetter config.Getter
+type goValidationService struct {
+	v  *validator.Validate
+	t  ut.Translator
+	cg config.Getter
 }
 
-func NewGoValidator(validate Validator, stringParser text.StringParser, configGetter config.Getter) (*GoValidatorService, error) {
-	service := &GoValidatorService{
-		validate:     validate,
-		stringParser: stringParser,
-		configGetter: configGetter,
-	}
-	err := service.registerCustomization()
-	if err != nil {
-		return nil, err
-	}
-
-	return service, nil
-}
-
-func (s *GoValidatorService) Validate(param interface{}) error {
-
-	isDataTypeStruct := reflect.ValueOf(param).Kind() == reflect.Struct
-	if !isDataTypeStruct {
+func (s *goValidationService) Validate(i interface{}) error {
+	isTypeValid := reflect.ValueOf(i).Kind() == reflect.Struct
+	if !isTypeValid {
 		return app_error.NewUnsupportedError("Validation")
 	}
 
-	vResult := s.validate.Struct(param)
-	isDataValid := vResult == nil
-	if isDataValid {
+	err := s.v.Struct(i)
+	if err == nil {
 		return nil
 	}
 
 	var items []app_error.ValidationItem
-
-	errors := vResult.(GoValidationErrors)
+	errors := err.(validator.ValidationErrors)
 	for _, err := range errors {
-		value := s.stringParser.ParseString(err.Value())
 		element := app_error.ValidationItem{
 			Field:   err.Field(),
 			Message: err.Error(),
-			Value:   value,
+			Value:   "", //err.Value()
 		}
 		items = append(items, element)
 	}
 
 	vErr := app_error.NewValidationError(items)
-
 	return vErr
 }
 
-func (s *GoValidatorService) registerCustomization() error {
-	var err error
+func NewGoValidator(cg config.Getter) (*goValidationService, error) {
+	en := en.New()
+	uni := ut.New(en, en)
+	trans, _ := uni.GetTranslator("en")
+	v := validator.New()
+	err := en_translations.RegisterDefaultTranslations(v, trans)
+	if err != nil {
+		return nil, err
+	}
+	tFn := NewTagNameFunc()
+	v.RegisterTagNameFunc(tFn)
 
-	s.validate.RegisterTagNameFunc(NewTagNameFunc())
-
-	customValidations := []struct {
+	cValidations := []struct {
 		name string
 		fn   validator.Func
 	}{
 		{
-			name: "valid_provider",
-			fn:   NewValidProviderRule(),
-		},
-		{
-			name: "valid_file_amount",
-			fn:   NewValidFileAmountRule(s.configGetter),
-		},
-		{
 			name: "valid_file_size",
-			fn:   NewValidFileSizeRule(s.configGetter),
+			fn:   NewValidFileSizeRule(cg),
 		},
 	}
 
-	for _, cValidation := range customValidations {
-		err = s.validate.RegisterValidation(cValidation.name, cValidation.fn)
+	for _, cv := range cValidations {
+		err = v.RegisterValidation(cv.name, cv.fn)
 		if err != nil {
 			break
 		}
 	}
 
-	return err
+	s := &goValidationService{
+		v:  v,
+		t:  trans,
+		cg: cg,
+	}
+	return s, nil
 }

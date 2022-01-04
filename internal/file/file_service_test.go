@@ -140,7 +140,7 @@ var _ = Describe("File Service", func() {
 				fileHeader = nil
 				res := fileService.ParseSize(fileHeader)
 
-				Expect(res).To(Equal(uint64(0)))
+				Expect(res).To(Equal(int64(0)))
 			})
 		})
 
@@ -148,7 +148,7 @@ var _ = Describe("File Service", func() {
 			It("should return original file size", func() {
 				res := fileService.ParseSize(fileHeader)
 
-				Expect(res).To(Equal(uint64(23456)))
+				Expect(res).To(Equal(int64(23456)))
 			})
 		})
 
@@ -159,7 +159,7 @@ var _ = Describe("File Service", func() {
 				}
 				res := fileService.ParseSize(fileHeader)
 
-				Expect(res).To(Equal(uint64(0)))
+				Expect(res).To(Equal(int64(0)))
 			})
 		})
 	})

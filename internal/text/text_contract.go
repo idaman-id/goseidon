@@ -8,7 +8,12 @@ type Slugger interface {
 	Slugify(t string) string
 }
 
+type Generator interface {
+	GenerateUuid() string
+}
+
 type TextService interface {
 	Slugger
 	StringParser
+	Generator
 }

@@ -71,6 +71,16 @@ func (r *fileRepository) FindByIdentifier(identifier string) (*repository.FileMo
 	return &file, nil
 }
 
+func (r *fileRepository) Save(p repository.SaveFileParam) error {
+	_, err := r.db.Exec(
+		"INSERT INTO file (unique_id, original_name, name, extension, size, mimetype, public_url, local_path, created_at) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)",
+		p.UniqueId, p.OriginalName, p.Name,
+		p.Extension, p.Size, p.Mimetype, p.PublicUrl, p.LocalPath,
+		p.CreatedAt.Unix(),
+	)
+	return err
+}
+
 func NewFileRepository(db *sql.DB, fileService file.FileService) *fileRepository {
 	return &fileRepository{db, fileService}
 }

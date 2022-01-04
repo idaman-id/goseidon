@@ -10,7 +10,7 @@ type FileService interface {
 type FileParser interface {
 	ParseOriginalName(fh *multipart.FileHeader) string
 	ParseName(fh *multipart.FileHeader) string
-	ParseSize(fh *multipart.FileHeader) uint64
+	ParseSize(fh *multipart.FileHeader) int64
 	ParseMimeType(fh *multipart.FileHeader) string
 	ParseExtension(fh *multipart.FileHeader) string
 }

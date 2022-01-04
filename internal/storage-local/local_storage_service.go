@@ -4,19 +4,17 @@ import (
 	"bufio"
 	"io/ioutil"
 	"os"
+	"time"
 
-	"idaman.id/storage/internal/config"
-	"idaman.id/storage/internal/file"
+	"github.com/valyala/fasthttp"
 	"idaman.id/storage/internal/storage"
 )
 
 type storageLocal struct {
-	storageDir   string
-	configGetter config.Getter
-	fileService  file.FileService
+	storageDir string
 }
 
-func (s *storageLocal) RetrieveFile(localPath string) (result storage.BinaryFile, err error) {
+func (s *storageLocal) RetrieveFile(localPath string) (storage.BinaryFile, error) {
 	osFile, err := os.Open(localPath)
 	if err != nil {
 		return nil, err
@@ -32,28 +30,26 @@ func (s *storageLocal) RetrieveFile(localPath string) (result storage.BinaryFile
 	return bytes, nil
 }
 
-// func (s *storageLocal) SaveFile(fileHeader *multipart.FileHeader) (result *FileEntity, err error) {
-// 	file := NewStorageFile(fileHeader, s.fileService)
+func (s *storageLocal) SaveFile(param storage.SaveFileParam) (*storage.FileEntity, error) {
+	path := s.storageDir + "/" + param.FileName
+	createdAt := time.Now()
 
-// 	path := s.StorageDir + "/" + file.UniqueId + "." + file.Extension
+	err := fasthttp.SaveMultipartFile(&param.FileHeader, path)
+	if err != nil {
+		return nil, err
+	}
 
-// 	appUrl := s.configGetter.GetString("APP_URL")
-// 	file.Path = path
-// 	file.Url = appUrl + "/" + path
+	file := storage.FileEntity{
+		Name:      param.FileName,
+		Size:      param.FileHeader.Size,
+		LocalPath: path,
+		CreatedAt: createdAt,
+	}
+	return &file, nil
+}
 
-// 	err = fasthttp.SaveMultipartFile(fileHeader, path)
-
-// 	isSaveFailed := err != nil
-// 	if isSaveFailed {
-// 		return nil, err
-// 	}
-
-// 	return file, nil
-// }
-
-// func (s *storageLocal) DeleteFile(file *FileEntity) error {
-// 	path := s.StorageDir + "/" + file.UniqueId + "." + file.Extension
-// 	err := os.Remove(path)
+// func (s *storageLocal) DeleteFile(localPath string) error {
+// 	err := os.Remove(localPath)
 
 // 	switch err.(type) {
 // 	case *fs.PathError:
@@ -63,11 +59,9 @@ func (s *storageLocal) RetrieveFile(localPath string) (result storage.BinaryFile
 // 	return err
 // }
 
-func NewStorageLocal(configGetter config.Getter, fileService file.FileService) *storageLocal {
+func NewStorageLocal() *storageLocal {
 	storage := &storageLocal{
-		storageDir:   "storage/file",
-		configGetter: configGetter,
-		fileService:  fileService,
+		storageDir: "storage/file",
 	}
 	return storage
 }

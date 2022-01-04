@@ -13,8 +13,6 @@ type FileEntity struct {
 	Mimetype     string
 	Url          string
 	Path         string
-	// ProviderId    string
-	// ApplicationId string
-	CreatedAt time.Time
-	UpdatedAt time.Time
+	CreatedAt    time.Time
+	UpdatedAt    time.Time
 }

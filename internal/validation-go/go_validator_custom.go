@@ -21,36 +21,9 @@ func NewTagNameFunc() CustomTagName {
 	}
 }
 
-func NewValidProviderRule() CustomValidator {
-	return func(fl validator.FieldLevel) bool {
-		value := fl.Field().Interface().(string)
-
-		isProviderValid := value == "local"
-		return isProviderValid
-	}
-}
-
-func NewValidFileAmountRule(configGetter config.Getter) CustomValidator {
-	return func(fl validator.FieldLevel) bool {
-
-		var totalFile int
-		value := fl.Field().Interface()
-		switch reflect.TypeOf(value).Kind() {
-		case reflect.Slice:
-			totalFile = reflect.ValueOf(value).Len()
-		}
-
-		minAmount := configGetter.GetInt("MIN_UPLOADED_FILE")
-		maxAmount := configGetter.GetInt("MAX_UPLOADED_FILE")
-		isAmountValid := totalFile >= minAmount && totalFile <= maxAmount
-
-		return isAmountValid
-	}
-}
-
 func NewValidFileSizeRule(configGetter config.Getter) CustomValidator {
 	return func(fl validator.FieldLevel) bool {
-		size := fl.Field().Interface().(uint64)
+		size := fl.Field().Interface().(int64)
 		fileSize := int(size)
 
 		minSize := configGetter.GetInt("MIN_FILE_SIZE")
@@ -60,3 +33,30 @@ func NewValidFileSizeRule(configGetter config.Getter) CustomValidator {
 		return isSizeValid
 	}
 }
+
+// func NewValidProviderRule() CustomValidator {
+// 	return func(fl validator.FieldLevel) bool {
+// 		value := fl.Field().Interface().(string)
+
+// 		isProviderValid := value == "local"
+// 		return isProviderValid
+// 	}
+// }
+
+// func NewValidFileAmountRule(configGetter config.Getter) CustomValidator {
+// 	return func(fl validator.FieldLevel) bool {
+
+// 		var totalFile int
+// 		value := fl.Field().Interface()
+// 		switch reflect.TypeOf(value).Kind() {
+// 		case reflect.Slice:
+// 			totalFile = reflect.ValueOf(value).Len()
+// 		}
+
+// 		minAmount := configGetter.GetInt("MIN_UPLOADED_FILE")
+// 		maxAmount := configGetter.GetInt("MAX_UPLOADED_FILE")
+// 		isAmountValid := totalFile >= minAmount && totalFile <= maxAmount
+
+// 		return isAmountValid
+// 	}
+// }
