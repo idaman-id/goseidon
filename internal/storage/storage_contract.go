@@ -5,15 +5,19 @@ import "mime/multipart"
 type BinaryFile = []byte
 
 type Uploader interface {
-	SaveFile(fileHeader *multipart.FileHeader) (result *FileEntity, err error)
+	SaveFile(fh *multipart.FileHeader) (result *FileEntity, err error)
 }
 
 type Retriever interface {
-	RetrieveFile(file *FileEntity) (result BinaryFile, err error)
+	RetrieveFile(localPath string) (result BinaryFile, err error)
 }
 
 type Deleter interface {
 	DeleteFile(file *FileEntity) error
+}
+
+type Saver interface {
+	SaveFile(fh *multipart.FileHeader) (result *FileEntity, err error)
 }
 
 type Storage interface {

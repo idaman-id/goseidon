@@ -14,6 +14,6 @@ type RetrieveService interface {
 }
 
 type RetrieveFileResult struct {
-	File     FileEntity
+	File     *FileEntity
 	FileData []byte
 }

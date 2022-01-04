@@ -1,11 +1,7 @@
 package storage
 
 import (
-	"mime/multipart"
 	"time"
-
-	"github.com/google/uuid"
-	"idaman.id/storage/internal/file"
 )
 
 type FileEntity struct {
@@ -21,13 +17,13 @@ type FileEntity struct {
 	UpdatedAt    time.Time
 }
 
-func NewFile(fileHeader *multipart.FileHeader, fileService file.FileService) *FileEntity {
-	fileEntity := &FileEntity{}
-	// fileEntity.detectMetaData(fileHeader)
-	fileEntity.UniqueId = uuid.New().String()
-	fileEntity.CreatedAt = time.Now()
-	return fileEntity
-}
+// func NewStorageFile(fileHeader *multipart.FileHeader, fileService file.FileService) *FileEntity {
+// 	fileEntity := &FileEntity{}
+// 	// fileEntity.detectMetaData(fileHeader)
+// 	fileEntity.UniqueId = uuid.New().String()
+// 	fileEntity.CreatedAt = time.Now()
+// 	return fileEntity
+// }
 
 // func (fileEntity *FileEntity) detectMetaData(fileHeader *multipart.FileHeader) {
 // 	fileEntity.detectName(fileHeader)

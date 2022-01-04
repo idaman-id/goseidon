@@ -73,7 +73,7 @@ func (stub *FakeFileRetrieverService) RetrieveFile(identifier string) (*retrievi
 	file := retrieving.FileEntity{}
 	fileData := make([]byte, 0)
 	result := &retrieving.RetrieveFileResult{
-		File:     file,
+		File:     &file,
 		FileData: fileData,
 	}
 	return result, nil

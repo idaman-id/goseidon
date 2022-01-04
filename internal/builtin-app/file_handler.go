@@ -53,31 +53,30 @@ func NewFileGetDetailHandler(rService retrieving.FileGetter) Handler {
 func NewGetResourceHandler(rService retrieving.FileRetriever) Handler {
 	return func(ctx *Context) error {
 		result, err := rService.RetrieveFile(ctx.Params("identifier"))
-		isFileAvailable := err == nil
 
-		if isFileAvailable {
-			ctx.Set("Content-Type", result.File.Mimetype)
-			return ctx.Send(result.FileData)
+		if err != nil {
+			var responseEntity *response.ResponseEntity
+			var statusCode int
+
+			switch err.(type) {
+			case *app_error.NotfoundError:
+				notFoundError := err.(*app_error.NotfoundError)
+				statusCode = fiber.StatusNotFound
+				responseEntity = response.NewErrorResponse(&response.ResponseParam{
+					Message: notFoundError.Error(),
+				})
+			default:
+				statusCode = fiber.StatusBadRequest
+				responseEntity = response.NewErrorResponse(&response.ResponseParam{
+					Message: err.Error(),
+				})
+			}
+
+			return ctx.Status(statusCode).JSON(responseEntity)
 		}
 
-		var responseEntity *response.ResponseEntity
-		var statusCode int
-
-		switch err.(type) {
-		case *app_error.NotfoundError:
-			notFoundError := err.(*app_error.NotfoundError)
-			statusCode = fiber.StatusNotFound
-			responseEntity = response.NewErrorResponse(&response.ResponseParam{
-				Message: notFoundError.Error(),
-			})
-		default:
-			statusCode = fiber.StatusBadRequest
-			responseEntity = response.NewErrorResponse(&response.ResponseParam{
-				Message: err.Error(),
-			})
-		}
-
-		return ctx.Status(statusCode).JSON(responseEntity)
+		ctx.Set("Content-Type", result.File.Mimetype)
+		return ctx.Send(result.FileData)
 	}
 }
 

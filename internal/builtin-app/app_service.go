@@ -13,6 +13,7 @@ import (
 	"idaman.id/storage/internal/file"
 	repository_mysql "idaman.id/storage/internal/repository-mysql"
 	"idaman.id/storage/internal/retrieving"
+	storage_local "idaman.id/storage/internal/storage-local"
 	"idaman.id/storage/internal/text"
 	"idaman.id/storage/internal/uploading"
 	"idaman.id/storage/internal/validation"
@@ -34,7 +35,9 @@ func NewApp() (app.App, error) {
 	}
 	fileRepo := repository_mysql.NewFileRepository(mysqlClient, fileService)
 
-	retrieveService := retrieving.NewRetrieveService(fileRepo, configService, fileService)
+	localStorage := storage_local.NewStorageLocal(configService, fileService)
+
+	retrieveService := retrieving.NewRetrieveService(fileRepo, configService, fileService, localStorage)
 	uploadService := uploading.NewUploadService(validatorService, configService, fileService)
 
 	app := fiber.New(fiber.Config{

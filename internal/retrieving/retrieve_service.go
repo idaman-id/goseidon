@@ -8,9 +8,10 @@ import (
 )
 
 type retrieveService struct {
-	fileRepo     repository.FileRepository
-	configGetter config.Getter
-	fileService  file.FileService
+	configGetter     config.Getter
+	fileRepo         repository.FileRepository
+	fileService      file.FileService
+	storageRetriever storage.Retriever
 }
 
 func (s *retrieveService) GetFile(identifier string) (*FileEntity, error) {
@@ -20,7 +21,7 @@ func (s *retrieveService) GetFile(identifier string) (*FileEntity, error) {
 		return nil, err
 	}
 
-	fileEntity := FileEntity{
+	fileEntity := &FileEntity{
 		UniqueId:     fileRecord.UniqueId,
 		OriginalName: fileRecord.OriginalName,
 		Name:         fileRecord.Name,
@@ -33,55 +34,22 @@ func (s *retrieveService) GetFile(identifier string) (*FileEntity, error) {
 		UpdatedAt:    fileRecord.UpdatedAt,
 		DeletedAt:    fileRecord.DeletedAt,
 	}
-	return &fileEntity, nil
+	return fileEntity, nil
 }
 
 func (s *retrieveService) RetrieveFile(identifier string) (*RetrieveFileResult, error) {
 
 	fileRecord, err := s.fileRepo.FindByIdentifier(identifier)
-	isRecordAvailable := err == nil
-	if !isRecordAvailable {
+	if err != nil {
 		return nil, err
 	}
 
-	/*
-		@todo
-		1. set provider from file.provider.id
-		2. set config from file.provider.[`${file.provider.type}_config`]
-		3. test
-	*/
-	provider := "local"
-
-	storageService, err := storage.NewStorage(provider, s.configGetter, s.fileService)
-	isStorageUnsupported := err != nil
-	if isStorageUnsupported {
+	fileData, err := s.storageRetriever.RetrieveFile(fileRecord.LocalPath)
+	if err != nil {
 		return nil, err
 	}
 
-	storageFile := &storage.FileEntity{
-		UniqueId:     fileRecord.UniqueId,  //local only use this field
-		Extension:    fileRecord.Extension, //local only use this field
-		OriginalName: fileRecord.OriginalName,
-		Name:         fileRecord.Name,
-		Size:         fileRecord.Size,
-		Mimetype:     fileRecord.Mimetype,
-		Url:          fileRecord.PublicUrl,
-		Path:         fileRecord.LocalPath,
-		CreatedAt:    *fileRecord.CreatedAt,
-		UpdatedAt:    *fileRecord.UpdatedAt,
-	}
-
-	/*
-		@todo
-		1. refactor function param using dto if necessary (consistency)
-	*/
-	fileData, err := storageService.RetrieveFile(storageFile)
-	isRetrieveSuccess := err == nil
-	if !isRetrieveSuccess {
-		return nil, err
-	}
-
-	fileResult := FileEntity{
+	fileResult := &FileEntity{
 		UniqueId:     fileRecord.UniqueId,
 		OriginalName: fileRecord.OriginalName,
 		Name:         fileRecord.Name,
@@ -98,15 +66,14 @@ func (s *retrieveService) RetrieveFile(identifier string) (*RetrieveFileResult, 
 		FileData: fileData,
 		File:     fileResult,
 	}
-
 	return result, nil
 }
 
-func NewRetrieveService(fileRepo repository.FileRepository, configGetter config.Getter, fileService file.FileService) RetrieveService {
-	s := &retrieveService{
-		fileRepo:     fileRepo,
-		configGetter: configGetter,
-		fileService:  fileService,
+func NewRetrieveService(fr repository.FileRepository, cg config.Getter, fs file.FileService, sr storage.Retriever) RetrieveService {
+	return &retrieveService{
+		configGetter:     cg,
+		fileRepo:         fr,
+		fileService:      fs,
+		storageRetriever: sr,
 	}
-	return s
 }

@@ -1,9 +1,10 @@
 package uploading
 
 import (
+	"fmt"
+
 	"idaman.id/storage/internal/config"
 	"idaman.id/storage/internal/file"
-	"idaman.id/storage/internal/storage"
 	"idaman.id/storage/internal/validation"
 )
 
@@ -26,41 +27,42 @@ func (s *uploadService) UploadFile(param UploadFileParam) (*UploadResult, error)
 		return nil, err
 	}
 
-	storage, err := storage.NewStorage(param.Provider, s.configGetter, s.fileService)
-	if err != nil {
-		return nil, err
-	}
+	// storage, err := storage.NewStorage(param.Provider, s.configGetter, s.fileService)
+	// if err != nil {
+	// 	return nil, err
+	// }
 
 	uploadResult := UploadResult{}
 	for _, fileHeader := range param.Files {
+		fmt.Println("fileHeader", fileHeader)
 
-		fileResult, err := storage.SaveFile(fileHeader)
-		isSaveSuccess := err == nil
+		// fileResult, err := storage.SaveFile(fileHeader)
+		// isSaveSuccess := err == nil
 
-		if isSaveSuccess {
-			file := FileEntity{
-				UniqueId:      fileResult.UniqueId,
-				OriginalName:  fileResult.OriginalName,
-				Name:          fileResult.Name,
-				Extension:     fileResult.Extension,
-				Size:          fileResult.Size,
-				Mimetype:      fileResult.Mimetype,
-				Url:           fileResult.Url,
-				Path:          fileResult.Path,
-				CreatedAt:     fileResult.CreatedAt,
-				ProviderId:    "", //@todo: update this field
-				ApplicationId: "", //@todo: update this field
-			}
-			uploadResult.Items = append(uploadResult.Items, UploadResultItem{
-				Status: UPLOAD_SUCCESS,
-				File:   &file,
-			})
-		} else {
-			uploadResult.Items = append(uploadResult.Items, UploadResultItem{
-				Status:  UPLOAD_FAILED,
-				Message: err.Error(),
-			})
-		}
+		// if isSaveSuccess {
+		// 	file := FileEntity{
+		// 		UniqueId:      fileResult.UniqueId,
+		// 		OriginalName:  fileResult.OriginalName,
+		// 		Name:          fileResult.Name,
+		// 		Extension:     fileResult.Extension,
+		// 		Size:          fileResult.Size,
+		// 		Mimetype:      fileResult.Mimetype,
+		// 		Url:           fileResult.Url,
+		// 		Path:          fileResult.Path,
+		// 		CreatedAt:     fileResult.CreatedAt,
+		// 		ProviderId:    "", //@todo: update this field
+		// 		ApplicationId: "", //@todo: update this field
+		// 	}
+		// 	uploadResult.Items = append(uploadResult.Items, UploadResultItem{
+		// 		Status: UPLOAD_SUCCESS,
+		// 		File:   &file,
+		// 	})
+		// } else {
+		uploadResult.Items = append(uploadResult.Items, UploadResultItem{
+			Status:  UPLOAD_FAILED,
+			Message: err.Error(),
+		})
+		// }
 
 	}
 
