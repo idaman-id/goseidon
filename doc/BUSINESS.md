@@ -4,14 +4,6 @@
 1. Client is all possible actor on the system who have `application credential` (key and secret).
 2. `Storage provider` or later is known as `provider` is application which storing the physical files uploaded by the client.
 
-## Environments
-1. `APP_URL` = http://storage.domain.tld
-2. `APP_DEFAULT_LOCALE` = id
-3. `MIN_UPLOADED_FILE` = 1
-4. `MAX_UPLOADED_FILE` = 5
-5. `MIN_FILE_SIZE` = 1
-6. `MAX_FILE_SIZE` = 134217728
-
 ## Rules
 1. Client can upload minimum of `MIN_UPLOADED_FILE` in one single upload.
 2. Client can upload maximum of `MAX_UPLOADED_FILE` in one single upload.

@@ -24,7 +24,10 @@ func NewApp() (app.App, error) {
 	if err != nil {
 		return nil, err
 	}
-	validatorService := validation.NewValidationService()
+	validatorService, err := validation.NewValidator()
+	if err != nil {
+		return nil, err
+	}
 
 	textService := text.NewTextService()
 	fileService := file.NewFileService(textService)

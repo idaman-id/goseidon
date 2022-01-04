@@ -85,8 +85,7 @@ func NewUploadFileHandler(uService uploading.UploadService) Handler {
 
 		form, err := ctx.MultipartForm()
 
-		isFormInvalid := err != nil
-		if isFormInvalid {
+		if err != nil {
 			responseEntity := response.NewErrorResponse(&response.ResponseParam{
 				Message: err.Error(),
 			})

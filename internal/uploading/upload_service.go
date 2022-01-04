@@ -9,7 +9,7 @@ import (
 )
 
 type uploadService struct {
-	validationService validation.ValidationService
+	validationService validation.Validator
 	configGetter      config.Getter
 	fileService       file.FileService
 }
@@ -74,7 +74,7 @@ func (s *uploadService) UploadFile(param UploadFileParam) (*UploadResult, error)
 	return &uploadResult, nil
 }
 
-func NewUploadService(validationService validation.ValidationService, configGetter config.Getter, fileService file.FileService) UploadService {
+func NewUploadService(validationService validation.Validator, configGetter config.Getter, fileService file.FileService) UploadService {
 	s := &uploadService{
 		validationService: validationService,
 		configGetter:      configGetter,
