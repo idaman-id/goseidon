@@ -1,9 +1,9 @@
 root = "."
-tmp_dir = "storage"
+tmp_dir = "storage/log"
 
 [build]
-  bin = "build\\file-service\\main.exe"
-  cmd = "go build -o ./build/file-service/ ./cmd/file-service/main.go"
+  bin = "build\\builtin-app\\main.exe"
+  cmd = "go build -o ./build/builtin-app/ ./cmd/builtin-app/main.go"
   delay = 1000
   exclude_dir = ["asset", "build", "doc", "storage", ".git"]
   exclude_file = []
@@ -14,7 +14,7 @@ tmp_dir = "storage"
   include_dir = []
   include_ext = ["go"]
   kill_delay = "0s"
-  log = "build-file-service.error.log"
+  log = "build-builtin-app.error.log"
   send_interrupt = false
   stop_on_error = true
 

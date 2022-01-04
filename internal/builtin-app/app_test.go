@@ -1,7 +1,10 @@
-package rest_fiber_test
+package builtin_app_test
 
 import (
+	"encoding/json"
 	"errors"
+	"io"
+	"io/ioutil"
 	"testing"
 
 	. "github.com/onsi/ginkgo/v2"
@@ -12,15 +15,31 @@ import (
 	"idaman.id/storage/internal/retrieving"
 )
 
-func TestRestFiber(t *testing.T) {
+func TestBuiltinApp(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "RestFiber Package")
+	RunSpecs(t, "BuiltinApp Package")
 }
 
-type StubDeleteService struct {
+func StringifyResponse(r io.Reader) string {
+	body, _ := ioutil.ReadAll(r)
+	resBody := string(body)
+
+	return resBody
 }
 
-func (s *StubDeleteService) DeleteFile(identifier string) error {
+func UnmarshallResponseBody(r io.Reader) *response.ResponseEntity {
+	resBody := StringifyResponse(r)
+
+	var resEntity *response.ResponseEntity
+	json.Unmarshal([]byte(resBody), &resEntity)
+
+	return resEntity
+}
+
+type FakeDeleteService struct {
+}
+
+func (s *FakeDeleteService) DeleteFile(identifier string) error {
 	if identifier == "not-found" {
 		return app_error.NewNotfoundError("File")
 	} else if identifier == "error" {
@@ -29,10 +48,10 @@ func (s *StubDeleteService) DeleteFile(identifier string) error {
 	return nil
 }
 
-type StubFileGetterService struct {
+type FakeFileGetterService struct {
 }
 
-func (stub *StubFileGetterService) GetFile(identifier string) (*retrieving.FileEntity, error) {
+func (stub *FakeFileGetterService) GetFile(identifier string) (*retrieving.FileEntity, error) {
 	if identifier == "not-found" {
 		return nil, app_error.NewNotfoundError("File")
 	} else if identifier == "error" {
@@ -42,10 +61,10 @@ func (stub *StubFileGetterService) GetFile(identifier string) (*retrieving.FileE
 	return file, nil
 }
 
-type StubFileRetrieverService struct {
+type FakeFileRetrieverService struct {
 }
 
-func (stub *StubFileRetrieverService) RetrieveFile(identifier string) (*retrieving.RetrieveFileResult, error) {
+func (stub *FakeFileRetrieverService) RetrieveFile(identifier string) (*retrieving.RetrieveFileResult, error) {
 	if identifier == "not-found" {
 		return nil, app_error.NewNotfoundError("File")
 	} else if identifier == "error" {

@@ -15,11 +15,11 @@ func TestTranslation(t *testing.T) {
 	RunSpecs(t, "Translation Package")
 }
 
-type StubGoI18n struct {
+type FakeGoI18n struct {
 	success bool
 }
 
-func (mock *StubGoI18n) Localize(lc *i18n.LocalizeConfig) (string, error) {
+func (mock *FakeGoI18n) Localize(lc *i18n.LocalizeConfig) (string, error) {
 	if mock.success {
 		return "localized", nil
 	}

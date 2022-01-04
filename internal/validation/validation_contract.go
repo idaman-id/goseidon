@@ -5,5 +5,5 @@ const (
 )
 
 type ValidationService interface {
-	ValidateStruct(param interface{}) error
+	Validate(i interface{}) error
 }

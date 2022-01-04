@@ -1,4 +1,4 @@
-package rest_fiber_test
+package builtin_app_test
 
 import (
 	"errors"
@@ -8,9 +8,9 @@ import (
 	"github.com/gofiber/fiber/v2"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
+	builtin_app "idaman.id/storage/internal/builtin-app"
 	app_error "idaman.id/storage/internal/error"
 	response "idaman.id/storage/internal/response"
-	rest_fiber "idaman.id/storage/internal/rest-fiber"
 )
 
 var _ = Describe("App Handler", func() {
@@ -20,13 +20,13 @@ var _ = Describe("App Handler", func() {
 
 	BeforeEach(func() {
 		fiberApp = fiber.New(fiber.Config{
-			ErrorHandler: rest_fiber.NewErrorHandler(),
+			ErrorHandler: builtin_app.NewErrorHandler(),
 		})
 	})
 
 	Context("Home Handler", func() {
 		BeforeEach(func() {
-			fiberApp.Get("/", rest_fiber.NewHomeHandler())
+			fiberApp.Get("/", builtin_app.NewHomeHandler())
 		})
 		When("home endpoint accessed", func() {
 			It("should return success response", func() {
@@ -45,7 +45,7 @@ var _ = Describe("App Handler", func() {
 
 	Context("NotFound Handler", func() {
 		BeforeEach(func() {
-			fiberApp.Get("*", rest_fiber.NewNotFoundHandler())
+			fiberApp.Get("*", builtin_app.NewNotFoundHandler())
 		})
 		When("unavailable endpoint accessed", func() {
 			It("should return not found response", func() {

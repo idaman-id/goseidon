@@ -1,4 +1,4 @@
-package rest_fiber
+package builtin_app
 
 import (
 	"github.com/gofiber/fiber/v2"
@@ -9,8 +9,9 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/requestid"
 	"idaman.id/storage/internal/app"
 	"idaman.id/storage/internal/config"
+	"idaman.id/storage/internal/database"
 	"idaman.id/storage/internal/file"
-	"idaman.id/storage/internal/repository"
+	repository_mysql "idaman.id/storage/internal/repository-mysql"
 	"idaman.id/storage/internal/retrieving"
 	"idaman.id/storage/internal/text"
 	"idaman.id/storage/internal/uploading"
@@ -22,18 +23,19 @@ func NewApp() (app.App, error) {
 	if err != nil {
 		return nil, err
 	}
-
-	validator := validation.NewValidator(validation.VALIDATOR_GO_I18N)
-
-	repo, err := repository.NewRepository(repository.DATABASE_MONGO)
-	if err != nil {
-		return nil, err
-	}
+	validatorService := validation.NewValidationService()
 
 	textService := text.NewTextService()
 	fileService := file.NewFileService(textService)
-	retrieveService := retrieving.NewRetrieveService(repo.FileRepo, fileService)
-	uploadService := uploading.NewUploadService(validator, configService, fileService)
+
+	mysqlClient, err := database.NewMySQLClient(configService)
+	if err != nil {
+		return nil, err
+	}
+	fileRepo := repository_mysql.NewFileRepository(mysqlClient, fileService)
+
+	retrieveService := retrieving.NewRetrieveService(fileRepo, configService, fileService)
+	uploadService := uploading.NewUploadService(validatorService, configService, fileService)
 
 	app := fiber.New(fiber.Config{
 		ErrorHandler: NewErrorHandler(),

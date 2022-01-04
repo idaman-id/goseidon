@@ -1,4 +1,4 @@
-package rest_fiber
+package builtin_app
 
 import (
 	"github.com/gofiber/fiber/v2"

@@ -46,7 +46,7 @@ $ air # default configuration (.air.toml)
 $ air -c .air.toml # custom configuration
 
 # run manually #
-$ go run \\cmd\\file-service\\main.go 
+$ go run \\cmd\\builtin-app\\main.go 
 
 # testing #
 $ ginkgo watch -r -v
@@ -60,10 +60,10 @@ But in general we can simply run with the following command:
 
 ```bash
 # build manually #
-$ go build -o ./build/file-service/ ./cmd/file-service/main.go
+$ go build -o ./build/builtin-app/ ./cmd/builtin-app/main.go
 
 # run manually #
-$ go run \\cmd\\file-service\\main.go 
+$ go run \\cmd\\builtin-app\\main.go 
 ```
 
 ## ❓ QnA
@@ -72,14 +72,18 @@ Q1. Is there any possibility for file size to be negative?
 
 A1. No, and for overflow problem system is gonna mark negative size as zero
 
+---
+
+Q2. Prefer one line code or positive case in the end of code?
+
 ## 👀 Known Issues
 
 No issues right now
 
 ## 💪 Todo
-1. Make all code work again after refactor
-2. `mongodb` database implementation + test
-3. `mysql` database implementation + test
+1. `mysql` database implementation + test
+2. `Built In` Support (using other `instance` of go-seidon)
+3. `AWS S3` Support
 4. Refactor storage.SaveFile using os Write (remove fasthttp dependency)
 5. Enhancment storage.SaveFile using date foldering
 6. Implement translation on service layer
@@ -87,16 +91,15 @@ No issues right now
 8. End to end Test (Test usecase)
 
 ## 🤩 Nice to Have
-1. `Built In` Support (using other `instance` of go-seidon)
+1. `mongodb` database implementation + test
 2. Concurrent/pararell processing when uploading multiple files
-3. `AWS S3` Support
-4. `Alicloud OSS` Support
-5. Custom file validation rules/policies (e.g: based on `provider`, or `application`)
-6. Caching layer
-7. Allowing file authorization in the future (e.g: based on `user context`)
-8. Custom file slug configuration (for SEO purpose)
-9. Storage dashboard monitoring (e.g: grafana dashboard by using prometheus exporter)
-10. Upload to multiple provider for each file support (e.g: for backup purpose)
+3. `Alicloud OSS` Support
+4. Custom file validation rules/policies (e.g: based on `provider`, or `application`)
+5. Caching layer
+6. Allowing file authorization in the future (e.g: based on `user context`)
+7. Custom file slug configuration (for SEO purpose)
+8. Storage dashboard monitoring (e.g: grafana dashboard by using prometheus exporter)
+9. Upload to multiple provider for each file support (e.g: for backup purpose)
 
 ## 💖 Contributions
 

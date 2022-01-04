@@ -14,16 +14,16 @@ import (
 var _ = Describe("GoValidator Service", func() {
 	Context("NewGoValidator function", func() {
 		var (
-			stubValidator    *StubGoValidator
+			stubValidator    *FakeGoValidator
 			stubStringParser text.StringParser
 			stubConfigGetter config.Getter
 			service          *validation_go.GoValidatorService
 		)
 
 		BeforeEach(func() {
-			stubValidator = &StubGoValidator{}
-			stubStringParser = &StubStringParser{}
-			stubConfigGetter = &StubConfigGetter{}
+			stubValidator = &FakeGoValidator{}
+			stubStringParser = &FakeStringParser{}
+			stubConfigGetter = &FakeConfigGetter{}
 			service, _ = validation_go.NewGoValidator(stubValidator, stubStringParser, stubConfigGetter)
 		})
 
@@ -44,7 +44,7 @@ var _ = Describe("GoValidator Service", func() {
 			})
 
 			It("should return error when failed create validator", func() {
-				stubValidator = &StubGoValidator{
+				stubValidator = &FakeGoValidator{
 					RegisterValidationShouldError: true,
 				}
 				service, err := validation_go.NewGoValidator(stubValidator, stubStringParser, stubConfigGetter)
@@ -55,25 +55,25 @@ var _ = Describe("GoValidator Service", func() {
 		})
 	})
 
-	Context("ValidateStruct method", func() {
+	Context("Validate method", func() {
 		var (
-			stubValidator    *StubGoValidator
+			stubValidator    *FakeGoValidator
 			stubStringParser text.StringParser
 			stubConfigGetter config.Getter
 			service          *validation_go.GoValidatorService
 		)
 
 		BeforeEach(func() {
-			stubValidator = &StubGoValidator{}
-			stubStringParser = &StubStringParser{}
-			stubConfigGetter = &StubConfigGetter{}
+			stubValidator = &FakeGoValidator{}
+			stubStringParser = &FakeStringParser{}
+			stubConfigGetter = &FakeConfigGetter{}
 			service, _ = validation_go.NewGoValidator(stubValidator, stubStringParser, stubConfigGetter)
 		})
 
 		When("param is not a struct", func() {
 			It("should return UnsupportedError", func() {
 				expected := error.NewUnsupportedError("Validation")
-				res := service.ValidateStruct("")
+				res := service.Validate("")
 
 				Expect(res).To(MatchError(expected))
 			})
@@ -84,7 +84,7 @@ var _ = Describe("GoValidator Service", func() {
 				type Rule struct {
 				}
 				param := Rule{}
-				res := service.ValidateStruct(param)
+				res := service.Validate(param)
 
 				Expect(res).To(BeNil())
 			})
@@ -98,7 +98,7 @@ var _ = Describe("GoValidator Service", func() {
 				param := Rule{
 					Value: 1,
 				}
-				res := service.ValidateStruct(param)
+				res := service.Validate(param)
 
 				Expect(res).To(BeNil())
 			})
@@ -106,7 +106,7 @@ var _ = Describe("GoValidator Service", func() {
 
 		When("param contain invalid data", func() {
 			It("should return ValidationError", func() {
-				stubValidator = &StubGoValidator{
+				stubValidator = &FakeGoValidator{
 					StructShouldError: true,
 				}
 				service, _ = validation_go.NewGoValidator(stubValidator, stubStringParser, stubConfigGetter)
@@ -115,7 +115,7 @@ var _ = Describe("GoValidator Service", func() {
 					Value int `validate:"required"`
 				}
 				param := Rule{}
-				res := service.ValidateStruct(param)
+				res := service.Validate(param)
 
 				var items []error.ValidationItem
 				item := error.ValidationItem{

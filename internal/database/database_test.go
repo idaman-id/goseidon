@@ -1,4 +1,4 @@
-package repository_test
+package database_test
 
 import (
 	"testing"
@@ -7,7 +7,7 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-func TestRepository(t *testing.T) {
+func TestDatabase(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "Repository Package")
+	RunSpecs(t, "Database Package")
 }

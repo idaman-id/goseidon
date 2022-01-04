@@ -18,68 +18,68 @@ func TestGoValidation(t *testing.T) {
 	RunSpecs(t, "GoValidation Package")
 }
 
-type StubStringParser struct {
+type FakeStringParser struct {
 }
 
-func (s *StubStringParser) ParseString(param interface{}) string {
+func (s *FakeStringParser) ParseString(param interface{}) string {
 	return ""
 }
 
-type StubConfigGetter struct {
+type FakeConfigGetter struct {
 }
 
-func (s *StubConfigGetter) GetString(key string) string {
+func (s *FakeConfigGetter) GetString(key string) string {
 	return ""
 }
 
-func (s *StubConfigGetter) GetInt(key string) int {
+func (s *FakeConfigGetter) GetInt(key string) int {
 	return 0
 }
 
-func (s *StubConfigGetter) Get(key string) interface{} {
+func (s *FakeConfigGetter) Get(key string) interface{} {
 	return ""
 }
 
-type StubGoValidator struct {
+type FakeGoValidator struct {
 	StructShouldError             bool
 	RegisterTagNameFuncCounter    int
 	RegisterValidationCounter     int
 	RegisterValidationShouldError bool
 }
 
-func (mock *StubGoValidator) Struct(data interface{}) error {
+func (mock *FakeGoValidator) Struct(data interface{}) error {
 	if mock.StructShouldError {
 		var errors validation_go.GoValidationErrors
-		err := &StubFieldError{}
+		err := &FakeFieldError{}
 		errors = append(errors, err)
 		return errors
 	}
 	return nil
 }
 
-func (mock *StubGoValidator) RegisterTagNameFunc(fn validator.TagNameFunc) {
+func (mock *FakeGoValidator) RegisterTagNameFunc(fn validator.TagNameFunc) {
 	mock.RegisterTagNameFuncCounter++
 }
 
-func (mock *StubGoValidator) RegisterValidation(tag string, fn validator.Func, callValidationEvenIfNull ...bool) error {
+func (mock *FakeGoValidator) RegisterValidation(tag string, fn validator.Func, callValidationEvenIfNull ...bool) error {
 	if mock.RegisterValidationShouldError {
-		return errors.New("Stubed error")
+		return errors.New("Fakeed error")
 	}
 	mock.RegisterValidationCounter++
 	return nil
 }
 
-type StubFieldError struct {
+type FakeFieldError struct {
 }
 
-func (mock *StubFieldError) Field() string {
+func (mock *FakeFieldError) Field() string {
 	return "Value"
 }
 
-func (mock *StubFieldError) Value() interface{} {
+func (mock *FakeFieldError) Value() interface{} {
 	return ""
 }
 
-func (mock *StubFieldError) Error() string {
+func (mock *FakeFieldError) Error() string {
 	return "Field value is required"
 }

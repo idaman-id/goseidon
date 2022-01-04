@@ -1,5 +1,7 @@
 package error
 
+import "fmt"
+
 type ValidationItem struct {
 	Field   string `json:"field"`
 	Message string `json:"message"`
@@ -46,7 +48,7 @@ type NotfoundError struct {
 }
 
 func (error *NotfoundError) Error() string {
-	return error.Message
+	return fmt.Sprintf("%s is not found", error.Context)
 }
 
 func NewNotfoundError(context string) *NotfoundError {

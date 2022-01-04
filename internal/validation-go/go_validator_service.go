@@ -29,7 +29,7 @@ func NewGoValidator(validate Validator, stringParser text.StringParser, configGe
 	return service, nil
 }
 
-func (s *GoValidatorService) ValidateStruct(param interface{}) error {
+func (s *GoValidatorService) Validate(param interface{}) error {
 
 	isDataTypeStruct := reflect.ValueOf(param).Kind() == reflect.Struct
 	if !isDataTypeStruct {

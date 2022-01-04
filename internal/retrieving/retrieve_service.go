@@ -15,34 +15,30 @@ type retrieveService struct {
 
 func (s *retrieveService) GetFile(identifier string) (*FileEntity, error) {
 
-	uniqueId := s.fileService.RemoveFileExtension(identifier)
-	file, err := s.fileRepo.FindByUniqueId(uniqueId)
-	isRecordAvailable := err == nil
-	if !isRecordAvailable {
+	fileRecord, err := s.fileRepo.FindByIdentifier(identifier)
+	if err != nil {
 		return nil, err
 	}
 
-	result := &FileEntity{
-		UniqueId:     file.UniqueId,
-		OriginalName: file.OriginalName,
-		Name:         file.Name,
-		Extension:    file.Extension,
-		Size:         file.Size,
-		Mimetype:     file.Mimetype,
-		Url:          file.Url,
-		Path:         file.Path,
-		// ProviderId:    file.ProviderId,
-		// ApplicationId: file.ApplicationId,
-		CreatedAt: file.CreatedAt,
-		UpdatedAt: file.UpdatedAt,
+	fileEntity := FileEntity{
+		UniqueId:     fileRecord.UniqueId,
+		OriginalName: fileRecord.OriginalName,
+		Name:         fileRecord.Name,
+		Extension:    fileRecord.Extension,
+		Size:         fileRecord.Size,
+		Mimetype:     fileRecord.Mimetype,
+		Url:          fileRecord.PublicUrl,
+		Path:         fileRecord.LocalPath,
+		CreatedAt:    fileRecord.CreatedAt,
+		UpdatedAt:    fileRecord.UpdatedAt,
+		DeletedAt:    fileRecord.DeletedAt,
 	}
-	return result, nil
+	return &fileEntity, nil
 }
 
 func (s *retrieveService) RetrieveFile(identifier string) (*RetrieveFileResult, error) {
 
-	uniqueId := s.fileService.RemoveFileExtension(identifier)
-	fileRecord, err := s.fileRepo.FindByUniqueId(uniqueId)
+	fileRecord, err := s.fileRepo.FindByIdentifier(identifier)
 	isRecordAvailable := err == nil
 	if !isRecordAvailable {
 		return nil, err
@@ -69,10 +65,10 @@ func (s *retrieveService) RetrieveFile(identifier string) (*RetrieveFileResult, 
 		Name:         fileRecord.Name,
 		Size:         fileRecord.Size,
 		Mimetype:     fileRecord.Mimetype,
-		Url:          fileRecord.Url,
-		Path:         fileRecord.Path,
-		CreatedAt:    fileRecord.CreatedAt,
-		UpdatedAt:    fileRecord.UpdatedAt,
+		Url:          fileRecord.PublicUrl,
+		Path:         fileRecord.LocalPath,
+		CreatedAt:    *fileRecord.CreatedAt,
+		UpdatedAt:    *fileRecord.UpdatedAt,
 	}
 
 	/*
@@ -92,12 +88,11 @@ func (s *retrieveService) RetrieveFile(identifier string) (*RetrieveFileResult, 
 		Extension:    fileRecord.Extension,
 		Mimetype:     fileRecord.Mimetype,
 		Size:         fileRecord.Size,
-		Url:          fileRecord.Url,
-		Path:         fileRecord.Path,
-		// ProviderId:    fileRecord.ProviderId,
-		// ApplicationId: fileRecord.ApplicationId,
-		CreatedAt: fileRecord.CreatedAt,
-		UpdatedAt: fileRecord.UpdatedAt,
+		Url:          fileRecord.PublicUrl,
+		Path:         fileRecord.LocalPath,
+		CreatedAt:    fileRecord.CreatedAt,
+		UpdatedAt:    fileRecord.UpdatedAt,
+		DeletedAt:    fileRecord.DeletedAt,
 	}
 	result := &RetrieveFileResult{
 		FileData: fileData,
@@ -107,10 +102,11 @@ func (s *retrieveService) RetrieveFile(identifier string) (*RetrieveFileResult, 
 	return result, nil
 }
 
-func NewRetrieveService(fileRepo repository.FileRepository, fileService file.FileService) RetrieveService {
+func NewRetrieveService(fileRepo repository.FileRepository, configGetter config.Getter, fileService file.FileService) RetrieveService {
 	s := &retrieveService{
-		fileRepo:    fileRepo,
-		fileService: fileService,
+		fileRepo:     fileRepo,
+		configGetter: configGetter,
+		fileService:  fileService,
 	}
 	return s
 }

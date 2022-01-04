@@ -1,4 +1,4 @@
-package rest_fiber
+package builtin_app
 
 import (
 	"github.com/gofiber/fiber/v2"
@@ -10,34 +10,43 @@ import (
 
 func NewFileGetDetailHandler(rService retrieving.FileGetter) Handler {
 	return func(ctx *Context) error {
+		fileDetail, err := rService.GetFile(ctx.Params("identifier"))
+		if err != nil {
+			var statusCode int
+			var resBody *response.ResponseEntity
 
-		fileEntity, err := rService.GetFile(ctx.Params("identifier"))
-		isFileAvailable := err == nil
-		if isFileAvailable {
-			responseEntity := response.NewSuccessResponse(&response.ResponseParam{
-				Data: fileEntity,
-			})
-			return ctx.JSON(responseEntity)
+			switch err.(type) {
+			case *app_error.NotfoundError:
+				notFoundError := err.(*app_error.NotfoundError)
+				statusCode = fiber.StatusNotFound
+				resBody = response.NewErrorResponse(&response.ResponseParam{
+					Message: notFoundError.Error(),
+				})
+			default:
+				statusCode = fiber.StatusBadRequest
+				resBody = response.NewErrorResponse(&response.ResponseParam{
+					Message: err.Error(),
+				})
+			}
+
+			return ctx.Status(statusCode).JSON(resBody)
 		}
 
-		var statusCode int
-		var responseEntity *response.ResponseEntity
-
-		switch err.(type) {
-		case *app_error.NotfoundError:
-			notFoundError := err.(*app_error.NotfoundError)
-			statusCode = fiber.StatusNotFound
-			responseEntity = response.NewErrorResponse(&response.ResponseParam{
-				Message: notFoundError.Error(),
-			})
-		default:
-			statusCode = fiber.StatusBadRequest
-			responseEntity = response.NewErrorResponse(&response.ResponseParam{
-				Message: err.Error(),
-			})
+		fileEntity := &FileDetailEntity{
+			UniqueId:  fileDetail.UniqueId,
+			Name:      fileDetail.Name,
+			Extension: fileDetail.Extension,
+			Size:      fileDetail.Size,
+			Mimetype:  fileDetail.Mimetype,
+			Url:       fileDetail.Url,
+			Path:      fileDetail.Path,
+			CreatedAt: fileDetail.CreatedAt,
+			UpdatedAt: fileDetail.UpdatedAt,
 		}
-
-		return ctx.Status(statusCode).JSON(responseEntity)
+		resBody := response.NewSuccessResponse(&response.ResponseParam{
+			Data: fileEntity,
+		})
+		return ctx.JSON(resBody)
 	}
 }
 

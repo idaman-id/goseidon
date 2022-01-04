@@ -1,4 +1,4 @@
-package rest_fiber_test
+package builtin_app_test
 
 import (
 	"net/http"
@@ -7,9 +7,8 @@ import (
 	"github.com/gofiber/fiber/v2"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
-	app_error "idaman.id/storage/internal/error"
+	builtin_app "idaman.id/storage/internal/builtin-app"
 	response "idaman.id/storage/internal/response"
-	rest_fiber "idaman.id/storage/internal/rest-fiber"
 	"idaman.id/storage/internal/retrieving"
 )
 
@@ -30,8 +29,8 @@ var _ = Describe("File Handler", func() {
 
 		BeforeEach(func() {
 			identifier = "fake-identifier"
-			fileGetterService = &StubFileGetterService{}
-			fiberApp.Get("/v1/file/:identifier", rest_fiber.NewFileGetDetailHandler(fileGetterService))
+			fileGetterService = &FakeFileGetterService{}
+			fiberApp.Get("/v1/file/:identifier", builtin_app.NewFileGetDetailHandler(fileGetterService))
 		})
 
 		When("file not found", func() {
@@ -43,7 +42,7 @@ var _ = Describe("File Handler", func() {
 				resEntity := UnmarshallResponseBody(res.Body)
 
 				expected := response.NewErrorResponse(&response.ResponseParam{
-					Message: app_error.STATUS_NOT_FOUND,
+					Message: "File is not found",
 				})
 
 				Expect(res.StatusCode).To(Equal(fiber.StatusNotFound))
@@ -97,8 +96,8 @@ var _ = Describe("File Handler", func() {
 
 		BeforeEach(func() {
 			identifier = "fake-identifier"
-			fileRetrieverService = &StubFileRetrieverService{}
-			fiberApp.Get("/file/:identifier", rest_fiber.NewGetResourceHandler(fileRetrieverService))
+			fileRetrieverService = &FakeFileRetrieverService{}
+			fiberApp.Get("/file/:identifier", builtin_app.NewGetResourceHandler(fileRetrieverService))
 		})
 
 		When("file not found", func() {
@@ -110,7 +109,7 @@ var _ = Describe("File Handler", func() {
 				resEntity := UnmarshallResponseBody(res.Body)
 
 				expected := response.NewErrorResponse(&response.ResponseParam{
-					Message: app_error.STATUS_NOT_FOUND,
+					Message: "File is not found",
 				})
 
 				Expect(res.StatusCode).To(Equal(fiber.StatusNotFound))

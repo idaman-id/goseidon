@@ -116,6 +116,7 @@ var _ = Describe("Error Service", func() {
 
 			BeforeEach(func() {
 				err = &error.NotfoundError{
+					Context: "File",
 					Message: error.STATUS_NOT_FOUND,
 				}
 			})
@@ -123,7 +124,7 @@ var _ = Describe("Error Service", func() {
 			When("Error method called", func() {
 				It("should return error message", func() {
 
-					Expect(err.Error()).To(Equal(error.STATUS_NOT_FOUND))
+					Expect(err.Error()).To(Equal("File is not found"))
 				})
 			})
 		})

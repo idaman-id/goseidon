@@ -20,17 +20,14 @@ func (s *uploadService) UploadFile(param UploadFileParam) (*UploadResult, error)
 		Provider:    param.Provider,
 	})
 
-	err := s.validationService.ValidateStruct(rule)
+	err := s.validationService.Validate(rule)
 
-	isDataInvalid := err != nil
-	if isDataInvalid {
+	if err != nil {
 		return nil, err
 	}
 
 	storage, err := storage.NewStorage(param.Provider, s.configGetter, s.fileService)
-	isProviderUnsupported := err != nil
-
-	if isProviderUnsupported {
+	if err != nil {
 		return nil, err
 	}
 

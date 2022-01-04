@@ -1,202 +1,118 @@
 # Database Documentation
-Database used by this application is `mongodb`
+Database structure used by goseidon
 
-## Colection Index
-- [File](#collection-file)
-- [Provider](#collection-provider)
-- [Application](#collection-application)
+# MySQL Database
+- Database Name: `goseidon`
 
-### Collection: File
-- Collection Name: `file`
+## Table Index
+- [File](#table-file)
+- [Provider](#table-provider)
+- [Application](#table-application)
+
+### Table: File
+- Table Name: `file`
 - Data Structure
 ```json
 {
-  "_id": {
-    "type": "ObjectId",
+  "id": {
+    "type": "BigInt",
+    "unsigned": true,
     "required": true,
     "unique": true,
-    "example": {
-      "$oid": "606437e1ea400000f70055ce"
-    }
+    "primary_key": true,
+    "example": 1
   },
   "unique_id": {
-    "type": "String",
+    "type": "Varchar",
     "required": true,
     "unique": true,
+    "max": 250,
     "example": "651fd093-03cb-4ff4-a23c-7959ce07def5"
   },
+  "original_name": {
+    "type": "Varchar",
+    "required": true,
+    "example": "samplevideo 1280x720 1mb.mp4",
+    "min": 3,
+    "max": 512
+  },
   "name": {
-    "type": "String",
+    "type": "Varchar",
     "required": true,
     "example": "samplevideo-1280x720-1mb.mp4",
     "min": 3,
-    "max": 2048
+    "max": 512
   },
   "size": {
-    "type": "Uint32",
+    "type": "Int",
+    "unsigned": true,
     "required": true,
     "example": 1055736
   },
-  "type": {
-    "type": "String",
-    "required": true,
-    "enum": [
-      "audio", "video", "image", "document"
-    ],
-    "example": "video"
-  },
   "extension": {
-    "type": "String",
+    "type": "Varchar",
     "required": true,
     "example": "mp4",
     "min": 1,
-    "max": 64
+    "max": 32
   },
   "mimetype": {
-    "type": "String",
+    "type": "Varchar",
     "required": true,
     "example": "video/mp4",
     "min": 1,
     "max": 128
   },
-  "url": {
-    "type": "String",
+  "public_url": {
+    "type": "Varchar",
     "required": true,
     "example": "http://storage.idaman.local/file/651fd093-03cb-4ff4-a23c-7959ce07def5.mp4",
     "min": 3,
     "max": 2048
   },
-  "path": {
-    "type": "String",
+  "local_path": {
+    "type": "Varchar",
     "required": true,
     "example": "file/custom/directory/2021/03/31/samplevideo-1280x720-1mb-606437e13acba.mp4",
     "min": 3,
-    "max": 2048
-  },
-  "provider_id": {
-    "type": "ObjectId",
-    "required": true,
-    "example": {
-      "$oid": "604e0620c276172ad04aa3c2"
-    }
-  },
-  "application_id": {
-    "type": "ObjectId",
-    "required": true,
-    "example": {
-      "$oid": "604e0620c276172ad04aa3c2"
-    }
-  }
-}
-```
-
-### Collection: Provider
-- Collection Name: `provider`
-- Data Structure
-```json
-{
-  "_id": {
-    "type": "ObjectId",
-    "required": true,
-    "unique": true,
-    "example": {
-      "$oid": "604e0620c276172ad04aa3c2"
-    }
-  },
-  "type": {
-    "type": "String",
-    "required": true,
-    "enum": [
-      "local", "aws_s3"
-    ],
-    "example": "aws_s3"
-  },
-  "priority": {
-    "type": "Uint8",
-    "required": true,
-    "description": "higher value is higher priority",
-    "example": 1,
-    "min": 1,
-    "max": 32
-  },
-  "code": {
-    "type": "String",
-    "required": true,
-    "unique": true,
-    "example": "suzaku-1",
-    "min": 3,
-    "max": 100
-  },
-  "name": {
-    "type": "String",
-    "required": true,
-    "example": "Suzaku 1",
-    "min": 3,
-    "max": 100
-  },  
-  "status": {
-    "type": "String",
-    "required": true,
-    "enum": [
-      "active", "inactive"
-    ],
-    "example": "active"
-  },
-  "local_config": {
-    "type": "Object",
-    "field": {
-      "storage_dir": {
-        "type": "String",
-        "required": true
-      }
-    }
-  },
-  "aws_s3_config": {
-    "type": "Object"
-  }
-}
-```
-
-### Collection: Application
-- Collection Name: `application`
-- Data Structure
-```json
-{
-  "_id": {
-    "type": "ObjectId",
-    "required": true,
-    "unique": true,
-    "example": {
-      "$oid": "604e0620c276172ad04aa3c2"
-    }
-  },
-  "name": {
-    "type": "String",
-    "required": true,
-    "example": "Gateway Android",
-    "min": 3,
-    "max": 100
-  },
-  "key": {
-    "type": "String",
-    "required": true,
-    "unique": true,
-    "example": "jhkXcgVyszUGzE6uTKFX5ivwjxB83LQ8v+9U7NRz6f56lkxzD9CHSp",
-    "max": 1024
-  },
-  "secret": {
-    "type": "String",
-    "required": true,
-    "example": "uxTsn9xqmtRF27euKzKcfH/EvXHU9sVvXd+2suplySX",
     "max": 4096
   },
-  "status": {
-    "type": "String",
+  "created_at": {
+    "type": "Int",
+    "unsigned": true,
     "required": true,
-    "enum": [
-      "active", "inactive"
-    ],
-    "example": "active"
+    "example": 1640858210
+  },
+  "updated_at": {
+    "type": "Int",
+    "unsigned": true,
+    "required": false,
+    "example": 1640858210
+  },
+  "deleted_at": {
+    "type": "Int",
+    "unsigned": true,
+    "required": false,
+    "example": 1640858210
   }
 }
+```
+
+- Query Preview
+
+```sql
+  CREATE TABLE `goseidon`.`file`(  
+    `id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `unique_id` VARCHAR(250) NOT NULL,
+    `name` VARCHAR(512) NOT NULL,
+    `size` INT(10) UNSIGNED NOT NULL,
+    `extension` VARCHAR(32) NOT NULL,
+    `mimetype` VARCHAR(128) NOT NULL,
+    `public_url` VARCHAR(2048) NOT NULL,
+    `local_path` VARCHAR(4096) NOT NULL,
+    `created_at` INT(10) UNSIGNED NOT NULL,
+    `updated_at` INT(10) UNSIGNED,
+    `deleted_at` INT(10) UNSIGNED,
+    PRIMARY KEY (`id`)
+  );
 ```

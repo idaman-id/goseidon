@@ -1,11 +1,11 @@
 package main
 
 import (
-	fiber "idaman.id/storage/internal/rest-fiber"
+	builtin_app "idaman.id/storage/internal/builtin-app"
 )
 
 func main() {
-	app, err := fiber.NewApp()
+	app, err := builtin_app.NewApp()
 	if err != nil {
 		panic(err.Error())
 	}
