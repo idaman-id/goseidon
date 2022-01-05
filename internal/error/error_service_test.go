@@ -48,7 +48,6 @@ var _ = Describe("Error Service", func() {
 				item1 := error.ValidationItem{
 					Field:   "name",
 					Message: "invalid value",
-					Value:   "",
 				}
 				items = append(items, item1)
 			})

@@ -35,7 +35,6 @@ func (s *goValidationService) Validate(i interface{}) error {
 		element := app_error.ValidationItem{
 			Field:   err.Field(),
 			Message: err.Error(),
-			Value:   "", //err.Value()
 		}
 		items = append(items, element)
 	}
