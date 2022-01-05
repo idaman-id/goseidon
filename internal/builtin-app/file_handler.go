@@ -3,6 +3,7 @@ package builtin_app
 import (
 	"github.com/gofiber/fiber/v2"
 	app_error "idaman.id/storage/internal/error"
+	"idaman.id/storage/internal/file"
 	response "idaman.id/storage/internal/response"
 	"idaman.id/storage/internal/retrieving"
 	"idaman.id/storage/internal/uploading"
@@ -80,10 +81,10 @@ func NewGetResourceHandler(rService retrieving.FileRetriever) Handler {
 	}
 }
 
-func NewUploadFileHandler(uService uploading.UploadService) Handler {
+func NewUploadFileHandler(uService uploading.UploadService, fService file.FileService) Handler {
 	return func(ctx *Context) error {
 
-		form, err := ctx.MultipartForm()
+		fileHeader, err := ctx.FormFile("file")
 		if err != nil {
 			err = app_error.NewNotfoundError("File")
 			responseEntity := response.NewErrorResponse(&response.ResponseParam{
@@ -92,8 +93,9 @@ func NewUploadFileHandler(uService uploading.UploadService) Handler {
 			return ctx.Status(fiber.StatusBadRequest).JSON(responseEntity)
 		}
 
-		fHs := form.File["file"]
-		if len(fHs) == 0 {
+		fileEntity, err := file.NewFileFromMultipartHeader(fileHeader, fService)
+
+		if err != nil {
 			err = app_error.NewNotfoundError("File")
 			responseEntity := response.NewErrorResponse(&response.ResponseParam{
 				Message: err.Error(),
@@ -102,7 +104,7 @@ func NewUploadFileHandler(uService uploading.UploadService) Handler {
 		}
 
 		fileDetail, err := uService.UploadFile(uploading.UploadFileParam{
-			File: *fHs[0],
+			File: fileEntity,
 		})
 
 		if err != nil {
@@ -127,7 +129,7 @@ func NewUploadFileHandler(uService uploading.UploadService) Handler {
 			return ctx.Status(status).JSON(responseEntity)
 		}
 
-		fileEntity := &FileDetailEntity{
+		res := &FileDetailEntity{
 			UniqueId:  fileDetail.UniqueId,
 			Name:      fileDetail.Name,
 			Extension: fileDetail.Extension,
@@ -140,7 +142,7 @@ func NewUploadFileHandler(uService uploading.UploadService) Handler {
 		}
 
 		responseEntity := response.NewSuccessResponse(&response.ResponseParam{
-			Data: fileEntity,
+			Data: res,
 		})
 		return ctx.JSON(responseEntity)
 	}

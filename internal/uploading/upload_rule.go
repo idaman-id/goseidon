@@ -1,14 +1,22 @@
 package uploading
 
-import "mime/multipart"
+import (
+	"idaman.id/storage/internal/file"
+)
 
 type fileRule struct {
-	Size int64 `json:"size" validate:"required,valid_file_size"`
+	Name      string `json:"name" validate:"required"`
+	Extension string `json:"ext" validate:"required"`
+	Mimetype  string `json:"mimetype" validate:"required"`
+	Size      int64  `json:"size" validate:"required,valid_file_size"`
 }
 
-func NewUploadRule(fh multipart.FileHeader) *fileRule {
-	f := fileRule{
-		Size: fh.Size,
+func NewUploadRule(f *file.FileEntity) *fileRule {
+	fr := fileRule{
+		Name:      f.Name,
+		Extension: f.Extension,
+		Mimetype:  f.Mimetype,
+		Size:      f.Size,
 	}
-	return &f
+	return &fr
 }

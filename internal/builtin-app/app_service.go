@@ -38,10 +38,10 @@ func NewApp() (app.App, error) {
 	}
 	fileRepo := repository_mysql.NewFileRepository(mysqlClient, fileService)
 
-	localStorage := storage_local.NewStorageLocal()
+	localStorage := storage_local.NewStorageLocal("storage/file")
 
 	retrieveService := retrieving.NewRetrieveService(fileRepo, configService, fileService, localStorage)
-	uploadService := uploading.NewUploadService(validatorService, configService, localStorage, textService, fileRepo, fileService)
+	uploadService := uploading.NewUploadService(validatorService, configService, localStorage, textService, fileRepo)
 
 	app := fiber.New(fiber.Config{
 		ErrorHandler: NewErrorHandler(),
@@ -54,7 +54,7 @@ func NewApp() (app.App, error) {
 
 	app.Get("/", NewHomeHandler())
 	app.Get("/file/:identifier", NewGetResourceHandler(retrieveService))
-	app.Post("/v1/file", NewUploadFileHandler(uploadService))
+	app.Post("/v1/file", NewUploadFileHandler(uploadService, fileService))
 	app.Get("/v1/file/:identifier", NewFileGetDetailHandler(retrieveService))
 	app.Get("*", NewNotFoundHandler())
 

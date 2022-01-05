@@ -2,11 +2,12 @@ package storage_local
 
 import (
 	"bufio"
+	"errors"
+	"io/fs"
 	"io/ioutil"
 	"os"
-	"time"
 
-	"github.com/valyala/fasthttp"
+	app_error "idaman.id/storage/internal/error"
 	"idaman.id/storage/internal/storage"
 )
 
@@ -14,8 +15,8 @@ type storageLocal struct {
 	storageDir string
 }
 
-func (s *storageLocal) RetrieveFile(localPath string) (storage.BinaryFile, error) {
-	osFile, err := os.Open(localPath)
+func (s *storageLocal) RetrieveFile(fileLocation string) (storage.BinaryFile, error) {
+	osFile, err := os.Open(fileLocation)
 	if err != nil {
 		return nil, err
 	}
@@ -30,38 +31,36 @@ func (s *storageLocal) RetrieveFile(localPath string) (storage.BinaryFile, error
 	return bytes, nil
 }
 
-func (s *storageLocal) SaveFile(param storage.SaveFileParam) (*storage.FileEntity, error) {
+func (s *storageLocal) SaveFile(param storage.SaveFileParam) (*storage.SaveFileResult, error) {
 	path := s.storageDir + "/" + param.FileName
-	createdAt := time.Now()
 
-	err := fasthttp.SaveMultipartFile(&param.FileHeader, path)
+	_, err := os.Stat(path)
+	if !errors.Is(err, os.ErrNotExist) {
+		return nil, errors.New("file already exists")
+	}
+
+	err = ioutil.WriteFile(path, param.FileData, 0644)
 	if err != nil {
 		return nil, err
 	}
 
-	file := storage.FileEntity{
-		Name:      param.FileName,
-		Size:      param.FileHeader.Size,
-		LocalPath: path,
-		CreatedAt: createdAt,
+	res := storage.SaveFileResult{
+		FileLocation: path,
 	}
-	return &file, nil
+	return &res, nil
 }
 
-// func (s *storageLocal) DeleteFile(localPath string) error {
-// 	err := os.Remove(localPath)
+func (s *storageLocal) DeleteFile(fileLocation string) error {
+	err := os.Remove(fileLocation)
 
-// 	switch err.(type) {
-// 	case *fs.PathError:
-// 		err = app_error.NewNotfoundError("File")
-// 	}
-
-// 	return err
-// }
-
-func NewStorageLocal() *storageLocal {
-	storage := &storageLocal{
-		storageDir: "storage/file",
+	switch err.(type) {
+	case *fs.PathError:
+		err = app_error.NewNotfoundError("File")
 	}
-	return storage
+
+	return err
+}
+
+func NewStorageLocal(sDir string) *storageLocal {
+	return &storageLocal{storageDir: sDir}
 }

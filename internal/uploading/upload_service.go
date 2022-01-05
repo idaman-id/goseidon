@@ -2,9 +2,9 @@ package uploading
 
 import (
 	"fmt"
+	"time"
 
 	"idaman.id/storage/internal/config"
-	"idaman.id/storage/internal/file"
 	"idaman.id/storage/internal/repository"
 	"idaman.id/storage/internal/storage"
 	"idaman.id/storage/internal/text"
@@ -17,7 +17,6 @@ type uploadService struct {
 	storageSaver    storage.Saver
 	stringGenerator text.Generator
 	fileRepo        repository.FileRepository
-	fileService     file.FileService
 }
 
 func (s *uploadService) UploadFile(p UploadFileParam) (*FileEntity, error) {
@@ -29,33 +28,28 @@ func (s *uploadService) UploadFile(p UploadFileParam) (*FileEntity, error) {
 	}
 
 	uniqueId := s.stringGenerator.GenerateUuid()
-	ext := s.fileService.ParseExtension(&p.File)
-	mime := s.fileService.ParseMimeType(&p.File)
-	name := s.fileService.ParseName(&p.File)
-	oriName := s.fileService.ParseOriginalName(&p.File)
-	size := s.fileService.ParseSize(&p.File)
-
+	createdAt := time.Now()
 	res, err := s.storageSaver.SaveFile(storage.SaveFileParam{
-		FileHeader: p.File,
-		FileName:   uniqueId + "." + ext,
+		FileName: uniqueId + "." + p.File.Extension,
+		FileData: p.File.Data,
 	})
 	if err != nil {
 		return nil, err
 	}
 
 	appUrl := s.configGetter.GetString("APP_URL")
-	publicUrl := fmt.Sprintf("%s/%s", appUrl, res.LocalPath)
+	publicUrl := fmt.Sprintf("%s/%s", appUrl, res.FileLocation)
 
 	err = s.fileRepo.Save(repository.SaveFileParam{
 		UniqueId:     uniqueId,
-		OriginalName: oriName,
-		Name:         name,
-		Size:         size,
+		OriginalName: p.File.OriginalName,
+		Name:         p.File.Name,
+		Size:         p.File.Size,
+		CreatedAt:    &createdAt,
+		Extension:    p.File.Extension,
+		Mimetype:     p.File.Mimetype,
 		PublicUrl:    publicUrl,
-		LocalPath:    res.LocalPath,
-		CreatedAt:    &res.CreatedAt,
-		Extension:    ext,
-		Mimetype:     mime,
+		LocalPath:    res.FileLocation,
 	})
 	if err != nil {
 		return nil, err
@@ -63,14 +57,14 @@ func (s *uploadService) UploadFile(p UploadFileParam) (*FileEntity, error) {
 
 	file := FileEntity{
 		UniqueId:     uniqueId,
-		Name:         name,
-		OriginalName: oriName,
-		Size:         size,
-		Extension:    ext,
-		Mimetype:     mime,
-		Path:         res.LocalPath,
+		Name:         p.File.Name,
+		OriginalName: p.File.OriginalName,
+		Size:         p.File.Size,
+		Extension:    p.File.Extension,
+		Mimetype:     p.File.Mimetype,
+		Path:         res.FileLocation,
 		Url:          publicUrl,
-		CreatedAt:    &res.CreatedAt,
+		CreatedAt:    &createdAt,
 		UpdatedAt:    nil,
 		DeletedAt:    nil,
 	}
@@ -78,14 +72,12 @@ func (s *uploadService) UploadFile(p UploadFileParam) (*FileEntity, error) {
 	return &file, nil
 }
 
-func NewUploadService(v validation.Validator, cg config.Getter, ss storage.Saver, sg text.Generator, fr repository.FileRepository, fs file.FileService) UploadService {
-	s := &uploadService{
+func NewUploadService(v validation.Validator, cg config.Getter, ss storage.Saver, sg text.Generator, fr repository.FileRepository) UploadService {
+	return &uploadService{
 		validator:       v,
 		configGetter:    cg,
 		storageSaver:    ss,
 		stringGenerator: sg,
 		fileRepo:        fr,
-		fileService:     fs,
 	}
-	return s
 }

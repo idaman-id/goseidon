@@ -74,32 +74,36 @@ A1. No, and for overflow problem system is gonna mark negative size as zero
 
 ---
 
-Q2. Prefer one line code or positive case in the end of code?
+Q2. Prefer one line code or positive case at the end of code?
+
+A2. positive case at the end of code
 
 ## 👀 Known Issues
 
 No issues right now
 
 ## 💪 Todo
-1. `mysql` database implementation + test
-2. `Built In` Support (using other `instance` of go-seidon)
-3. `AWS S3` Support
-4. Refactor storage.SaveFile using os Write (remove fasthttp dependency)
-5. Enhancment storage.SaveFile using date foldering
-6. Implement translation on service layer
-7. Test json marshalling (struct tag)
-8. End to end Test (Test usecase)
+1. [error] unavailable error
+2. [builtin-app] refactor local_path -> storage_dir
+3. [storage-local] date foldering
+4. unit test all packages
+5. [gateway-app] implementation (gin/echo)
+6. [storage] `AWS S3` Support
+7. [translation] implementation on service layer
+8. [builtin-app] end to end test
+9. [gateway-app] end to end test
 
 ## 🤩 Nice to Have
-1. `mongodb` database implementation + test
-2. Concurrent/pararell processing when uploading multiple files
-3. `Alicloud OSS` Support
-4. Custom file validation rules/policies (e.g: based on `provider`, or `application`)
-5. Caching layer
-6. Allowing file authorization in the future (e.g: based on `user context`)
-7. Custom file slug configuration (for SEO purpose)
-8. Storage dashboard monitoring (e.g: grafana dashboard by using prometheus exporter)
-9. Upload to multiple provider for each file support (e.g: for backup purpose)
+1. [repository] `mongodb` database implementation
+2. [database] `mongodb` database client
+3. [gateway-app] Concurrent processing when uploading multiple files
+4. [storage] `Alicloud OSS` Support
+5. [gateway-app] Custom file validation rules/policies (e.g: based on `provider`, or `application`)
+6. [gateway-app] Caching layer
+7. [gateway-app] Allowing file authorization in the future (e.g: based on `user context`)
+8. [gateway-app] Custom file slug configuration (for SEO purpose)
+9. [gateway-app] Storage dashboard monitoring (e.g: grafana dashboard by using prometheus exporter)
+10. [gateway-app] Upload to multiple provider for each file support (e.g: for backup purpose)
 
 ## 💖 Contributions
 

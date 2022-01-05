@@ -1,13 +1,17 @@
 package uploading
 
-import "mime/multipart"
+import (
+	"mime/multipart"
+
+	"idaman.id/storage/internal/file"
+)
 
 type UploadService interface {
 	UploadFile(p UploadFileParam) (*FileEntity, error)
 }
 
 type UploadFileParam struct {
-	File multipart.FileHeader
+	File *file.FileEntity
 }
 
 type UploadRuleParam struct {
