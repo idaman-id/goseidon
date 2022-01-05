@@ -1,13 +1,11 @@
 # Database Documentation
-Database structure used by goseidon
+Database structure for builtin app
 
 # MySQL Database
-- Database Name: `goseidon`
+- Database Name: `goseidon_builtin`
 
 ## Table Index
 - [File](#table-file)
-- [Provider](#table-provider)
-- [Application](#table-application)
 
 ### Table: File
 - Table Name: `file`
@@ -63,19 +61,20 @@ Database structure used by goseidon
     "min": 1,
     "max": 128
   },
-  "public_url": {
+  "file_location": {
     "type": "Varchar",
     "required": true,
-    "example": "http://storage.idaman.local/file/651fd093-03cb-4ff4-a23c-7959ce07def5.mp4",
-    "min": 3,
-    "max": 2048
+    "description": "set empty string if saved on root dir",
+    "example": "storage/file/custom-dir/2021/01/05",
+    "min": 0,
+    "max": 1024
   },
-  "local_path": {
+  "file_name": {
     "type": "Varchar",
     "required": true,
-    "example": "file/custom/directory/2021/03/31/samplevideo-1280x720-1mb-606437e13acba.mp4",
+    "example": "651fd093-03cb-4ff4-a23c-7959ce07def5.mp4",
     "min": 3,
-    "max": 4096
+    "max": 512
   },
   "created_at": {
     "type": "Int",
