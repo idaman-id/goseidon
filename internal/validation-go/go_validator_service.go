@@ -19,8 +19,8 @@ type goValidationService struct {
 }
 
 func (s *goValidationService) Validate(i interface{}) error {
-	isTypeValid := reflect.ValueOf(i).Kind() == reflect.Struct
-	if !isTypeValid {
+	isTypeInvalid := reflect.ValueOf(i).Kind() != reflect.Struct
+	if isTypeInvalid {
 		return app_error.NewUnsupportedError("Validation")
 	}
 
@@ -29,17 +29,16 @@ func (s *goValidationService) Validate(i interface{}) error {
 		return nil
 	}
 
-	var items []app_error.ValidationItem
-	errors := err.(validator.ValidationErrors)
-	for _, err := range errors {
-		element := app_error.ValidationItem{
+	var errItems []app_error.ValidationItem
+	vErrors := err.(validator.ValidationErrors)
+	for _, err := range vErrors {
+		errItems = append(errItems, app_error.ValidationItem{
 			Field:   err.Field(),
 			Message: err.Error(),
-		}
-		items = append(items, element)
+		})
 	}
 
-	vErr := app_error.NewValidationError(items)
+	vErr := app_error.NewValidationError(errItems)
 	return vErr
 }
 
@@ -52,8 +51,9 @@ func NewGoValidator(cg config.Getter) (*goValidationService, error) {
 	if err != nil {
 		return nil, err
 	}
-	tFn := NewTagNameFunc()
-	v.RegisterTagNameFunc(tFn)
+
+	tagFn := NewTagNameFunc()
+	v.RegisterTagNameFunc(tagFn)
 
 	cValidations := []struct {
 		name string
