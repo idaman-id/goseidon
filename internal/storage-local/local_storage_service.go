@@ -36,7 +36,7 @@ func (s *storageLocal) SaveFile(param storage.SaveFileParam) (*storage.SaveFileR
 
 	_, err := os.Stat(path)
 	if !errors.Is(err, os.ErrNotExist) {
-		return nil, errors.New("file already exists")
+		return nil, app_error.NewAlreadyExistsError("File")
 	}
 
 	err = ioutil.WriteFile(path, param.FileData, 0644)

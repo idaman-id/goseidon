@@ -18,11 +18,10 @@ func (error *ValidationError) Error() string {
 }
 
 func NewValidationError(items []ValidationItem) *ValidationError {
-	err := &ValidationError{
+	return &ValidationError{
 		Message: STATUS_INVALID_DATA,
 		Items:   items,
 	}
-	return err
 }
 
 type UnsupportedError struct {
@@ -35,11 +34,10 @@ func (error *UnsupportedError) Error() string {
 }
 
 func NewUnsupportedError(context string) *UnsupportedError {
-	err := &UnsupportedError{
+	return &UnsupportedError{
 		Message: STATUS_NOT_SUPPORTED,
 		Context: context,
 	}
-	return err
 }
 
 type NotfoundError struct {
@@ -52,9 +50,24 @@ func (error *NotfoundError) Error() string {
 }
 
 func NewNotfoundError(context string) *NotfoundError {
-	err := &NotfoundError{
+	return &NotfoundError{
 		Message: STATUS_NOT_FOUND,
 		Context: context,
 	}
-	return err
+}
+
+type AlreadyExistsError struct {
+	Message string
+	Context string
+}
+
+func (error *AlreadyExistsError) Error() string {
+	return error.Message
+}
+
+func NewAlreadyExistsError(context string) *AlreadyExistsError {
+	return &AlreadyExistsError{
+		Message: STATUS_ALREADY_EXISTS,
+		Context: context,
+	}
 }

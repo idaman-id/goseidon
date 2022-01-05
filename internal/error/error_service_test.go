@@ -13,6 +13,7 @@ var _ = Describe("App Contract", func() {
 			Expect(error.STATUS_TOO_MANY_REQUEST).To(Equal("TOO_MANY_REQUEST"))
 			Expect(error.STATUS_NOT_FOUND).To(Equal("NOT_FOUND"))
 			Expect(error.STATUS_NOT_SUPPORTED).To(Equal("NOT_SUPPORTED"))
+			Expect(error.STATUS_ALREADY_EXISTS).To(Equal("ALREADY_EXISTS"))
 		})
 	})
 })
@@ -145,6 +146,49 @@ var _ = Describe("Error Service", func() {
 						Context: context,
 					}
 					err := error.NewNotfoundError(context)
+
+					Expect(err).To(MatchError(expected))
+				})
+			})
+		})
+	})
+
+	Describe("AlreadyExists Error", func() {
+		Context("AlreadyExistsError struct", func() {
+			var (
+				err *error.AlreadyExistsError
+			)
+
+			BeforeEach(func() {
+				err = &error.AlreadyExistsError{
+					Message: error.STATUS_ALREADY_EXISTS,
+				}
+			})
+
+			When("Error method called", func() {
+				It("should return error message", func() {
+
+					Expect(err.Error()).To(Equal(error.STATUS_ALREADY_EXISTS))
+				})
+			})
+		})
+
+		Context("NewAlreadyExistsError function", func() {
+			var (
+				context string
+			)
+
+			BeforeEach(func() {
+				context = "Config"
+			})
+
+			When("function called", func() {
+				It("should return AlreadyExistsError instance", func() {
+					expected := &error.AlreadyExistsError{
+						Message: error.STATUS_ALREADY_EXISTS,
+						Context: context,
+					}
+					err := error.NewAlreadyExistsError(context)
 
 					Expect(err).To(MatchError(expected))
 				})

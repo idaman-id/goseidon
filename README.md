@@ -83,15 +83,14 @@ A2. positive case at the end of code
 No issues right now
 
 ## 💪 Todo
-1. [error] unavailable error
-2. [builtin-app] refactor local_path -> storage_dir
-3. [storage-local] date foldering
-4. unit test all packages
-5. [gateway-app] implementation (gin/echo)
-6. [storage] `AWS S3` Support
-7. [translation] implementation on service layer
-8. [builtin-app] end to end test
-9. [gateway-app] end to end test
+1. [builtin-app] refactor local_path -> storage_dir & file_name
+2. [storage-local] date foldering
+3. unit test all packages
+4. [gateway-app] implementation (gin/echo)
+5. [storage] `AWS S3` Support
+6. [translation] implementation on service layer
+7. [builtin-app] end to end test
+8. [gateway-app] end to end test
 
 ## 🤩 Nice to Have
 1. [repository] `mongodb` database implementation
