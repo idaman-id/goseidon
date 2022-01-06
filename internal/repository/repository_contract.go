@@ -14,7 +14,7 @@ type SaveFileParam struct {
 	Extension    string
 	Size         int64
 	Mimetype     string
-	PublicUrl    string
-	LocalPath    string
+	FileLocation string
+	FileName     string
 	CreatedAt    *time.Time
 }

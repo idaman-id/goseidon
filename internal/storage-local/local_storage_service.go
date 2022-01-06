@@ -32,7 +32,9 @@ func (s *storageLocal) RetrieveFile(fileLocation string) (storage.BinaryFile, er
 }
 
 func (s *storageLocal) SaveFile(param storage.SaveFileParam) (*storage.SaveFileResult, error) {
-	path := s.storageDir + "/" + param.FileName
+	fl := s.storageDir
+	fn := param.FileName
+	path := fl + "/" + fn
 
 	_, err := os.Stat(path)
 	if !errors.Is(err, os.ErrNotExist) {
@@ -45,7 +47,8 @@ func (s *storageLocal) SaveFile(param storage.SaveFileParam) (*storage.SaveFileR
 	}
 
 	res := storage.SaveFileResult{
-		FileLocation: path,
+		FileLocation: fl,
+		FileName:     fn,
 	}
 	return &res, nil
 }

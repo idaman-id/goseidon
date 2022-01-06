@@ -12,8 +12,8 @@ type FileModel struct {
 	Extension    string
 	Size         int64
 	Mimetype     string
-	PublicUrl    string
-	LocalPath    string
+	FileLocation string
+	FileName     string
 	CreatedAt    *time.Time
 	UpdatedAt    *time.Time
 	DeletedAt    *time.Time

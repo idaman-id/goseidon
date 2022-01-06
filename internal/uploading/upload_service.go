@@ -29,8 +29,9 @@ func (s *uploadService) UploadFile(p UploadFileParam) (*FileEntity, error) {
 
 	uniqueId := s.stringGenerator.GenerateUuid()
 	createdAt := time.Now()
+	fileName := uniqueId + "." + p.File.Extension
 	res, err := s.storageSaver.SaveFile(storage.SaveFileParam{
-		FileName: uniqueId + "." + p.File.Extension,
+		FileName: fileName,
 		FileData: p.File.Data,
 	})
 	if err != nil {
@@ -38,7 +39,7 @@ func (s *uploadService) UploadFile(p UploadFileParam) (*FileEntity, error) {
 	}
 
 	appUrl := s.configGetter.GetString("APP_URL")
-	publicUrl := fmt.Sprintf("%s/%s", appUrl, res.FileLocation)
+	publicUrl := fmt.Sprintf("%s/%s/%s", appUrl, "file", res.FileName)
 
 	err = s.fileRepo.Save(repository.SaveFileParam{
 		UniqueId:     uniqueId,
@@ -48,8 +49,8 @@ func (s *uploadService) UploadFile(p UploadFileParam) (*FileEntity, error) {
 		CreatedAt:    &createdAt,
 		Extension:    p.File.Extension,
 		Mimetype:     p.File.Mimetype,
-		PublicUrl:    publicUrl,
-		LocalPath:    res.FileLocation,
+		FileLocation: res.FileLocation,
+		FileName:     res.FileName,
 	})
 	if err != nil {
 		return nil, err
@@ -62,13 +63,11 @@ func (s *uploadService) UploadFile(p UploadFileParam) (*FileEntity, error) {
 		Size:         p.File.Size,
 		Extension:    p.File.Extension,
 		Mimetype:     p.File.Mimetype,
-		Path:         res.FileLocation,
 		Url:          publicUrl,
 		CreatedAt:    &createdAt,
 		UpdatedAt:    nil,
 		DeletedAt:    nil,
 	}
-
 	return &file, nil
 }
 

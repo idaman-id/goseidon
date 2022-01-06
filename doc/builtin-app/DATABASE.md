@@ -100,15 +100,15 @@ Database structure for builtin app
 - Query Preview
 
 ```sql
-  CREATE TABLE `goseidon`.`file`(  
+  CREATE TABLE `goseidon_builtin`.`file`(  
     `id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
     `unique_id` VARCHAR(250) NOT NULL,
     `name` VARCHAR(512) NOT NULL,
     `size` INT(10) UNSIGNED NOT NULL,
     `extension` VARCHAR(32) NOT NULL,
     `mimetype` VARCHAR(128) NOT NULL,
-    `public_url` VARCHAR(2048) NOT NULL,
-    `local_path` VARCHAR(4096) NOT NULL,
+    `file_location` VARCHAR(1024) NOT NULL,
+    `file_name` VARCHAR(512) NOT NULL;
     `created_at` INT(10) UNSIGNED NOT NULL,
     `updated_at` INT(10) UNSIGNED,
     `deleted_at` INT(10) UNSIGNED,

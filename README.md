@@ -36,16 +36,14 @@ A2. positive case at the end of code
 No issues right now
 
 ## 💪 Todo
-1. [builtin-app] refactor public_url -> APP_URL + unique_id + ext
-2. [builtin-app] refactor local_path -> file_location + file_name.ext
-3. [storage-local] date foldering (strategy)
-4. [translation] implementation on service layer
-5. [all-packages] unit test
-6. [builtin-app] end to end test
-7. [gateway-app] implementation (gin/echo)
-8. [storage] `AWS S3` Support
-9. [file] refactor multipart.Fileheader depedency to avoid coupling
-10. [gateway-app] end to end test
+1. [storage-local] date foldering (strategy)
+2. [translation] implementation on service layer
+3. [all-packages] unit test
+4. [builtin-app] end to end test
+5. [gateway-app] implementation (gin/echo)
+6. [storage] `AWS S3` Support
+7. [file] refactor multipart.Fileheader depedency to avoid coupling
+8. [gateway-app] end to end test
 
 ## 🤩 Nice to Have
 1. [repository] `mongodb` database implementation

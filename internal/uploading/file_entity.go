@@ -12,7 +12,6 @@ type FileEntity struct {
 	Size         int64
 	Mimetype     string
 	Url          string
-	Path         string
 	CreatedAt    *time.Time
 	UpdatedAt    *time.Time
 	DeletedAt    *time.Time

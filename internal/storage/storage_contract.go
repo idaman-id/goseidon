@@ -21,6 +21,7 @@ type SaveFileParam struct {
 
 type SaveFileResult struct {
 	FileLocation string
+	FileName     string
 }
 
 type Storage interface {

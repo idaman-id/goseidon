@@ -19,7 +19,7 @@ func (r *fileRepository) FindByIdentifier(identifier string) (*repository.FileMo
 	sqlQuery := `
 		SELECT 
 			id, unique_id, original_name, name, 
-			size, extension, mimetype, public_url, local_path, 
+			size, extension, mimetype, file_location, file_name, 
 			created_at, updated_at, deleted_at 
 		FROM file WHERE unique_id = ?`
 	fileStmt, err := r.db.Prepare(sqlQuery)
@@ -32,7 +32,7 @@ func (r *fileRepository) FindByIdentifier(identifier string) (*repository.FileMo
 	err = fileStmt.QueryRow(uniqueId).Scan(
 		&fileModel.Id, &fileModel.UniqueId, &fileModel.OriginalName, &fileModel.Name,
 		&fileModel.Size, &fileModel.Extension, &fileModel.Mimetype,
-		&fileModel.PublicUrl, &fileModel.LocalPath,
+		&fileModel.FileLocation, &fileModel.FileName,
 		&fileModel.CreatedAt, &fileModel.UpdatedAt, &fileModel.DeletedAt,
 	)
 	if err != nil {
@@ -51,8 +51,8 @@ func (r *fileRepository) FindByIdentifier(identifier string) (*repository.FileMo
 		Extension:    fileModel.Extension,
 		Size:         fileModel.Size,
 		Mimetype:     fileModel.Mimetype,
-		PublicUrl:    fileModel.PublicUrl,
-		LocalPath:    fileModel.LocalPath,
+		FileLocation: fileModel.FileLocation,
+		FileName:     fileModel.FileName,
 	}
 	file.SetCreatedAtFromUnixTime(fileModel.CreatedAt)
 
@@ -73,9 +73,9 @@ func (r *fileRepository) FindByIdentifier(identifier string) (*repository.FileMo
 
 func (r *fileRepository) Save(p repository.SaveFileParam) error {
 	_, err := r.db.Exec(
-		"INSERT INTO file (unique_id, original_name, name, extension, size, mimetype, public_url, local_path, created_at) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)",
+		"INSERT INTO file (unique_id, original_name, name, extension, size, mimetype, file_location, file_name, created_at) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)",
 		p.UniqueId, p.OriginalName, p.Name,
-		p.Extension, p.Size, p.Mimetype, p.PublicUrl, p.LocalPath,
+		p.Extension, p.Size, p.Mimetype, p.FileLocation, p.FileName,
 		p.CreatedAt.Unix(),
 	)
 	return err

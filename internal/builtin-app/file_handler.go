@@ -40,7 +40,6 @@ func NewFileGetDetailHandler(rService retrieving.FileGetter) Handler {
 			Size:      fileDetail.Size,
 			Mimetype:  fileDetail.Mimetype,
 			Url:       fileDetail.Url,
-			Path:      fileDetail.Path,
 			CreatedAt: fileDetail.CreatedAt,
 			UpdatedAt: fileDetail.UpdatedAt,
 		}
@@ -136,7 +135,6 @@ func NewUploadFileHandler(uService uploading.UploadService, fService file.FileSe
 			Size:      fileDetail.Size,
 			Mimetype:  fileDetail.Mimetype,
 			Url:       fileDetail.Url,
-			Path:      fileDetail.Path,
 			CreatedAt: fileDetail.CreatedAt,
 			UpdatedAt: fileDetail.UpdatedAt,
 		}

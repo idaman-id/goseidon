@@ -1,6 +1,8 @@
 package retrieving
 
 import (
+	"fmt"
+
 	"idaman.id/storage/internal/config"
 	"idaman.id/storage/internal/file"
 	"idaman.id/storage/internal/repository"
@@ -21,6 +23,9 @@ func (s *retrieveService) GetFile(identifier string) (*FileEntity, error) {
 		return nil, err
 	}
 
+	appUrl := s.configGetter.GetString("APP_URL")
+	url := fmt.Sprintf("%s/%s/%s", appUrl, "file", fileRecord.FileName)
+
 	fileEntity := &FileEntity{
 		UniqueId:     fileRecord.UniqueId,
 		OriginalName: fileRecord.OriginalName,
@@ -28,8 +33,7 @@ func (s *retrieveService) GetFile(identifier string) (*FileEntity, error) {
 		Extension:    fileRecord.Extension,
 		Size:         fileRecord.Size,
 		Mimetype:     fileRecord.Mimetype,
-		Url:          fileRecord.PublicUrl,
-		Path:         fileRecord.LocalPath,
+		Url:          url,
 		CreatedAt:    fileRecord.CreatedAt,
 		UpdatedAt:    fileRecord.UpdatedAt,
 		DeletedAt:    fileRecord.DeletedAt,
@@ -44,11 +48,14 @@ func (s *retrieveService) RetrieveFile(identifier string) (*RetrieveFileResult, 
 		return nil, err
 	}
 
-	fileData, err := s.storageRetriever.RetrieveFile(fileRecord.LocalPath)
+	localPath := fmt.Sprintf("%s/%s", fileRecord.FileLocation, fileRecord.FileName)
+	fileData, err := s.storageRetriever.RetrieveFile(localPath)
 	if err != nil {
 		return nil, err
 	}
 
+	appUrl := s.configGetter.GetString("APP_URL")
+	url := fmt.Sprintf("%s/%s/%s", appUrl, "file", fileRecord.FileName)
 	fileResult := &FileEntity{
 		UniqueId:     fileRecord.UniqueId,
 		OriginalName: fileRecord.OriginalName,
@@ -56,8 +63,7 @@ func (s *retrieveService) RetrieveFile(identifier string) (*RetrieveFileResult, 
 		Extension:    fileRecord.Extension,
 		Mimetype:     fileRecord.Mimetype,
 		Size:         fileRecord.Size,
-		Url:          fileRecord.PublicUrl,
-		Path:         fileRecord.LocalPath,
+		Url:          url,
 		CreatedAt:    fileRecord.CreatedAt,
 		UpdatedAt:    fileRecord.UpdatedAt,
 		DeletedAt:    fileRecord.DeletedAt,
