@@ -17,10 +17,10 @@ func (r *fileRepository) FindByIdentifier(identifier string) (*repository.FileMo
 
 	uniqueId := r.fileService.RemoveFileExtension(identifier)
 	sqlQuery := `
-		SELECT 
-			id, unique_id, original_name, name, 
-			size, extension, mimetype, file_location, file_name, 
-			created_at, updated_at, deleted_at 
+		SELECT
+			id, unique_id, original_name, name,
+			size, extension, mimetype, file_location, file_name,
+			created_at, updated_at, deleted_at
 		FROM file WHERE unique_id = ?`
 	fileStmt, err := r.db.Prepare(sqlQuery)
 	if err != nil {
@@ -77,6 +77,14 @@ func (r *fileRepository) Save(p repository.SaveFileParam) error {
 		p.UniqueId, p.OriginalName, p.Name,
 		p.Extension, p.Size, p.Mimetype, p.FileLocation, p.FileName,
 		p.CreatedAt.Unix(),
+	)
+	return err
+}
+
+func (r *fileRepository) Delete(identifier string) error {
+	_, err := r.db.Exec(
+		"DELETE FROM file WHERE unique_id = ?",
+		identifier,
 	)
 	return err
 }

@@ -2,6 +2,7 @@ package builtin_app
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"idaman.id/storage/internal/deleting"
 	app_error "idaman.id/storage/internal/error"
 	"idaman.id/storage/internal/file"
 	response "idaman.id/storage/internal/response"
@@ -143,5 +144,34 @@ func NewUploadFileHandler(uService uploading.UploadService, fService file.FileSe
 			Data: res,
 		})
 		return ctx.JSON(responseEntity)
+	}
+}
+
+func DeleteFileHandler(rService deleting.DeleteService) Handler {
+	return func(ctx *Context) error {
+		err := rService.DeleteFile(ctx.Params("identifier"))
+
+		if err != nil {
+			var statusCode int
+			var resBody *response.ResponseEntity
+
+			switch err.(type) {
+			case *app_error.NotfoundError:
+				notFoundError := err.(*app_error.NotfoundError)
+				statusCode = fiber.StatusNotFound
+				resBody = response.NewErrorResponse(&response.ResponseParam{
+					Message: notFoundError.Error(),
+				})
+			default:
+				statusCode = fiber.StatusBadRequest
+				resBody = response.NewErrorResponse(&response.ResponseParam{
+					Message: err.Error(),
+				})
+			}
+			return ctx.Status(statusCode).JSON(resBody)
+		}
+
+		resBody := response.NewSuccessResponse(nil)
+		return ctx.JSON(resBody)
 	}
 }

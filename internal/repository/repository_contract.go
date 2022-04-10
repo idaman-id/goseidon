@@ -5,6 +5,7 @@ import "time"
 type FileRepository interface {
 	FindByIdentifier(identifier string) (*FileModel, error)
 	Save(p SaveFileParam) error
+	Delete(identifier string) error
 }
 
 type SaveFileParam struct {

@@ -54,7 +54,7 @@ func (s *storageLocal) SaveFile(param storage.SaveFileParam) (*storage.SaveFileR
 }
 
 func (s *storageLocal) DeleteFile(fileLocation string) error {
-	err := os.Remove(fileLocation)
+	err := os.Remove(s.storageDir + "/" + fileLocation)
 
 	switch err.(type) {
 	case *fs.PathError:
