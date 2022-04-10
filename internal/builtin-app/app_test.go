@@ -11,8 +11,10 @@ import (
 	. "github.com/onsi/gomega"
 
 	app_error "idaman.id/storage/internal/error"
+	"idaman.id/storage/internal/repository"
 	response "idaman.id/storage/internal/response"
 	"idaman.id/storage/internal/retrieving"
+	"idaman.id/storage/internal/storage"
 )
 
 func TestBuiltinApp(t *testing.T) {
@@ -77,4 +79,22 @@ func (stub *FakeFileRetrieverService) RetrieveFile(identifier string) (*retrievi
 		FileData: fileData,
 	}
 	return result, nil
+}
+
+/**
+ * --------------------------------------------------------------------------------
+ * Class: FileDeleteServiceSpy
+ * --------------------------------------------------------------------------------
+ */
+type FileDeleteServiceSpy struct {
+	fileRepo       repository.FileRepository
+	storageDeleter storage.Deleter
+
+	LastIdentifierOfDeleteFile string
+	ErrorResultOfDeleteFile    error
+}
+
+func (s *FileDeleteServiceSpy) DeleteFile(identifier string) error {
+	s.LastIdentifierOfDeleteFile = identifier
+	return s.ErrorResultOfDeleteFile
 }

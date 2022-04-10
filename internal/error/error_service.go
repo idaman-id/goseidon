@@ -70,3 +70,19 @@ func NewAlreadyExistsError(context string) *AlreadyExistsError {
 		Context: context,
 	}
 }
+
+type UnknownError struct {
+	Message string
+	Context string
+}
+
+func (error *UnknownError) Error() string {
+	return error.Context
+}
+
+func NewUnknownError(context string) *UnknownError {
+	return &UnknownError{
+		Message: STATUS_UNKNOWN,
+		Context: context,
+	}
+}

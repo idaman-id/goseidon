@@ -10,6 +10,7 @@ import (
 	"idaman.id/storage/internal/app"
 	"idaman.id/storage/internal/config"
 	"idaman.id/storage/internal/database"
+	"idaman.id/storage/internal/deleting"
 	"idaman.id/storage/internal/file"
 	repository_mysql "idaman.id/storage/internal/repository-mysql"
 	"idaman.id/storage/internal/retrieving"
@@ -37,11 +38,11 @@ func NewApp() (app.App, error) {
 		return nil, err
 	}
 	fileRepo := repository_mysql.NewFileRepository(mysqlClient, fileService)
-
 	localStorage := storage_local.NewStorageLocal("storage/file")
 
 	retrieveService := retrieving.NewRetrieveService(fileRepo, configService, fileService, localStorage)
 	uploadService := uploading.NewUploadService(validatorService, configService, localStorage, textService, fileRepo)
+	deleteService := deleting.NewDeleteService(localStorage, fileRepo, fileService)
 
 	app := fiber.New(fiber.Config{
 		ErrorHandler: NewErrorHandler(),
@@ -56,6 +57,7 @@ func NewApp() (app.App, error) {
 	app.Get("/file/:identifier", NewGetResourceHandler(retrieveService))
 	app.Post("/v1/file", NewUploadFileHandler(uploadService, fileService))
 	app.Get("/v1/file/:identifier", NewFileGetDetailHandler(retrieveService))
+	app.Delete("/v1/file/:identifier", DeleteFileHandler(deleteService))
 	app.Get("*", NewNotFoundHandler())
 
 	fiberApp := &FiberApp{

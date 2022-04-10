@@ -8,6 +8,8 @@ import (
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 	builtin_app "idaman.id/storage/internal/builtin-app"
+	"idaman.id/storage/internal/deleting"
+	app_error "idaman.id/storage/internal/error"
 	response "idaman.id/storage/internal/response"
 	"idaman.id/storage/internal/retrieving"
 )
@@ -144,6 +146,73 @@ var _ = Describe("File Handler", func() {
 			})
 		})
 
+	})
+
+	Context("DeleteFile Handler", func() {
+
+		var (
+			identifier       string
+			deleteServiceSpy *FileDeleteServiceSpy
+		)
+
+		markDeleteSucceeded := func() {
+			deleteServiceSpy.ErrorResultOfDeleteFile = nil
+		}
+
+		markDeleteFailed := func(theError error) {
+			deleteServiceSpy.ErrorResultOfDeleteFile = theError
+		}
+
+		BeforeEach(func() {
+			identifier = "fake-identifier"
+			deleteServiceSpy = &FileDeleteServiceSpy{}
+			markDeleteSucceeded()
+		})
+
+		sendRequest := func(service deleting.DeleteService) (*http.Request, *http.Response) {
+			fiberApp.Delete("/v1/file/:identifier", builtin_app.DeleteFileHandler(service))
+
+			req := httptest.NewRequest(http.MethodDelete, "/v1/file/"+identifier, nil)
+			res, _ := fiberApp.Test(req)
+			return req, res
+		}
+
+		It("calls service 'Delete File' method with correct argument", func() {
+			sendRequest(deleteServiceSpy)
+			Expect(deleteServiceSpy.LastIdentifierOfDeleteFile).To(Equal(identifier))
+		})
+
+		It("returns http success response after file deletion was successful", func() {
+			_, res := sendRequest(deleteServiceSpy)
+			Expect(res.StatusCode).To(Equal(fiber.StatusOK))
+			Expect(res.Body.Close()).To(BeNil())
+		})
+
+		It("returns Not Found http response if file to be deleted was not found", func() {
+			markDeleteFailed(app_error.NewNotfoundError("abc.jpeg"))
+			expectedResponseEntity := response.NewErrorResponse(&response.ResponseParam{
+				Message: "abc.jpeg is not found",
+			})
+
+			_, res := sendRequest(deleteServiceSpy)
+			responseEntity := UnmarshallResponseBody(res.Body)
+
+			Expect(res.StatusCode).To(Equal(fiber.StatusNotFound))
+			Expect(responseEntity).To(Equal(expectedResponseEntity))
+		})
+
+		It("returns Bad Request http response if unexpected error happened", func() {
+			markDeleteFailed(app_error.NewUnknownError("unknown error message"))
+			expectedResponseEntity := response.NewErrorResponse(&response.ResponseParam{
+				Message: "unknown error message",
+			})
+
+			_, res := sendRequest(deleteServiceSpy)
+			responseEntity := UnmarshallResponseBody(res.Body)
+
+			Expect(res.StatusCode).To(Equal(fiber.StatusBadRequest))
+			Expect(responseEntity).To(Equal(expectedResponseEntity))
+		})
 	})
 
 })
